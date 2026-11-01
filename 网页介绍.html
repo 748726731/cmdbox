@@ -1,0 +1,1792 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CmdBox · 代码地图</title>
+<style>
+:root{
+  --bg:#070b14; --line:rgba(148,163,184,.30);
+  --db:#34d399; --fe:#60a5fa; --be:#c084fc; --mn:#fbbf24;
+  --txt:#e9eefb; --muted:#a3b4cc;
+  --mono:ui-monospace,SFMono-Regular,"JetBrains Mono","Cascadia Code",Consolas,monospace;
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--txt);overflow:hidden;
+  font:15px/1.62 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+  -webkit-font-smoothing:antialiased}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;
+  background:radial-gradient(52% 42% at 8% -4%,rgba(168,85,247,.24),transparent 62%),
+             radial-gradient(44% 38% at 92% 2%,rgba(56,189,248,.16),transparent 62%),
+             radial-gradient(58% 50% at 50% 112%,rgba(16,185,129,.12),transparent 62%);}
+.wrap{position:relative;z-index:1;height:100%;display:flex;flex-direction:column}
+
+header{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:15px 26px 0}
+.brand{display:flex;align-items:center;gap:10px}
+.brand .dot{width:10px;height:10px;border-radius:50%;
+  background:linear-gradient(135deg,#f472b6,#a855f7);box-shadow:0 0 16px rgba(168,85,247,.95)}
+h1{margin:0;font-size:17.5px;letter-spacing:.3px;font-weight:700}
+h1 em{font-style:normal;font-family:var(--mono);color:#cbb6ff}
+.stat{font-size:11.5px;color:#8ea2be;font-family:var(--mono)}
+.stat b{color:#dbe7f7;font-weight:600}
+.legend{display:flex;gap:7px;flex-wrap:wrap}
+.chip{font-size:11px;padding:2px 9px;border-radius:999px;border:1px solid rgba(255,255,255,.16);
+  background:rgba(255,255,255,.055);color:var(--muted);white-space:nowrap;line-height:1.55}
+.chip.db{color:#7bf0bb;border-color:rgba(52,211,153,.5);background:rgba(52,211,153,.12)}
+.chip.fe{color:#a5d0ff;border-color:rgba(96,165,250,.5);background:rgba(96,165,250,.12)}
+.chip.be{color:#d8bdff;border-color:rgba(192,132,252,.5);background:rgba(192,132,252,.12)}
+.chip.mn{color:#ffd98a;border-color:rgba(251,191,36,.5);background:rgba(251,191,36,.12)}
+
+.btn{cursor:pointer;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.06);
+  color:#c7d5e8;font-size:12px;padding:5px 13px;border-radius:999px;font-family:inherit;
+  transition:.18s;white-space:nowrap}
+.btn:hover{background:rgba(255,255,255,.14);color:#fff}
+.btn.ghost{opacity:.35;pointer-events:none}
+.btn .k{font-size:10px;opacity:.55;margin-left:5px;font-family:var(--mono)}
+#back{margin-left:auto;max-width:340px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#back .k{opacity:.5}
+
+.tabs{display:flex;gap:8px;padding:11px 26px 8px;flex-wrap:wrap}
+.tab{cursor:pointer;font-size:13.5px;padding:8px 18px;border-radius:999px;
+  border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.05);color:#aebed6;
+  transition:.22s;font-family:inherit}
+.tab:hover{background:rgba(255,255,255,.11);color:#fff;transform:translateY(-1px)}
+.tab.on{color:#fff;border-color:rgba(196,181,253,.8);
+  background:linear-gradient(135deg,rgba(168,85,247,.48),rgba(56,189,248,.34));
+  box-shadow:0 10px 26px -14px rgba(168,85,247,.95)}
+.tab small{opacity:.62;font-size:11px;margin-left:7px}
+
+.crumbs{display:flex;align-items:center;gap:6px;padding:0 26px 11px;flex-wrap:wrap;
+  font-size:12px;color:#8ea2be;min-height:24px}
+.crumbs button{cursor:pointer;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.05);
+  color:#b9cbe4;font-size:11.5px;padding:2px 10px;border-radius:999px;font-family:inherit;
+  transition:.16s}
+.crumbs button:hover{background:rgba(255,255,255,.13);color:#fff}
+.crumbs .sep{color:#4c6180;font-size:11px}
+.trail{display:flex;align-items:center;gap:6px;padding:0 26px 10px;flex-wrap:nowrap;
+  overflow-x:auto;font-size:11px;color:#6f83a0;scrollbar-width:none}
+.trail:empty{display:none}
+.trail .tlab{white-space:nowrap;font-size:10.5px;letter-spacing:.06em;color:#647a97}
+.tchip{cursor:pointer;font-family:inherit;font-size:11px;padding:2px 9px;border-radius:999px;
+  border:1px dashed rgba(148,163,184,.4);background:rgba(255,255,255,.03);color:#9fb2cc;
+  max-width:230px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;transition:.16s}
+.tchip:hover{background:rgba(125,211,252,.16);border-color:rgba(125,211,252,.65);color:#e8f4ff}
+.tarrow{color:#3f5470;font-size:11px}
+.tchip.tnow{border-style:solid;border-color:rgba(125,211,252,.75);background:rgba(125,211,252,.16);
+  color:#eaf6ff;cursor:default}
+.crumbs .cur{color:#eef4ff;font-weight:650;padding:2px 10px;border-radius:999px;
+  border:1px solid rgba(125,211,252,.45);background:rgba(56,189,248,.12)}
+
+.layout{flex:1;min-height:0;display:flex;align-items:flex-start;gap:16px;padding:0 18px 18px}
+.map{position:relative;flex:0 0 auto;align-self:stretch;
+  display:flex;align-items:center;justify-content:center;min-width:250px;overflow:auto;border-radius:20px;
+  border:1px solid rgba(255,255,255,.1);
+  background:
+    radial-gradient(rgba(255,255,255,.055) 1px, transparent 1px) 0 0/22px 22px,
+    linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.015));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.07),0 26px 60px -46px #000;
+  padding:22px 24px}
+.fit{transform-origin:top left;will-change:transform;transition:transform .22s ease}
+.tree{}
+
+.row{display:flex;align-items:center;position:relative}
+.kids{display:flex;flex-direction:column;justify-content:center;gap:13px;padding-left:26px;position:relative}
+.kids.hidden{display:none}
+.kids > .row::before{content:'';position:absolute;left:-26px;top:-6px;bottom:-6px;width:1px;
+  background:linear-gradient(180deg,transparent,var(--line) 8%,var(--line) 92%,transparent)}
+.kids > .row:first-child::before{top:50%}
+.kids > .row:last-child::before{bottom:50%}
+.kids > .row::after{content:'';position:absolute;left:-26px;top:50%;width:26px;height:1px;
+  background:var(--line)}
+.anim{animation:pop .32s cubic-bezier(.2,.75,.3,1) both}
+@keyframes pop{from{opacity:0;transform:translateX(-12px)}to{opacity:1;transform:none}}
+
+.node{position:relative;cursor:pointer;user-select:none;
+  transition:transform .3s cubic-bezier(.2,.75,.3,1),opacity .3s,filter .3s,
+             border-color .3s,box-shadow .3s,background .3s}
+.node.dim{opacity:.32;filter:grayscale(.35) brightness(.9);transform:scale(.93)}
+.node.path{opacity:.78}
+.node:hover{filter:brightness(1.12)}
+
+.root{display:flex;flex-direction:column;gap:3px;padding:15px 38px 15px 21px;border-radius:18px;
+  color:#fff;background:linear-gradient(140deg,#f472b6,#a855f7 72%);
+  box-shadow:0 18px 40px -16px rgba(168,85,247,.95),inset 0 0 0 1px rgba(255,255,255,.34)}
+.root.mod.db{background:linear-gradient(140deg,#34d399,#0ea5e9 70%)}
+.root.mod.fe{background:linear-gradient(140deg,#38bdf8,#6366f1 72%)}
+.root.mod.be{background:linear-gradient(140deg,#c084fc,#7c3aed 72%)}
+.root .rt{font-family:var(--mono);font-size:19px;font-weight:700;letter-spacing:.4px}
+.root .rs{font-size:11.5px;opacity:.92}
+.root .chev{position:absolute;right:11px;top:50%;transform:translateY(-50%);
+  width:19px;height:19px;display:grid;place-items:center;border-radius:50%;
+  background:rgba(0,0,0,.26);border:1px solid rgba(255,255,255,.45);font-size:10px;color:#fff;
+  transition:transform .3s}
+.root.expanded{transform:scale(.975);opacity:.96}
+.root.expanded .chev{transform:translateY(-50%) rotate(90deg)}
+.root.pulse{animation:pulse 2.6s ease-in-out infinite}
+@keyframes pulse{
+  0%,100%{box-shadow:0 18px 40px -16px rgba(168,85,247,.95),inset 0 0 0 1px rgba(255,255,255,.34),
+          0 0 0 0 rgba(203,182,255,.55)}
+  50%{box-shadow:0 18px 40px -16px rgba(168,85,247,.95),inset 0 0 0 1px rgba(255,255,255,.34),
+          0 0 0 14px rgba(203,182,255,0)}
+}
+
+.phase{display:flex;align-items:center;gap:11px;padding:11px 15px 11px 12px;border-radius:16px;
+  background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.16);
+  box-shadow:0 10px 26px -20px #000;min-width:166px}
+.phase .pnum{font-size:16px;color:#b3bfff;line-height:1}
+.phase .ptxt,.file .ptxt{display:flex;flex-direction:column;line-height:1.34}
+.phase .ptxt b,.file .ptxt b{font-size:15px;font-weight:650;letter-spacing:.35px}
+.phase .ptxt i,.file .ptxt i{font-style:normal;font-size:11.5px;color:#9aacc6}
+.phase .chev,.file .chev{margin-left:auto;font-size:11px;color:#7288a5;transition:transform .3s}
+.phase.open{border-color:rgba(178,150,255,.85);
+  box-shadow:0 0 0 2px rgba(168,140,255,.3),0 12px 30px -18px rgba(168,140,255,.95);
+  transform:scale(.94) translateX(-4px);background:rgba(168,140,255,.14)}
+.phase.open .chev,.file.open .chev{transform:rotate(90deg);color:#cbb6ff}
+
+.file{display:flex;align-items:center;gap:10px;padding:10px 14px 10px 12px;border-radius:15px;
+  background:rgba(255,255,255,.065);border:1px solid rgba(255,255,255,.15);
+  box-shadow:0 10px 26px -22px #000;min-width:176px}
+.file .ficon{font-size:12px;color:#6b83a0}
+.file.open{border-color:rgba(125,211,252,.75);
+  box-shadow:0 0 0 2px rgba(125,211,252,.28),0 12px 30px -18px rgba(56,189,248,.9);
+  transform:scale(.95) translateX(-3px);background:rgba(56,189,248,.1)}
+
+.step{width:300px;padding:11px 14px 12px 15px;border-radius:15px;
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);
+  border-left:3px solid rgba(255,255,255,.2);
+  box-shadow:0 10px 26px -22px #000}
+.step.db{border-left-color:var(--db)}
+.step.fe{border-left-color:var(--fe)}
+.step.be{border-left-color:var(--be)}
+.step.mn{border-left-color:var(--mn)}
+.step .srow{display:flex;align-items:center;gap:9px}
+.step .snum{width:21px;height:21px;flex:0 0 auto;display:grid;place-items:center;border-radius:7px;
+  font-size:11.5px;font-weight:700;font-family:var(--mono);line-height:1}
+.step .snum.db{background:rgba(52,211,153,.2);color:#7bf0bb;border:1px solid rgba(52,211,153,.5)}
+.step .snum.fe{background:rgba(96,165,250,.2);color:#a5d0ff;border:1px solid rgba(96,165,250,.5)}
+.step .snum.be{background:rgba(192,132,252,.2);color:#d8bdff;border:1px solid rgba(192,132,252,.5)}
+.step .snum.mn{background:rgba(251,191,36,.18);color:#ffd98a;border:1px solid rgba(251,191,36,.5)}
+.step .stitle{font-size:14.5px;font-weight:650;color:#f0f5ff}
+.step .srow .chip{margin-left:auto;font-size:10px;padding:1px 7px}
+.step .kchev{margin-left:2px;font-size:11px;color:#a9bcd4;transition:transform .28s}
+.step.opened .kchev{transform:rotate(90deg);color:#7dd3fc}
+.step .sfn{display:block;margin-top:7px;font-family:var(--mono);font-size:12px;color:#8fd8ff;
+  word-break:break-word;line-height:1.45}
+.step .sdesc{margin:6px 0 0;font-size:12.3px;line-height:1.62;color:#b9c9dd}
+.step.sel{transform:scale(1.035);border-color:rgba(125,211,252,.95);
+  background:linear-gradient(180deg,rgba(56,189,248,.18),rgba(56,189,248,.07));
+  box-shadow:0 0 0 2px rgba(125,211,252,.55),0 20px 38px -20px rgba(56,189,248,1)}
+.step.sel .sdesc{color:#d3e2f5}
+
+.fn{width:322px;padding:10px 14px 11px 15px;border-radius:14px;
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);
+  border-left:3px solid rgba(255,255,255,.2);
+  box-shadow:0 10px 26px -22px #000}
+.fn.db{border-left-color:var(--db)}
+.fn.fe{border-left-color:var(--fe)}
+.fn.be{border-left-color:var(--be)}
+.fn .frow{display:flex;align-items:baseline;gap:9px}
+.fn .fname{font-family:var(--mono);font-size:13.5px;font-weight:700;color:#9adcff}
+.fn .fline{margin-left:auto;font-family:var(--mono);font-size:10.5px;color:#7e93b0;white-space:nowrap}
+.fn .fdesc{margin:5px 0 0;font-size:12.3px;line-height:1.58;color:#b9c9dd}
+.fn .fcalls{margin:6px 0 0;font-family:var(--mono);font-size:11px;color:#8496b0;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fn .fcalls b{color:#b6c9e2;font-weight:600}
+.fn.sel{transform:scale(1.035);border-color:rgba(125,211,252,.95);
+  background:linear-gradient(180deg,rgba(56,189,248,.18),rgba(56,189,248,.07));
+  box-shadow:0 0 0 2px rgba(125,211,252,.55),0 20px 38px -20px rgba(56,189,248,1)}
+.fn.sel .fname{color:#c9ecff}
+.fn.sel .fdesc{color:#d3e2f5}
+
+/* 按键分支：等一个键 → Enter → 指令串 */
+.knode{width:264px;padding:10px 13px 11px;border-radius:14px;
+  background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.13);
+  border-left:3px solid rgba(255,255,255,.2);box-shadow:0 10px 26px -24px #000}
+.knode.db{border-left-color:var(--db)}
+.knode.fe{border-left-color:var(--fe)}
+.knode.be{border-left-color:var(--be)}
+.knode.mn{border-left-color:var(--mn)}
+.knode .khead{display:flex;align-items:center;gap:8px}
+.knode .khead b{font-size:13.5px;font-weight:650;color:#eaf2ff;letter-spacing:.3px}
+.knode .kchev{margin-left:auto;font-size:11px;color:#9fb2cc;transition:transform .28s}
+.knode.opened .kchev{transform:rotate(90deg)}
+.knode .kfn{display:block;margin-top:5px;font-family:var(--mono);font-size:11.5px;color:#8fd8ff}
+.knode .kdesc{margin:5px 0 0;font-size:12px;line-height:1.58;color:#b9c9dd}
+.knode.sel{transform:scale(1.03);border-color:rgba(125,211,252,.95);
+  background:linear-gradient(180deg,rgba(56,189,248,.18),rgba(56,189,248,.06));
+  box-shadow:0 0 0 2px rgba(125,211,252,.5),0 18px 34px -22px rgba(56,189,248,1)}
+.kchips{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.kchip{font-family:var(--mono);font-size:11px;padding:2px 9px;border-radius:999px;cursor:pointer;
+  border:1px solid rgba(192,132,252,.55);background:rgba(192,132,252,.14);color:#dcc9ff;
+  transition:.16s}
+.kchip:hover{background:rgba(192,132,252,.3);color:#fff;transform:translateY(-1px)}
+
+/* 代码栏 */
+.code{flex:1 1 auto;align-self:stretch;min-width:300px;display:flex;flex-direction:column;min-height:0;
+  border-radius:20px;overflow:hidden;border:1px solid rgba(255,255,255,.11);background:#080e1a;
+  box-shadow:0 26px 60px -44px #000,inset 0 1px 0 rgba(255,255,255,.06)}
+.code-head{display:flex;align-items:center;gap:10px;padding:11px 14px;flex:0 0 auto;
+  border-bottom:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.03);
+  font-family:var(--mono);font-size:11.5px;color:#a3b4cc}
+.code-head .fname{color:#f0f5ff;font-size:13px;font-weight:600}
+.code-head .fpath{color:#677d99;font-size:10.5px}
+.code-head .rng{margin-left:auto;color:#7dd3fc;font-size:11px;white-space:nowrap}
+.code-head button{cursor:pointer;border:1px solid rgba(255,255,255,.16);
+  background:rgba(255,255,255,.06);color:#cbd5e1;font-size:11px;padding:3px 11px;
+  border-radius:999px;font-family:inherit;transition:.2s;white-space:nowrap}
+.code-head button:hover{background:rgba(255,255,255,.14);color:#fff}
+
+.chain{display:flex;flex-wrap:wrap;align-items:center;gap:6px;padding:8px 14px;
+  border-bottom:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.022)}
+.chain:empty{display:none}
+.cw{font-family:var(--mono);font-size:10px;color:#7b8ea8;letter-spacing:.06em}
+.cchip{font-family:var(--mono);font-size:11.5px;padding:2px 9px;border-radius:999px;cursor:pointer;
+  border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.06);color:#c3d4ea;
+  transition:.16s}
+.cchip:hover{background:rgba(255,255,255,.14);color:#fff;transform:translateY(-1px)}
+.cchip.db{border-color:rgba(52,211,153,.5);color:#7bf0bb}
+.cchip.fe{border-color:rgba(96,165,250,.5);color:#a5d0ff}
+.cchip.be{border-color:rgba(192,132,252,.5);color:#d8bdff}
+.cchip.on{background:rgba(56,189,248,.26);border-color:#7dd3fc;color:#fff;
+  box-shadow:0 0 0 1px rgba(125,211,252,.5)}
+.csep{color:#54687f;font-size:11px}
+
+.code-body{position:relative;flex:1;min-height:0;overflow:auto;padding:8px 0 44px;
+  font-family:var(--mono);font-size:13.2px;line-height:1.75;scrollbar-width:thin}
+.ln{display:grid;grid-template-columns:52px 1fr;min-height:1.75em;
+  transition:background .3s,color .3s,opacity .3s;color:#cfdcee}
+.ln .num{text-align:right;padding-right:14px;font-size:10.8px;color:#4b5d79;user-select:none}
+.ln .txt{white-space:pre;padding-right:18px}
+.ln.cold{opacity:.3}
+.ln.hot{background:linear-gradient(90deg,rgba(56,189,248,.2),rgba(56,189,248,.02) 74%);
+  box-shadow:inset 3px 0 0 #38bdf8;color:#f4f9ff}
+.ln.hot .num{color:#7dd3fc}
+.sec{display:flex;align-items:center;padding:10px 0 4px 15px}
+.sec span{font-size:10px;letter-spacing:.14em;color:#7b8ea8;
+  border-left:2px solid rgba(168,140,255,.85);padding-left:8px}
+.cm{color:#69809c;font-style:italic}
+.st{color:#8ce9b0}
+.kw{color:#cba6ff}
+.pp{color:#f2b0ff}
+.nu{color:#ffcb6b}
+.fi{color:#83d6ff}
+
+.hint{position:absolute;left:0;right:0;bottom:14px;text-align:center;font-size:11.5px;
+  color:#6d819c;pointer-events:none;transition:opacity .3s}
+
+@media (max-width:1080px){
+  body{overflow:auto}
+  .wrap{height:auto;min-height:100%}
+  .layout{flex-direction:column}
+  .map{align-self:stretch;max-width:none;width:100%;max-height:64vh}
+  .code{min-height:56vh}
+  #back{margin-left:0}
+}
+
+/* ---------- 使用教程：模拟终端 ---------- */
+.chip.tt{color:#8ff0dd;border-color:rgba(45,212,191,.5);background:rgba(45,212,191,.12)}
+.step .snum.tt{background:rgba(45,212,191,.18);color:#8ff0dd;border:1px solid rgba(45,212,191,.5)}
+.warn{font-size:11px;padding:1px 6px;border-radius:6px;background:rgba(251,146,60,.16);
+      border:1px solid rgba(251,146,60,.45);color:#ffbe7a;white-space:nowrap}
+.term-empty{color:#5f7897;font-size:12.5px;padding:18px 4px}
+.term{background:#080e18;border:1px solid #1e2c44;border-radius:12px;padding:14px 16px 16px;
+      font-family:ui-monospace,'JetBrains Mono',Consolas,monospace;font-size:12.4px;line-height:1.85;
+      color:#c9dcf2;overflow:auto;box-shadow:inset 0 1px 0 rgba(255,255,255,.04)}
+.term .tbar{display:flex;align-items:center;gap:6px;margin-bottom:12px;
+            padding-bottom:9px;border-bottom:1px solid #16233a}
+.term .tdot{width:9px;height:9px;border-radius:50%;background:#243349;display:inline-block}
+.term .tdot.r{background:#3d2b31}.term .tdot.y{background:#3a3527}.term .tdot.g{background:#22382f}
+.term .ttitle{margin-left:6px;font-size:11.5px;color:#5f7ba0;letter-spacing:.4px}
+.term .tkeys{margin-left:auto;display:flex;gap:5px}
+.term kbd{font-family:inherit;font-size:11px;padding:1px 7px;border-radius:6px;color:#0b1220;
+          background:linear-gradient(180deg,#9fe3d4,#5ec9b4);border:1px solid #7fd8c5;font-weight:700}
+.term .tline{white-space:pre-wrap;word-break:break-word}
+.term .tdim{color:#6b83a4}
+.term .tgap{height:9px}
+.term .tprompt{color:#63d6b6}
+.term .tuser{color:#63d6b6;font-weight:600}
+.term .tpath{color:#5578a0}
+.term .tin{color:#eaf4ff}
+.term .tcur{display:inline-block;width:7px;height:14px;margin-left:2px;vertical-align:-2px;
+            background:#9fe3d4;animation:tblink 1.1s steps(1) infinite}
+@keyframes tblink{0%,49%{opacity:1}50%,100%{opacity:0}}
+.term .trow{display:flex;align-items:baseline;white-space:pre;border-radius:6px;padding:1px 4px;margin:1px 0}
+.term .trow.on{background:rgba(99,214,182,.10);box-shadow:inset 2px 0 0 #63d6b6}
+.term .trow .tsel{color:#63d6b6;font-weight:700}
+.term .tcmd{color:#e8f2ff}
+.term .trow.on .tcmd{color:#ffffff;font-weight:600}
+.term .tnote{color:#6f86a4;margin-left:10px;min-width:0;flex:0 1 auto;overflow:hidden;
+           text-overflow:ellipsis;white-space:nowrap}
+.term .ttag{color:#5f7897;margin-left:10px}
+.term .tid{color:#3f5673;margin-left:auto;padding-left:12px}
+.term .tmsg{color:#ffd98a;padding:2px 0}
+.term .task{color:#8ff0dd}
+.term .tdone{color:#6f86a4}
+.term .tsay{color:#7f97b6;margin-top:10px;padding-top:9px;border-top:1px dashed #1a2740}
+.term .hit{color:#ff8f8f;font-weight:700}
+.term .tline.tcmd{color:#e8f2ff}
+.term .tline.tnote{color:#6f86a4}
+
+/* ---------- 功能试用：键盘面板 ---------- */
+.map.play-on{flex:0 0 auto;width:404px;min-width:340px;max-width:48%}
+.map.play-on .fit{display:none}
+.map.play-on .hint{display:none}
+.play{display:none;flex-direction:column;gap:10px;min-height:0;overflow:auto;padding:2px 2px 4px}
+.map.play-on .play{display:flex}
+.phead{display:flex;align-items:baseline;gap:9px}
+.phead b{font-size:13.5px;color:#dbe9fb;letter-spacing:.3px}
+.phead span{font-size:11.5px;color:#5f7897}
+.tbox{width:100%;box-sizing:border-box;font:inherit;font-size:12.5px;padding:7px 10px;
+      border-radius:9px;border:1px solid #22334d;background:#0b1524;color:#eaf4ff;outline:none}
+.tbox:focus{border-color:#3f7f6e;box-shadow:0 0 0 3px rgba(99,214,182,.12)}
+.pquick{display:flex;flex-wrap:wrap;gap:6px}
+.pquick button{font:inherit;font-size:11.5px;padding:3px 10px;border-radius:8px;
+      border:1px solid #22334d;background:#101a2a;color:#9db8d8;cursor:pointer}
+.pquick button:hover{border-color:#3f7f6e;color:#c9f3e7}
+.pkb{display:flex;flex-direction:column;gap:5px}
+.pkb .krow{display:flex;gap:5px}
+.k{min-width:27px;height:28px;padding:0 3px;display:grid;place-items:center;font:inherit;font-size:12px;
+   font-size:12px;border-radius:7px;border:1px solid #22334d;background:#0e1725;color:#c2d6ef;
+   cursor:pointer;user-select:none}
+.k:hover{background:#16243a;border-color:#3a5b86}
+.k:active{transform:translateY(1px);background:#1c2c46}
+.pspec{display:flex;flex-wrap:wrap;gap:6px}
+.pspec .k{width:auto;padding:0 11px;font-size:11.5px;background:#132131;border-color:#2b4260;color:#9fc4ea}
+.pspec .k.warnk:hover{border-color:#a4643c;color:#ffbe7a}
+.pfoot{display:flex;align-items:center;gap:10px;margin-top:auto;padding-top:8px;border-top:1px solid #16233a}
+#pstate{flex:1;font-size:11.5px;color:#7f97b6;line-height:1.5}
+#pReset{font:inherit;font-size:11.5px;padding:4px 12px;border-radius:8px;border:1px solid #22334d;
+        background:#101a2a;color:#9db8d8;cursor:pointer}
+#pReset:hover{border-color:#3a5b86;color:#d6e8ff}
+/* ================== 美化层（只调外观，不动结构） ================== */
+:root{
+  --bg:#070a12;
+  --panel:#0b1220;
+  --panel-2:#0e1626;
+  --line:rgba(148,163,184,.17);
+  --line-2:rgba(148,163,184,.30);
+  --txt:#e8eef9;
+  --muted:#9aaec8;
+  --accent:#5eead4;
+  --accent-2:#7dd3fc;
+  --hot:#38bdf8;
+  --radius-l:16px;
+  --radius-m:13px;
+  --shadow-panel:0 30px 70px -50px #000,inset 0 1px 0 rgba(255,255,255,.06);
+  --ease:cubic-bezier(.2,.72,.3,1);
+}
+html{color-scheme:dark}
+body{background:var(--bg);color:var(--txt);letter-spacing:.1px}
+body::before{
+  background:
+    radial-gradient(46% 38% at 6% -6%,rgba(94,234,212,.13),transparent 64%),
+    radial-gradient(44% 36% at 96% 0%,rgba(99,102,241,.16),transparent 62%),
+    radial-gradient(60% 50% at 50% 116%,rgba(56,189,248,.09),transparent 66%);
+}
+::selection{background:rgba(94,234,212,.26);color:#f2fffd}
+*::-webkit-scrollbar{width:10px;height:10px}
+*::-webkit-scrollbar-track{background:transparent}
+*::-webkit-scrollbar-thumb{background:rgba(148,163,184,.22);border-radius:99px;
+  border:2px solid transparent;background-clip:content-box}
+*::-webkit-scrollbar-thumb:hover{background:rgba(148,163,184,.42);background-clip:content-box}
+:focus-visible{outline:2px solid rgba(94,234,212,.55);outline-offset:2px}
+
+/* 顶栏 */
+header{padding:16px 26px 0;align-items:center}
+h1{font-size:18px;letter-spacing:.2px;font-weight:700;
+   background:linear-gradient(92deg,#f6fbff,#c3d6ee);-webkit-background-clip:text;
+   background-clip:text;-webkit-text-fill-color:transparent}
+h1 em{color:#9fe9dc;-webkit-text-fill-color:#9fe9dc;font-weight:600}
+.brand .dot{width:9px;height:9px;background:linear-gradient(135deg,#5eead4,#38bdf8);
+  box-shadow:0 0 14px rgba(94,234,212,.8)}
+.stat{font-size:11px;color:#8195b1;letter-spacing:.2px}
+.stat b{color:#d6e4f7}
+.chip{font-size:10.5px;padding:2px 9px;letter-spacing:.2px;line-height:1.6}
+.btn{border-radius:10px;font-size:11.5px;padding:5px 12px;transition:.16s var(--ease)}
+.btn:hover{transform:translateY(-1px)}
+#back{border-radius:10px}
+
+/* 标签页：分段的胶囊 */
+.tabs{align-self:flex-start;gap:3px;padding:4px;margin:11px 26px 7px;
+  border:1px solid var(--line);border-radius:13px;background:rgba(255,255,255,.028);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.04)}
+.tab{border:0;background:transparent;border-radius:9px;padding:7px 15px;font-size:13px;
+  color:#9db0c9;transition:.18s var(--ease)}
+.tab:hover{background:rgba(255,255,255,.06);color:#e6f0ff;transform:none}
+.tab.on{color:#eafffb;
+  background:linear-gradient(180deg,rgba(94,234,212,.2),rgba(94,234,212,.07));
+  box-shadow:inset 0 0 0 1px rgba(94,234,212,.42),0 6px 16px -12px rgba(94,234,212,.9)}
+.tab small{opacity:.5;font-size:10.5px;margin-left:6px}
+
+/* 面包屑 / 走过 */
+.crumbs,.trail{padding-left:26px;padding-right:26px}
+.crumbs .cur{background:rgba(94,234,212,.1);border-color:rgba(94,234,212,.4);color:#f0fbf9}
+.crumbs button,.tchip{border-radius:9px}
+.tchip{background:rgba(255,255,255,.025)}
+.tchip.tnow{background:rgba(94,234,212,.14);border-color:rgba(94,234,212,.6);color:#effcfa}
+
+/* 两块大面板 */
+.layout{gap:14px;padding:0 16px 16px}
+.map{border-radius:var(--radius-l);border:1px solid var(--line);background:
+   radial-gradient(rgba(255,255,255,.045) 1px,transparent 1px) 0 0/24px 24px,
+   linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.012));
+  box-shadow:var(--shadow-panel)}
+.code{border-radius:var(--radius-l);border:1px solid var(--line);
+  background:linear-gradient(180deg,#080e19,#070b13);box-shadow:var(--shadow-panel)}
+.code-head{padding:10px 15px;border-bottom-color:var(--line);background:rgba(255,255,255,.022)}
+.code-head .fname{font-size:12.5px;letter-spacing:.2px}
+.code-head .rng{font-size:10.5px}
+.code-head button{border-radius:9px;font-size:10.5px;padding:3px 10px}
+.chain{padding:7px 15px;background:rgba(255,255,255,.015);border-bottom-color:var(--line)}
+.cchip{font-size:11px;border-radius:8px}
+
+/* 节点：统一质感 */
+.root{border-radius:15px;background:linear-gradient(140deg,rgba(139,92,246,.95),rgba(67,110,240,.92));
+  box-shadow:0 22px 46px -26px rgba(99,102,241,.95),inset 0 0 0 1px rgba(255,255,255,.26)}
+.root .rt{font-size:18px}
+.root.mod.db{background:linear-gradient(140deg,rgba(16,185,129,.95),rgba(14,132,180,.92))}
+.root.mod.fe{background:linear-gradient(140deg,rgba(56,189,248,.95),rgba(79,102,241,.92))}
+.root.mod.be{background:linear-gradient(140deg,rgba(167,139,250,.95),rgba(109,40,217,.92))}
+.phase,.file,.step,.fn,.knode{background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.026));
+  border:1px solid var(--line-2);box-shadow:0 12px 30px -26px #000}
+.phase{border-radius:14px;padding:10px 15px 10px 12px}
+.file{border-radius:13px}
+.step,.fn,.knode{border-radius:13px;transition:transform .24s var(--ease),border-color .24s,
+  background .24s,box-shadow .24s}
+.step:hover,.fn:hover,.knode:hover,.phase:hover,.file:hover{border-color:rgba(148,163,184,.5);
+  transform:translateY(-1px)}
+.step.sel,.fn.sel,.knode.sel{border-color:rgba(94,234,212,.85);
+  background:linear-gradient(180deg,rgba(94,234,212,.14),rgba(94,234,212,.04));
+  box-shadow:0 0 0 1px rgba(94,234,212,.4),0 22px 40px -26px rgba(94,234,212,.95)}
+.phase.open{border-color:rgba(125,211,252,.7);background:rgba(125,211,252,.1);
+  box-shadow:0 0 0 1px rgba(125,211,252,.3),0 16px 34px -24px rgba(56,189,248,.9)}
+.file.open{border-color:rgba(125,211,252,.6);background:rgba(56,189,248,.08)}
+.node.dim{opacity:.3;filter:grayscale(.5) brightness(.86);transform:scale(.94)}
+.step .stitle{font-size:14px}
+.step .sdesc,.fn .fdesc,.knode .kdesc{color:#b3c4d9}
+
+/* 代码行 */
+.code-body{font-size:13px;line-height:1.78;padding:10px 0 44px}
+.ln .num{font-size:10.5px;color:#55698a;padding-right:16px}
+.ln{grid-template-columns:54px 1fr;border-radius:0}
+.ln.hot{background:linear-gradient(90deg,rgba(94,234,212,.15),rgba(94,234,212,.015) 78%);
+  box-shadow:inset 2px 0 0 var(--accent);color:#f4fbff}
+.ln.hot .num{color:#7fe7d6}
+.ln.cold{opacity:.26}
+.sec span{font-size:9.5px;letter-spacing:.16em;color:#7d90ab}
+.kw{color:#c4a9ff}.st{color:#8ce9b0}.cm{color:#67809e}
+
+/* 终端 */
+.term{background:linear-gradient(180deg,#08111c,#060a12);border:1px solid #1c2b43;
+  border-radius:13px;font-size:12.6px;line-height:1.9;color:#cfe0f5;
+  box-shadow:0 24px 50px -40px #000,inset 0 1px 0 rgba(255,255,255,.05);padding:13px 16px 15px}
+.term .tbar{border-bottom-color:#16233a;margin-bottom:11px}
+.term .tdot{width:8px;height:8px}
+.term .ttitle{font-size:11px;color:#5d7ba3}
+.term .trow{padding:1px 6px;border-radius:7px}
+.term .trow.on{background:rgba(94,234,212,.12);box-shadow:inset 2px 0 0 var(--accent)}
+.term .tprompt,.term .tuser{color:#6ee7cf}
+.term .tnote{color:#7187a6}
+.term .ttag{color:#6a86a8}
+.term .tid{color:#4e6a8c}
+.term .tcur{background:#7fe7d6}
+.term kbd{background:linear-gradient(180deg,#a8ecdd,#5ec9b4);border-color:#7fd8c5;color:#06231d}
+.term .hit{color:#ff9aa2}
+.term-empty{color:#6b83a4}
+
+/* 键盘 */
+.play{gap:11px}
+.phead b{font-size:13px;color:#e2eefc}
+.tbox{background:#0a1322;border-color:#1f3049;border-radius:10px;font-size:12.5px;
+  transition:.16s var(--ease)}
+.tbox:hover{border-color:#2b4460}
+.tbox:focus{border-color:rgba(94,234,212,.6);box-shadow:0 0 0 3px rgba(94,234,212,.12)}
+.pquick button{background:rgba(255,255,255,.04);border:1px solid var(--line);
+  border-radius:8px;color:#a8bfd9;font-size:11px;transition:.14s var(--ease)}
+.pquick button:hover{background:rgba(94,234,212,.12);border-color:rgba(94,234,212,.5);
+  color:#ddfff7;transform:translateY(-1px)}
+.pkb{gap:6px}
+.pkb .krow{gap:6px}
+.k{border-radius:9px;background:linear-gradient(180deg,#17263c,#0f1a2a);
+  border:1px solid #26374f;border-bottom:2px solid #1a2740;color:#cfe0f3;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.06);
+  transition:background .14s var(--ease),border-color .14s,color .14s,transform .06s}
+.k:hover{background:linear-gradient(180deg,#1e3252,#132036);border-color:#3c5b7d;color:#f2fbff}
+.k:active{transform:translateY(1px);border-bottom-width:1px}
+.pspec .k{background:rgba(255,255,255,.045);border:1px solid var(--line);
+  border-bottom:2px solid rgba(148,163,184,.22);color:#b4c9e2;font-size:11px}
+.pspec .k:hover{background:rgba(94,234,212,.12);border-color:rgba(94,234,212,.45);color:#e6fffb}
+.pspec .k.warnk{color:#f2a8a8;border-color:rgba(239,110,110,.35)}
+.pspec .k.warnk:hover{background:rgba(239,110,110,.14);border-color:rgba(239,110,110,.6);color:#ffd7d7}
+.pfoot{border-top-color:var(--line);padding-top:9px}
+#pstate{color:#8299b8}
+#pReset{background:rgba(94,234,212,.1);border-color:rgba(94,234,212,.35);color:#c7fbf2;
+  border-radius:9px;transition:.16s var(--ease)}
+#pReset:hover{background:rgba(94,234,212,.2);border-color:rgba(94,234,212,.6);color:#fff;
+  transform:translateY(-1px)}
+.hint{color:#7189a9}
+
+/* ---------- 视觉小功能 ---------- */
+/* 1. 代码栏顶上那条"选中区间在文件里的位置" */
+.rbar{position:relative;height:2px;flex:0 0 auto;overflow:hidden;
+  background:rgba(148,163,184,.1)}
+.rbar i{position:absolute;top:0;bottom:0;left:0;width:0;border-radius:2px;
+  background:linear-gradient(90deg,#5eead4,#7dd3fc);
+  box-shadow:0 0 12px rgba(94,234,212,.6);
+  transition:left .38s var(--ease),width .38s var(--ease)}
+
+/* 2. 点中一张卡，外面荡一圈涟漪 */
+.node.tap::after{content:'';position:absolute;inset:-3px;border-radius:inherit;
+  border:1px solid rgba(94,234,212,.7);pointer-events:none;
+  animation:tapring .54s ease-out both}
+@keyframes tapring{0%{opacity:.9;transform:scale(.99)}100%{opacity:0;transform:scale(1.06)}}
+
+/* 3. 按下去的键帽亮一下 */
+.k.flash{background:linear-gradient(180deg,#2f7d6f,#1d4e46)!important;
+  border-color:rgba(94,234,212,.9)!important;color:#eafffb!important;
+  box-shadow:0 0 0 2px rgba(94,234,212,.28),0 0 22px rgba(94,234,212,.45)!important;
+  transform:translateY(1px)}
+
+/* 4. 高亮行从左轻轻滑进来 */
+.ln.hot{animation:linein .3s var(--ease) both}
+@keyframes linein{from{opacity:.35;transform:translateX(-5px)}to{opacity:1;transform:none}}
+
+/* 5. 连接线有方向感 */
+.kids > .row::after{background:linear-gradient(90deg,rgba(148,163,184,.55),rgba(148,163,184,.2))}
+
+/* 6. 选中卡上的编号/行号徽章微微发光 */
+.step.sel .snum{box-shadow:0 0 0 3px rgba(94,234,212,.14),0 0 14px rgba(94,234,212,.35)}
+.fn.sel .fline{color:#9ff0e2}
+
+/* 7. 载入时一块一块浮上来 */
+header{animation:fadeUp .5s var(--ease) both}
+.tabs{animation:fadeUp .5s var(--ease) .05s both}
+.crumbs{animation:fadeUp .5s var(--ease) .09s both}
+.layout{animation:fadeUp .55s var(--ease) .13s both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:none}}
+
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.01ms !important;animation-iteration-count:1 !important;
+    transition-duration:.01ms !important}
+}
+</style>
+
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand"><span class="dot"></span><h1>CmdBox · <em>代码地图</em></h1></div>
+    <div class="stat" id="stat"></div>
+    <div class="legend">
+      <span class="chip db">数据库</span>
+      <span class="chip fe">前端</span>
+      <span class="chip be">后端</span>
+      <span class="chip mn">main 自己写的</span>
+    </div>
+    <button class="btn ghost" id="back">← 返回<span class="k">Esc</span></button>
+  </header>
+
+  <nav class="tabs" id="tabs"></nav>
+  <div class="crumbs" id="crumbs"></div>
+  <div class="trail" id="trail"></div>
+
+  <div class="layout" id="layout">
+    <section class="map" id="map">
+      <div class="fit" id="fit"><div class="tree" id="tree"></div></div>
+      <div class="hint" id="hint">点节点展开</div>
+      <div class="play" id="play">
+        <div class="phead"><b>动手试</b><span>点按键＝敲键盘</span></div>
+        <input class="tbox" id="typeBox" placeholder="也可以直接在这里打字…"
+               autocomplete="off" spellcheck="false">
+        <div class="pquick" id="pquick"></div>
+        <div class="pkb" id="pkb"></div>
+        <div class="pspec" id="pspec"></div>
+        <div class="pfoot"><span id="pstate"></span><button id="pReset">重置</button></div>
+      </div>
+    </section>
+    <aside class="code">
+      <div class="code-head">
+        <span class="fname" id="fileName">main.cpp</span>
+        <span class="fpath" id="filePath"></span>
+        <span class="rng" id="rangeLabel"></span>
+        <button id="reset">看全部</button>
+      </div>
+      <div class="rbar" id="rbar"><i></i></div>
+      <div class="chain" id="chain"></div>
+      <div class="code-body" id="codeBody"></div>
+    </aside>
+  </div>
+</div>
+
+<script>
+const SOURCES = {"main.cpp": {"path": "main.cpp", "lines": ["#include \"list.h\"", "#include \"storage存放.h\"", "#include \"kmp_search.h\"", "#include \"trie.h\"", "#include \"linux.h\"", "#include \"Enter.h\"", "#include \"screen.h\"", "", "#include \"list.cpp\"", "#include \"storage存放.cpp\"", "#include \"kmp_search.cpp\"", "#include \"trie.cpp\"", "#include \"linux.cpp\"", "#include \"Enter.cpp\"", "#include \"screen.cpp\"", "", "int main(int argc,char*argv[])", "{", "bool pick=false;//pick是终端模式", "if(argc>1&&string(argv[1])==\"--pick\")pick=true;", "//ai生成-脚本所需内容", "", "    App app;//path,L,T;", "    app.path=dataPath();", "    initList(app.L);", "    app.T=new TrieNode();", "    //建立一棵树", "", "   loadItems(app.path,app.L);", "    //从本地文件下载命令，读instream in+in.open()+getline in", "    //下载=分割+id转类型+命令4部分合成为一命令+新建节点合并到链表里", "    //如果没有data.txt就新建txt，用源代码里的预制命令", "    commit(&app);", "    //commit重建树,根据链表的数据", "", "    rawOn();//改Linux原本设置", "", "", "streambuf *oldBuf=cout.rdbuf();", "ofstream tty;", "string chosen=\"\";", "if(pick)", "{     ", "    tty.open(\"/dev/tty\");     ", "    cout.rdbuf(tty.rdbuf());", "}//ai生成-脚本所需内容", "", "", "    string input,msg,text;", "    //input=用户子串,msg提示词,text=按下的键", "    int sel=0;", "    //sel=命令的下标", "", "    while(true)", "    {", "        vector<Node*> cand=trieComplete(app.T,input);", "        //拿用户输入的子串，找子串下的所有节点", "        //例如输入git，能拿到git add -A,git commit -m \"\"节点", "", "        draw(&app,input,cand,sel,msg);", "        //显示函数", "        msg=\"\";", "", "        KeyType k=readKey(text);", "        //等待按按键.例如输入了git后等待按enter", "        if(k==Quit)break;", "        if(k==Char)", "        {", "            input+=text;", "            sel=0;", "        }", "        else if(k==Back)", "        {", "        if(input.empty()==0)", "        {   ", "            int i=input.size()-1;//", "            while(i>0&&((unsigned char)input[i]&0xC0)==0x80)i--;", "            //位与&检查,因为要检查他的前两位是不是10，是10说明是2-4字节。", "            //s[i]与0xC0=1100 0000位于比较，由于末尾6位0xC0都是0，因此结果六位都是0", "            //剩下前缀2位，如果是10和11比，就是10 000000 =0x80", "            //就说明是尾字节，非头字节", "            //中文字符是2-4字节，若是3字节的中文字符，则是1110 xxxx,4字节则1111 xxxx", "            //2字节 1100 xxxx,如果是2-4字节的，他还会有除了头字节外的尾字节", "            //尾字节是10xx xxxx,所以这么位于比较。", "            //然后i--，直到找到头字节，", "            input.erase(i);", "            //erase的i指向头字节，就把头字节和尾字节删了。 ", "        }", "        sel=0;", "        }", "        //由于按了BackSpace后，需要重新检测input", "        //因此需要额外popChar，", "        //而非只是用户看不到那个字符了而已。", "        else if(k==Up)", "        {", "            if(sel>0)sel--;", "        }", "        else if(k==Down)", "        {", "            if(sel+1<(int)cand.size())sel++;", "        }", "        else if(k==Tab)", "        {", "            if(!cand.empty())input=cand[sel]->item.cmd;", "            //此刻出来了命令，按了上下键盘，指向命令了", "            //然后按tab补全你的命令;", "            sel=0;//补全后input变了，然后候选命令only自己了", "            if(pick)//脚本模式:补全完就把这一行交给bash", "            {", "                chosen=input;", "                break;", "            }", "        }", "        else if(k==Enter)", "        {     ", "            if(input.size()>0&&input[0]==':')", "            {", "                if(runCommand(&app,input.substr(1),msg)==0)break;", "                //substr(1)：从第一行开始取input,当string", "                //然后runConmand看他:后，空格前是啥。空格后是啥。", "                //这里干了两件事，一个是查看是否是quit(==0)", "                //一个是运行除了quit外的指令。", "            }", "            //检查是否是命令", "            else{showItems(&app,input);}//搜索命令", "            input=\"\";", "            sel=0;", "            //按回车后要初始化，不按回车不用。", "        }", "    }", "", "    rawOff();", "    cout.rdbuf(oldBuf);//换回真stdout", "    if(pick){if(chosen!=\"\")cout<<chosen<<\"\\n\";}", "    //终端模式,返回选中命令.", "    else{cout<<\"\\n已退出,数据保存在 \"<<app.path<<\"\\n\";}", "    trieFree(app.T);", "    destroyList(app.L);", "    return 0;", "}"]}, "list.cpp": {"path": "database/src/list.cpp", "lines": ["#include \"list.h\"", "void initList(CommandList *&L)", "{", "    L=new CommandList();", "    L->dummyH=new Node();", "    L->dummyT=new Node();", "    L->dummyH->next=L->dummyT;", "    L->dummyT->prev=L->dummyH;", "    L->size=0;L->nextId=1;", "}", "void destroyList(CommandList *&L)", "{", "    Node *p=L->dummyH,*q;", "    while(p!=nullptr)", "    {", "        q=p->next;", "        delete p;", "        p=q;", "    }", "    delete L;L=nullptr;", "    //首先，给dummyHT分配了内存，放HT的节点的，", "    //然后再新建节点输入数据，插入进去，", "    //于是接下来链表成了H->1->2->3->T,", "    //五个节点都是有内存的，", "    //此刻qp做遍历把五个内存全都释放。", "}", "Node *insertBefore(CommandList *L,Node *pos,Node *p)", "{", "    p->prev=pos->prev;", "    p->next=pos;", "    pos->prev->next=p;", "    pos->prev=p;", "    L->size++;", "    return p;", "}", "Node *addItem(CommandList *L,string cmd,string note,string tag)", "// :add git status,查看状态，git.没有提供id，因此自动丢给末尾。", "{", "    CommandItem x;", "    Node *p=new Node();", "    x.id=L->nextId;", "    L->nextId++;", "    x.cmd=cmd;", "    x.tag=tag;", "    x.note=note;", "    p->item=x;", "    return insertBefore(L,L->dummyT,p);", "}", "void removeNode(CommandList *L,Node *p)", "{", "    p->prev->next=p->next;", "    p->next->prev=p->prev;", "    L->size--;", "    delete p;", "}", "Node *findById(CommandList *L,int id)", "{", "    Node *p=L->dummyH;", "    for(int i=0;i<L->size;i++)", "    {", "        p=p->next;", "        if(p->item.id==id)return p;", "    }", "    return nullptr;", "}"]}, "trie.cpp": {"path": "database/src/trie.cpp", "lines": ["#include \"trie.h\"", "", "void collect(TrieNode *cur,vector<Node*>&res)", "{", "    for(Node *p:cur->items) res.push_back(p);", "    //例如子串git,txt里有git add -A，git commit -m \"fix\",cur指向t", "    //items里没有东西可以遍历的话，range-for不会执行", "    for(auto &e:cur->Map) collect(e.second,res);", "    //res是个袋子", "}//在子串末尾树节点处，往下探索继续找链表节点，找到了就丢到p里。", "", "void commit(App *app)", "{", "    trieFree(app->T);", "    app->T=new TrieNode();", "    for(Node *p=app->L->dummyH->next;p!=app->L->dummyT;p=p->next)", "    {", "        trieInsert(app->T,p->item.cmd,p);", "    }", "    saveItems(app->path,app->L);", "}", "//增删改了链表后，重建树，新链表放回data里", "void trieInsert(TrieNode *root,string cmd,Node *p)", "{", "    TrieNode *cur=root;", "    for(char c:cmd)", "    {", "            auto it=cur->Map.find(c);", "            //从根字典找书页", "            if(it==cur->Map.end())", "            {", "                TrieNode *child=new TrieNode();", "                cur->Map.insert(pair<char,TrieNode*>(c,child));", "                cur=child;", "            }//如果没有就新建书页", "            else{cur=it->second;}", "            //有的话就走到书页那里，找书页的书页", "    }", "    cur->items.push_back(p);", "    //把p搞到路径末尾，从而拿到更多信息", "}", "//字符串+链表信息节点插字典树上", "vector<Node*>trieComplete(TrieNode *root,string prefix)", "{", "    vector<Node*>res;//袋子", "    TrieNode *cur=root;", "    for(char c:prefix)", "    {", "        auto it=cur->Map.find(c);", "        if(it==cur->Map.end())", "        //在根节点的map上找书页c", "        {return {};}", "        else{cur=it->second;}", "    }//循环使得cur从第一个子传字符开始走，往后一直走到最后一个字符", "    collect(cur,res);//收集从最后一个字符走到的所有节点", "    return res;", "}", "//树上找子串，返回子串匹配到的所有命令的所有信息.", "void trieFree(TrieNode *&root)", "{", "    if(root==nullptr) return;", "    //root是在main调用的，不会消失", "    //只给child分配了内存。", "    for(auto &e:root->Map)trieFree(e.second);", "    delete root;", "    root=nullptr;", "}"]}, "storage存放.cpp": {"path": "database/src/storage存放.cpp", "lines": ["#include \"storage存放.h\"", "#include<unistd.h>", "//--------------------------Tool-------------------------------", "bool parseInt(const string &s,int &id)", "{", "    if(s.empty()) return false;", "    if(s.size()>9) return false;", "    //太长，防止溢出", "    int v=0;", "    for(char c:s)", "    {", "        if(c<'0'||c>'9') return false;  ", "        //混进非数字", "        v=v*10+(c-'0');", "    }", "    id=v;", "    return true;", "}", "//工具函数,用于loadItems:把string id变为int", "vector<string>splitLine(string line,char sep)", "//sep=separate：分割", "{", "    vector<string>parts;", "    string cur;", "    for(char c:line)", "    {", "        if(c==sep)", "        {parts.push_back(cur);cur.clear();}", "        else cur+=c;", "    }//在不遇到分隔符之前，一股脑丢到cur里", "    //遇到分隔符后，把装有东西的cur丢到part里，然后clear", "    parts.push_back(cur);", "    return parts;", "}", "//工具函数, 用于loadItems:分割一行的命令。", "void loadDefaults(CommandList *L)", "{", "    addItem(L,\"git add -A\",\"暂存所有改动\",\"git\");", "    addItem(L,\"git commit -m \\\"fix\\\"\",\"提交并写明本次修复内容\",\"git\");", "    addItem(L,\"git push\",\"把本地提交推送到远程仓库\",\"git\");", "    addItem(L,\"g++ -o main main.cpp\",\"最简编译：把 main.cpp 编译成 main\",\"build\");", "    addItem(L,\"make -j4\",\"并行编译整个项目\",\"build\");", "    addItem(L,\"ls -la\",\"列出所有文件（含隐藏文件）\",\"linux\");", "}", "//工具函数,用于loadItems:如果下载失败，制作模板txt", "", "//--------------------------Main----------------------------------", "string dataPath()", "{", "    string p(4096,'\\0');", "    readlink(\"/proc/self/exe\",&p[0],p.size()-1);", "    //readlink返回写了多少字节", "    //\"/proc/self/exe\"=文件g++后产生的exe位置(linux不产生exe，产生的文件没有后缀)", "    //readlink，先把\"/proc/self/exe\"改成本地地址，然后最多允许抄sizeof(buf)-1个字符到buf上。", "    //ssize_t是size_t的带符号版本,sizeof()很多返回的都是size_t", "    int n=p.rfind('/');", "    p=p.substr(0,n+1);//n是最后一个斜杠的下标，0-n有n+1个字符", "    return p+\"data.txt\";", "}", "//找路径", "bool loadItems(string path,CommandList *L)", "{", "    ifstream in;", "    //设一个装文件位置类型的变量in", "    in.open(path);//使得in对应着path这个文件", "    if(!in.is_open()){loadDefaults(L);return false;}", "    string line;", "    while(getline(in,line))//从文件里一行一行getline", "    {", "        if(line.empty()==0&&line.back()=='\\r')", "        {line.pop_back();}", "        //调整windows格式", "", "        vector<string>parts=splitLine(line,'|');", "        //给getline的那一行分割了，拿id,cmd,note,tag四部分", "        if(parts.size()!=4)continue;//检查命令是否错误", "        ", "        int id=0;", "        if(parseInt(parts[0],id)==0)continue;", "        //把字符数字改成整数数字，存id里", "", "        CommandItem x;", "        x.id=id;", "        x.cmd=parts[1];", "        x.note=parts[2];", "        x.tag=parts[3];", "        //搞个命令参数", "        Node *p=new Node();", "        p->item=x;", "", "        insertBefore(L,L->dummyT,p);", "        if(id>=L->nextId)L->nextId=id+1;", "    }", "    return true;", "}", "//把path路径里的东西搞到in里，然后一行一行看in的命令,把命令套链表上", "bool saveItems(string path,CommandList *L)", "{", "    string tmp=path+\".tmp\";//创建临时文件，", "    ofstream out;//整个装文件具体地址的变量", "    out.open(tmp);//给变量整上具体地址", "    if(out.is_open()==0)return false;", "    for(Node *p=L->dummyH->next;p!=L->dummyT;p=p->next)", "    {", "        out<<p->item.id<<'|'<<p->item.cmd<<'|'<<p->item.note<<'|'<<p->item.tag<<'\\n';", "        // out<< 为往文件里写什么什么东西。", "    }", "    out.close();//保存", "    int r=rename(&tmp[0],&path[0]);//改名,传俩文件路径的首地址过去", "    //c判断成功或者失败是0和非0，c++是1和0", "    if(r==0) return true;", "    return false;", "}"]}, "kmp_search.cpp": {"path": "backend/src/kmp_search.cpp", "lines": ["#include \"kmp_search.h\"", "", "vector<int>getnext(string p)", "{", "    vector<int>nxt(p.size(),0);", "    int index=0,best=0;", "    for(int i=1;i<(int)p.size();i++)", "    {", "        while(best>0&&p[i]!=p[index])", "        {", "            best=nxt[best-1];", "            index=best;", "        }", "        if(p[i]==p[index])", "        {", "            best++;                                                                       ", "            index=best;", "        }", "        nxt[i]=best;", "    }", "    return nxt;", "}", "//工具函数，获得next表kmpAll使用", "//a b a  c a b a,aba<->aba,", "//0 0 1  0 1 2 3", "//tail+'b',c!=b", "//aba(c)!=aba(b).3+1失效", "//看x+1的x是生效的，用nxt表", "//由于012=456,不可用，则查01是否=56", "//nxt[2]表是aba比对01,12,也就是01是否等于56", "//发现01!=12,也就是01!=56,", "//再缩水查0=2,也就是0=6.", "//a(b)==a(b)前缀1+1生效", "//再判断最后那个1是否生效", "//若生效,k++", "//b=b(if(p[i]==p[k])k++)", "//k=2", "//若失效k-- k=0;", "", "vector<int>kmpAll(string s,string p)", "{", "    vector<int>firstchar;", "    if(p.empty()||s.size()<p.size()) return firstchar;", "    vector<int>nxt=getnext(p);", "    int j=0;", "    for(int i=0;i<(int)s.size();i++){", "        while(j>0&&s[i]!=p[j])j=nxt[j-1];", "        if(s[i]==p[j])j++;", "        if(j==(int)p.size())", "        {", "            firstchar.push_back(i-j+1);", "            j=nxt[j-1];", "        }", "    }", "    return firstchar;", "}", "string highlight(string s,string p,string base)", "{", "    vector<bool>hit(s.size(),false);//hit是vector名,开文本串长度，全给false", "    for(int st:kmpAll(s,p))//st是首字符下标", "    {", "        for(int k=0;k<(int)p.size();k++)", "        {hit[st+k]=true;}//一号位是1,7,12", "        //p子串长度是2,则12 78 1213 false->true", "    }", "  string out;", "    for(int i=0;i<(int)s.size();i++)", "    {", "        unsigned char c=s[i];", "        bool isTail;", "        isTail=(c>=0x80&&c<=0xBF);//是尾字节，是10开头", "        if(isTail==0)", "        {", "            if(hit[i]==true) out+=RED;//底色+red=red", "            else{out+=RESET;//变成白颜色。", "            out+=base;}//如果是\"\"就是不变", "            //如果base=GRAY,就再染个灰色", "        }", "        //倘若遇到中文字符，有头字节尾巴字节", "        //此if判定是依旧循环走字节，如果走到尾字节就不加颜色码", "        out+=s[i];//染完色后把字符搞进去", "    }", "out+=RESET;//彻底搞完了变成空颜色", "return out;//返回染色串", "}", "//返回带颜色的串.|"]}, "Enter.cpp": {"path": "backend/src/Enter.cpp", "lines": ["#include \"Enter.h\"", "#include \"storage存放.h\"     //saveItems", "#include \"linux.h\"//rawOff,rawOn", "", "const string HELP=\":list 列出全部 | :add 添加 | :edit 编号 修改 | :del 编号 删除 | :quit 退出\";", "", "bool hasBar(string s)", "{", "    for(int i=0;i<(int)s.size();i++)", "    {", "        if(s[i]=='|')return true;", "    }", "    return false;", "}", "//用于addFLow,检查字段里有无切割符", "string askLine(string input)", "{", "    rawOff();//恢复平常状态", "    cout<<\"\\n\"<<input<<flush;//endl=\\0+flush，flush=把东西推到屏幕上", "    string s;", "    getline(cin,s);", "    rawOn();", "    return s;", "}", "//从用户那里拿子串。", "", "void addFlow(App *app,string &msg)", "{", "    string cmd=askLine(\"命令: \");", "    if(cmd==\"\"){msg=\"已取消\";return;}", "    string note=askLine(\"注释（可留空）: \");", "    string tag=askLine(\"标签（默认 misc）: \");", "    if(tag==\"\")tag=\"misc\";", "    if(hasBar(cmd)||hasBar(note)||hasBar(tag))", "    {", "        msg=\"字段不能有|\";", "        return;", "    }", "    Node *p=addItem(app->L,cmd,note,tag);", "    commit(app);", "    msg=\"已添加 #\"+to_string(p->item.id);", "}", "void delFlow(App *app,int id,string &msg)", "{", "    Node *p=findById(app->L,id);", "    if(p==nullptr)", "    {", "        msg=\"无此编号 #\"+to_string(id);", "        return;", "    }", "    removeNode(app->L,p);", "    commit(app);", "    msg=\"已删除 #\"+to_string(id);", "}", "void editFlow(App *app,int id,string &msg)", "{", "    Node *p=findById(app->L,id);", "    if(p==nullptr)", "    {", "        msg=\"没有编号 #\"+to_string(id);", "        return;", "    }", "", "    CommandItem old=p->item;", "    CommandItem nw=old;", "    string s=askLine(\"新命令（回车不改）: \");", "    if(s!=\"\") nw.cmd=s;", "    s=askLine(\"新注释（回车不改）: \");", "    if(s!=\"\") nw.note=s;", "    s=askLine(\"新标签（回车不改）: \");", "    if(s!=\"\") nw.tag=s;", "", "    if(hasBar(nw.cmd)||hasBar(nw.note)||hasBar(nw.tag))", "    {", "        msg=\"字段里不能有 |\";", "        return;", "    }", "", "    p->item=nw;", "    commit(app);", "    msg=\"已修改 #\"+to_string(id);", "}", "", "bool runCommand(App *app,string line,string &msg)", "{", "    int pos=line.find(' ');//find返回无符号下标", "    string name,rest=\"\";", "    if(pos<0)//下标不可能小于0，小于0说明没找到", "    {", "        name=line;", "    }", "    else// 空格前是命令名，空格后是剩下的", "    {", "        name=line.substr(0,pos);", "        rest=line.substr(pos+1);", "    }", "    if(name==\"quit\")return false;", "    else if(name==\"add\")addFlow(app,msg);", "    else if(name==\"list\")showItems(app,\"\");", "    else if(name==\"help\")msg=HELP;", "    else if(name==\"del\"||name==\"edit\")", "    {", "        int id=0;", "        for(int i=0;i<(int)rest.size();i++)", "        {", "            if(rest[i]>='0'&&rest[i]<='9')id=id*10+(rest[i]-'0');", "            ", "        }//字符转整形", "        if(name==\"del\")delFlow(app,id,msg);", "        else editFlow(app,id,msg);", "    }", "    else msg=\"未知命令: \"+name;", "    return true;", "} ", "//跑冒号指令."]}, "linux.cpp": {"path": "frontend/src/linux.cpp", "lines": ["#include \"linux.h\"", "void rawOn()", "{", "    tcgetattr(STDIN_FILENO,&oldT);", "    //get attr获得属性", "    //STDIN_FILENO是硬盘,oldT是存放设置参数的地方,", "    termios t=oldT;                       ", "    t.c_lflag&=~(ICANON|ECHO|ISIG);", "    //给这三个属性全关了    ", "    //ICANON必须等回车再把字交给程序", "    //ECHO敲什么键，就往屏幕上显示什么字(按上下键不会出现^[[A)", "    //ISIG,按ctrl+C杀死程序", "", "    t.c_cc[VMIN]=1;//至少要用户输入1个字节再开始读          ", "", "    t.c_cc[VTIME]=0;//计时器，拿到字节以后直接开找", "", "    tcsetattr(STDIN_FILENO,TCSAFLUSH,&t);//交付给状态t", "}//状态更新", "", "void rawOff()", "{", "    tcsetattr(STDIN_FILENO,TCSAFLUSH,&oldT);", "}//状态返回", "", "KeyType readKey(string &s)", "{", "    unsigned char c=0;", "    if(read(STDIN_FILENO,&c,1)!=1)return Quit;", "    //read是linux的，(从哪读，存到哪，读几个)", "", "    if(c==3)return Quit;//Ctrl+C=3", "", "    if(c=='\\n'||c=='\\r')return Enter;//enter", "", "    if(c=='\\t')return Tab;//tab", "", "    if(c==127||c==8)return Back;//Backspace删除", "", "    if(c==27)//^[[A or ^[[B", "    {", "        unsigned char d=0;", "        if(read(STDIN_FILENO,&d,1)==1)", "        {", "            while(read(STDIN_FILENO ,&d,1)==1)", "            {", "                if(d>=0x40&&d<=0x7E)break;", "                //0x是16进制，64-126字母结尾", "                //以ESC开头的功能键中间不允许出现字母", "            }", "            if(d=='A')return Up;", "            if(d=='B')return Down;", "        }", "        return Other;//例如如果是D，就是左键，当成无用按键。", "    }", "", "    if(c<32)return Other;//32是空格，0-31是控制键例如ctrl+A", "", "    //中文=UTF-8=2~4字节的字符", "    int len=1;", "    if(c>=0xF0)len=4;", "    //看看一个字符有多少个字节", "    //1字节 0xxx xxxx,2字节开头110x 3字节开头111x 4字节开头1111;", "    //多字节的尾巴，例如3字节的另两个字节都是10xx xxxx,", "    else if(c>=0xE0)len=3;", "    else if(c>=0xC0)len=2;", "", "    s=\"\";", "    s=(char)c;//把第一个字节搞进去", "    for(int k=1;k<len;k++)//把剩下的字节搞进去,例如3字节的中文汉字", "    //就拼成了一个完整的字.", "    {", "        unsigned char d=0;", "        if(read(STDIN_FILENO,&d,1)!=1)break;", "        s+=(char)d;", "    }", "    return Char;", "}", "//读按键"]}, "screen.cpp": {"path": "frontend/src/screen.cpp", "lines": ["#include \"screen.h\"", "#include<bits/stdc++.h>", "using namespace std;", "", "void draw(App* app,string input,vector<Node*>&cand,int sel,string msg)", "{", "    cout<<\"\\033[2J\\033[H\";//清屏;", "    cout<<\"CmdBox ↑↓ 选择  Tab补全命令  Enter搜索  :help帮助  Ctrl+C退出\\n\";", "    cout<<\"数据文件:\"<<app->path<<\"\\n\\n\";", "    cout<<\"> \"<<input<<\"\\n\";", "    int start;", "    start=(sel>=6)?sel-5:0;", "    //如果下标在1-6共6条命令就不滚动。", "    //如果在7条及以上就开始滚动", "    for(int i=start;i<(int)cand.size()&&i<start+6;i++)", "    //从i开始往下走，只画6行。", "    //例如i=3,画123456,i=7，画234567", "    {", "        cout<<(i==sel?\"> \":\"  \")<<highlight(cand[i]->item.cmd,input,\"\")<<\"  \"<<\"# \"<<highlight(cand[i]->item.note,input,GRAY)<<\"  [\"<<highlight(cand[i]->item.tag,input,GRAY)<<\"]\"<<\" id:\"<<cand[i]->item.id<<RESET<<\"\\n\"; ", "    }", "    if(msg!=\"\")cout<<\"\\n\"<<msg<<\"\\n\";", "    cout<<flush;", "}", "//实时界面", "void showItems(App *app,string input)", "{", "    cout<<\"\\033[2J\\033[H\";", "    cout<<\"搜索: \"<<(input==\"\"?string(\"全部\"):input)<<\"\\n\\n\";", "    int found=0;", "    for(Node *p=app->L->dummyH->next;p!=app->L->dummyT;p=p->next)", "    {", "        CommandItem &x=p->item;", "        if(input!=\"\") ", "        {", "            string s=x.cmd+\"\\n\"+x.note+\"\\n\"+x.tag;", "            vector<int>firstchar=kmpAll(s,input);", "            if(firstchar.empty())continue;", "        }", "        found++;", "        cout<<highlight(x.cmd,input,\"\")<<\"\\n\";", "        //输出红白串", "        cout<<\"  \"<<highlight(\"# \"+x.note+\"  [\"+x.tag+\"]\",input,GRAY)<<\"\\n\";", "        //输出红灰串,灰色是note,红色是tag", "    }//按下回车以后", "    if(found==0) cout<<\"没有找到\\n\";", "    cout<<\"\\n按任意键返回...\"<<flush;", "    string tmp;", "    readKey(tmp);//等待按按键", "}", "//Enter界面"]}};
+const ROWS    = [{"id": 1, "cmd": "git add -A", "note": "暂存所有改动", "tag": "git"}, {"id": 2, "cmd": "git commit -m \"fix\"", "note": "提交并写明本次修复内容", "tag": "git"}, {"id": 3, "cmd": "git push", "note": "把本地提交推送到远程仓库", "tag": "git"}, {"id": 4, "cmd": "g++ -o main main.cpp", "note": "最简编译：把 main.cpp 编译成 main", "tag": "build"}, {"id": 5, "cmd": "make -j4", "note": "并行编译整个项目", "tag": "build"}, {"id": 6, "cmd": "ls -la", "note": "列出所有文件（含隐藏文件）", "tag": "linux"}];
+const QUICK   = ["git", "ls", "g++", "make", ":add", ":quit", ":help", ":del 1"];
+const VIEWS   = [{"id": "main", "tab": "main 时间线", "render": "tree", "file": "main.cpp", "root": {"id": "mainroot", "label": "main", "sub": "程序入口 · main.cpp"}, "groups": [{"id": "init", "num": "①", "label": "初始化", "sub": "准备数据 + 终端", "file": "main.cpp", "code": [23, 36], "items": [{"id": "i1", "num": "1", "label": "取路径 + 分配内存", "layer": "db", "code": [23, 26], "fn": "dataPath() · initList() · new TrieNode()", "desc": "用 /proc/self/exe 反查二进制目录拼出 data.txt；建带头尾哨兵的空链表；new 一个空树根"}, {"id": "i2", "num": "2", "label": "下载文件 → 链表", "layer": "db", "code": [29, 32], "fn": "loadItems()", "desc": "读 data.txt，每行按 | 拆成 id/命令/注释/标签塞进链表；文件不存在就装 6 条预制命令"}, {"id": "i3", "num": "3", "label": "重建树", "layer": "db", "code": [33, 34], "fn": "commit()", "desc": "拿链表里每条命令插成字典树，再写回磁盘（先写 .tmp 再 rename，断电不写坏）"}, {"id": "i4", "num": "4", "label": "改 Linux 设置", "layer": "fe", "code": [36, 36], "fn": "rawOn()", "desc": "关掉 ICANON/ECHO/ISIG：终端才能一个键一个键读，Ctrl+C 也不再直接杀进程"}]}, {"id": "loop", "num": "②", "label": "循环", "sub": "查树 · 画屏 · 等键", "file": "main.cpp", "code": [54, 130], "items": [{"id": "l1", "num": "1", "label": "算候选", "layer": "db", "code": [56, 58], "fn": "trieComplete()", "desc": "拿输入的前缀在树上走一遍，收上整棵子树的命令；输入为空就是全部命令"}, {"id": "l2", "num": "2", "label": "画界面", "layer": "fe", "code": [60, 61], "fn": "draw()", "desc": "清屏整帧重画：输入行 + 最多 6 条候选，命中的那几个字标红"}, {"id": "l3", "num": "3", "label": "等一个键", "layer": "fe", "code": [64, 65], "fn": "readKey()", "desc": "阻塞在 read() 上直到你敲键。它只把读到的字节翻译成按键类型（字符/退格/上下/Tab/回车/Ctrl+C），自己不决定干什么——点它看每个键拐去哪", "kids": [{"id": "l3a", "label": "Ctrl+C", "layer": "mn", "code": [66, 66], "desc": "readKey 返回 Quit，main 里一句 break 直接跳出循环，接着回收终端、释放内存"}, {"id": "l3b", "label": "普通字符", "layer": "mn", "code": [67, 71], "desc": "把字符接到输入末尾，选中位置归零（候选列表变长了，光标要回到第一条）"}, {"id": "l3c", "label": "退格", "layer": "mn", "code": [72, 93], "desc": "删掉一个字。一个汉字在 UTF-8 里占 3 个字节，所以不能只删 1 个字节，要一直往回找到头字节再整字删，否则屏幕上会剩半边乱码"}, {"id": "l3d", "label": "↑ ↓", "layer": "mn", "code": [94, 101], "desc": "在候选列表里上下挪，sel 做了上下界检查，挪到头也不会越界"}, {"id": "l3e", "label": "Tab", "layer": "mn", "code": [102, 113], "desc": "把当前选中的候选整条填进输入框。--pick 模式（bash 里按 Ctrl+G）下填完就 break，把这一行交回命令行"}, {"id": "l3f", "label": "Enter", "layer": "mn", "code": [114, 129], "desc": "回车要看你输入的是什么：带冒号当内部命令，不带就是全文搜索。点开继续分", "kids": [{"id": "l3f1", "label": "指令串（: 开头）", "layer": "be", "code": [116, 123], "fn": "runCommand()", "desc": "去掉开头那个冒号交给 runCommand 解析；它返回 0 说明是 :quit，要退出", "chips": [{"label": ":add", "jump": "addFlow"}, {"label": ":del", "jump": "delFlow"}, {"label": ":edit", "jump": "editFlow"}]}, {"id": "l3f2", "label": "搜索串", "layer": "fe", "code": [125, 125], "fn": "showItems()", "desc": "整屏列出全部命令，用 KMP 搜 命令+注释+标签，命中标红，按任意键回主界面"}]}]}]}, {"id": "end", "num": "③", "label": "结束", "sub": "还原终端 · 释放内存", "file": "main.cpp", "code": [132, 140], "items": [{"id": "e1", "num": "1", "label": "还原终端", "layer": "fe", "code": [132, 132], "fn": "rawOff()", "desc": "把 tcgetattr 存下的老设置写回去，不然退出后命令行不回显、不换行"}, {"id": "e2", "num": "2", "label": "交还输出", "layer": "mn", "code": [133, 136], "fn": "cout.rdbuf(oldBuf)", "desc": "输出从 /dev/tty 换回真 stdout；--pick 只吐一行给 bash，普通模式打印保存路径"}, {"id": "e3", "num": "3", "label": "释放字典树", "layer": "db", "code": [137, 137], "fn": "trieFree()", "desc": "递归 delete 树节点；items 里只是指向链表的指针，这里不能删，否则 double free"}, {"id": "e4", "num": "4", "label": "释放链表", "layer": "db", "code": [138, 138], "fn": "destroyList()", "desc": "从哨兵开始一个个 delete 真正的命令节点，最后 return 0 收工"}]}]}, {"id": "tut", "tab": "功能试用", "render": "play", "root": {"id": "tutroot", "label": "功能试用", "sub": ""}, "groups": []}, {"id": "db", "tab": "数据库", "render": "tree", "layer": "db", "file": "list.cpp", "root": {"id": "dbroot", "label": "数据库", "sub": "database/ · 存命令的地方"}, "groups": [{"id": "f_list", "label": "list.cpp", "sub": "双向链表", "file": "list.cpp", "code": [1, 65], "items": [{"id": "d1", "label": "initList", "desc": "给链表和头尾两个哨兵开内存，编号从 1 开始", "code": [2, 10]}, {"id": "d2", "label": "destroyList", "desc": "顺着 next 把所有节点连哨兵一起释放", "code": [11, 26]}, {"id": "d3", "label": "insertBefore", "desc": "改四条指针，把节点插到指定位置前面", "code": [27, 35]}, {"id": "d4", "label": "addItem", "desc": "拿 nextId 当编号，把一条新命令挂到表尾", "code": [36, 48]}, {"id": "d5", "label": "removeNode", "desc": "把节点从链上摘下来，顺手释放它", "code": [49, 55]}, {"id": "d6", "label": "findById", "desc": "按编号找节点，找不到返回空", "code": [56, 65]}]}, {"id": "f_trie", "label": "trie.cpp", "sub": "字典树 · 按前缀查命令", "file": "trie.cpp", "code": [1, 67], "items": [{"id": "d7", "label": "collect", "desc": "把这里的命令全收进袋子，再递归钻每张子页", "code": [3, 10]}, {"id": "d8", "label": "commit", "desc": "链表改完之后重建整棵树，并写回磁盘", "code": [12, 21]}, {"id": "d9", "label": "trieInsert", "desc": "把一条命令按字符插进树，走到末尾挂上节点", "code": [23, 41]}, {"id": "d10", "label": "trieComplete", "desc": "按前缀走到那一页，返回底下所有命令", "code": [43, 57]}, {"id": "d11", "label": "trieFree", "desc": "递归释放整棵树", "code": [59, 67]}]}, {"id": "f_sto", "label": "storage存放.cpp", "sub": "读写 data.txt", "file": "storage存放.cpp", "code": [1, 113], "items": [{"id": "d12", "label": "parseInt", "desc": "字符串转整数，太长或混进字母都算失败", "code": [4, 18]}, {"id": "d13", "label": "splitLine", "desc": "按分隔符把一行切成若干段", "code": [20, 34]}, {"id": "d14", "label": "loadDefaults", "desc": "文件读不到时，用内置的 6 条命令开张", "code": [36, 44]}, {"id": "d15", "label": "dataPath", "desc": "用 /proc/self/exe 找到自己，拼出同目录的 data.txt", "code": [48, 59]}, {"id": "d16", "label": "loadItems", "desc": "逐行读文件，切成四段校验后装进链表", "code": [61, 95]}, {"id": "d17", "label": "saveItems", "desc": "先写临时文件再改名，写一半断电也不会坏", "code": [97, 113]}]}]}, {"id": "fe", "tab": "前端", "render": "tree", "layer": "fe", "file": "linux.cpp", "root": {"id": "feroot", "label": "前端", "sub": "frontend/ · 看和按键"}, "groups": [{"id": "f_linux", "label": "linux.cpp", "sub": "终端控制", "file": "linux.cpp", "code": [1, 79], "items": [{"id": "f1", "label": "rawOn", "desc": "存下老设置，关掉回车等待、回显和 Ctrl+C 信号", "code": [2, 19]}, {"id": "f2", "label": "rawOff", "desc": "把存下的老设置写回去，终端复位", "code": [21, 24]}, {"id": "f3", "label": "readKey", "desc": "读一个字节翻译成按键类型，中文补齐整个字", "code": [26, 78]}]}, {"id": "f_screen", "label": "screen.cpp", "sub": "画界面", "file": "screen.cpp", "code": [1, 50], "items": [{"id": "f4", "label": "draw", "desc": "清屏重画主界面：输入行 + 最多 6 条候选", "code": [5, 23]}, {"id": "f5", "label": "showItems", "desc": "整屏列出命令，用 KMP 过滤并标红，等一键返回", "code": [25, 49]}]}]}, {"id": "be", "tab": "后端", "render": "tree", "layer": "be", "file": "kmp_search.cpp", "root": {"id": "beroot", "label": "后端", "sub": "backend/ · 搜索和冒号命令"}, "groups": [{"id": "f_kmp", "label": "kmp_search.cpp", "sub": "字符串匹配", "file": "kmp_search.cpp", "code": [1, 86], "items": [{"id": "b1", "label": "getnext", "desc": "预处理子串，算出每个位置失配该退到哪", "code": [3, 22]}, {"id": "b2", "label": "kmpAll", "desc": "在线性时间里找出子串所有出现的位置", "code": [40, 56]}, {"id": "b3", "label": "highlight", "desc": "把命中的字涂红，跳着尾字节染色中文才不会花", "code": [57, 85]}]}, {"id": "f_enter", "label": "Enter.cpp", "sub": "冒号命令", "file": "Enter.cpp", "code": [1, 115], "items": [{"id": "b4", "label": "hasBar", "desc": "检查字段里有没有竖线，有就存坏了", "code": [7, 14]}, {"id": "b5", "label": "askLine", "desc": "临时把终端切回正常模式，等用户输入一行", "code": [16, 24]}, {"id": "b6", "label": "addFlow", "desc": "依次问命令、注释、标签，加进链表并保存", "code": [27, 42]}, {"id": "b7", "label": "delFlow", "desc": "按编号找到并删除一条命令", "code": [43, 54]}, {"id": "b8", "label": "editFlow", "desc": "按编号找，三个字段回车不改，改完整条替换", "code": [55, 82]}, {"id": "b9", "label": "runCommand", "desc": "把冒号后面那行拆成名字和参数再分派", "code": [84, 114]}]}]}];
+const CALLS   = {"initList": {"callers": ["main"], "callees": [], "file": "list.cpp", "code": [2, 10], "id": "d1", "group": "f_list", "view": "db", "layer": "db", "desc": "给链表和头尾两个哨兵开内存，编号从 1 开始", "chain": ["main", "initList"]}, "destroyList": {"callers": ["main"], "callees": [], "file": "list.cpp", "code": [11, 26], "id": "d2", "group": "f_list", "view": "db", "layer": "db", "desc": "顺着 next 把所有节点连哨兵一起释放", "chain": ["main", "destroyList"]}, "insertBefore": {"callers": ["addItem", "loadItems"], "callees": [], "file": "list.cpp", "code": [27, 35], "id": "d3", "group": "f_list", "view": "db", "layer": "db", "desc": "改四条指针，把节点插到指定位置前面", "chain": ["main", "loadItems", "insertBefore"]}, "addItem": {"callers": ["addFlow", "loadDefaults"], "callees": ["insertBefore"], "file": "list.cpp", "code": [36, 48], "id": "d4", "group": "f_list", "view": "db", "layer": "db", "desc": "拿 nextId 当编号，把一条新命令挂到表尾", "chain": ["main", "loadItems", "loadDefaults", "addItem"]}, "removeNode": {"callers": ["delFlow"], "callees": [], "file": "list.cpp", "code": [49, 55], "id": "d5", "group": "f_list", "view": "db", "layer": "db", "desc": "把节点从链上摘下来，顺手释放它", "chain": ["main", "runCommand", "delFlow", "removeNode"]}, "findById": {"callers": ["delFlow", "editFlow"], "callees": [], "file": "list.cpp", "code": [56, 65], "id": "d6", "group": "f_list", "view": "db", "layer": "db", "desc": "按编号找节点，找不到返回空", "chain": ["main", "runCommand", "delFlow", "findById"]}, "collect": {"callers": ["trieComplete"], "callees": [], "file": "trie.cpp", "code": [3, 10], "id": "d7", "group": "f_trie", "view": "db", "layer": "db", "desc": "把这里的命令全收进袋子，再递归钻每张子页", "chain": ["main", "trieComplete", "collect"]}, "commit": {"callers": ["addFlow", "delFlow", "editFlow", "main"], "callees": ["saveItems", "trieFree", "trieInsert"], "file": "trie.cpp", "code": [12, 21], "id": "d8", "group": "f_trie", "view": "db", "layer": "db", "desc": "链表改完之后重建整棵树，并写回磁盘", "chain": ["main", "commit"]}, "trieInsert": {"callers": ["commit"], "callees": [], "file": "trie.cpp", "code": [23, 41], "id": "d9", "group": "f_trie", "view": "db", "layer": "db", "desc": "把一条命令按字符插进树，走到末尾挂上节点", "chain": ["main", "commit", "trieInsert"]}, "trieComplete": {"callers": ["main"], "callees": ["collect"], "file": "trie.cpp", "code": [43, 57], "id": "d10", "group": "f_trie", "view": "db", "layer": "db", "desc": "按前缀走到那一页，返回底下所有命令", "chain": ["main", "trieComplete"]}, "trieFree": {"callers": ["commit", "main"], "callees": [], "file": "trie.cpp", "code": [59, 67], "id": "d11", "group": "f_trie", "view": "db", "layer": "db", "desc": "递归释放整棵树", "chain": ["main", "trieFree"]}, "parseInt": {"callers": ["loadItems"], "callees": [], "file": "storage存放.cpp", "code": [4, 18], "id": "d12", "group": "f_sto", "view": "db", "layer": "db", "desc": "字符串转整数，太长或混进字母都算失败", "chain": ["main", "loadItems", "parseInt"]}, "splitLine": {"callers": ["loadItems"], "callees": [], "file": "storage存放.cpp", "code": [20, 34], "id": "d13", "group": "f_sto", "view": "db", "layer": "db", "desc": "按分隔符把一行切成若干段", "chain": ["main", "loadItems", "splitLine"]}, "loadDefaults": {"callers": ["loadItems"], "callees": ["addItem"], "file": "storage存放.cpp", "code": [36, 44], "id": "d14", "group": "f_sto", "view": "db", "layer": "db", "desc": "文件读不到时，用内置的 6 条命令开张", "chain": ["main", "loadItems", "loadDefaults"]}, "dataPath": {"callers": ["main"], "callees": [], "file": "storage存放.cpp", "code": [48, 59], "id": "d15", "group": "f_sto", "view": "db", "layer": "db", "desc": "用 /proc/self/exe 找到自己，拼出同目录的 data.txt", "chain": ["main", "dataPath"]}, "loadItems": {"callers": ["main"], "callees": ["insertBefore", "loadDefaults", "parseInt", "splitLine"], "file": "storage存放.cpp", "code": [61, 95], "id": "d16", "group": "f_sto", "view": "db", "layer": "db", "desc": "逐行读文件，切成四段校验后装进链表", "chain": ["main", "loadItems"]}, "saveItems": {"callers": ["commit"], "callees": [], "file": "storage存放.cpp", "code": [97, 113], "id": "d17", "group": "f_sto", "view": "db", "layer": "db", "desc": "先写临时文件再改名，写一半断电也不会坏", "chain": ["main", "commit", "saveItems"]}, "rawOn": {"callers": ["askLine", "main"], "callees": [], "file": "linux.cpp", "code": [2, 19], "id": "f1", "group": "f_linux", "view": "fe", "layer": "fe", "desc": "存下老设置，关掉回车等待、回显和 Ctrl+C 信号", "chain": ["main", "rawOn"]}, "rawOff": {"callers": ["askLine", "main"], "callees": [], "file": "linux.cpp", "code": [21, 24], "id": "f2", "group": "f_linux", "view": "fe", "layer": "fe", "desc": "把存下的老设置写回去，终端复位", "chain": ["main", "rawOff"]}, "readKey": {"callers": ["main", "showItems"], "callees": [], "file": "linux.cpp", "code": [26, 78], "id": "f3", "group": "f_linux", "view": "fe", "layer": "fe", "desc": "读一个字节翻译成按键类型，中文补齐整个字", "chain": ["main", "readKey"]}, "draw": {"callers": ["main"], "callees": ["highlight"], "file": "screen.cpp", "code": [5, 23], "id": "f4", "group": "f_screen", "view": "fe", "layer": "fe", "desc": "清屏重画主界面：输入行 + 最多 6 条候选", "chain": ["main", "draw"]}, "showItems": {"callers": ["main", "runCommand"], "callees": ["highlight", "kmpAll", "readKey"], "file": "screen.cpp", "code": [25, 49], "id": "f5", "group": "f_screen", "view": "fe", "layer": "fe", "desc": "整屏列出命令，用 KMP 过滤并标红，等一键返回", "chain": ["main", "showItems"]}, "getnext": {"callers": ["kmpAll"], "callees": [], "file": "kmp_search.cpp", "code": [3, 22], "id": "b1", "group": "f_kmp", "view": "be", "layer": "be", "desc": "预处理子串，算出每个位置失配该退到哪", "chain": ["main", "showItems", "kmpAll", "getnext"]}, "kmpAll": {"callers": ["highlight", "showItems"], "callees": ["getnext"], "file": "kmp_search.cpp", "code": [40, 56], "id": "b2", "group": "f_kmp", "view": "be", "layer": "be", "desc": "在线性时间里找出子串所有出现的位置", "chain": ["main", "showItems", "kmpAll"]}, "highlight": {"callers": ["draw", "showItems"], "callees": ["kmpAll"], "file": "kmp_search.cpp", "code": [57, 85], "id": "b3", "group": "f_kmp", "view": "be", "layer": "be", "desc": "把命中的字涂红，跳着尾字节染色中文才不会花", "chain": ["main", "draw", "highlight"]}, "hasBar": {"callers": ["addFlow", "editFlow"], "callees": [], "file": "Enter.cpp", "code": [7, 14], "id": "b4", "group": "f_enter", "view": "be", "layer": "be", "desc": "检查字段里有没有竖线，有就存坏了", "chain": ["main", "runCommand", "addFlow", "hasBar"]}, "askLine": {"callers": ["addFlow", "editFlow"], "callees": ["rawOff", "rawOn"], "file": "Enter.cpp", "code": [16, 24], "id": "b5", "group": "f_enter", "view": "be", "layer": "be", "desc": "临时把终端切回正常模式，等用户输入一行", "chain": ["main", "runCommand", "addFlow", "askLine"]}, "addFlow": {"callers": ["runCommand"], "callees": ["addItem", "askLine", "commit", "hasBar"], "file": "Enter.cpp", "code": [27, 42], "id": "b6", "group": "f_enter", "view": "be", "layer": "be", "desc": "依次问命令、注释、标签，加进链表并保存", "chain": ["main", "runCommand", "addFlow"]}, "delFlow": {"callers": ["runCommand"], "callees": ["commit", "findById", "removeNode"], "file": "Enter.cpp", "code": [43, 54], "id": "b7", "group": "f_enter", "view": "be", "layer": "be", "desc": "按编号找到并删除一条命令", "chain": ["main", "runCommand", "delFlow"]}, "editFlow": {"callers": ["runCommand"], "callees": ["askLine", "commit", "findById", "hasBar"], "file": "Enter.cpp", "code": [55, 82], "id": "b8", "group": "f_enter", "view": "be", "layer": "be", "desc": "按编号找，三个字段回车不改，改完整条替换", "chain": ["main", "runCommand", "editFlow"]}, "runCommand": {"callers": ["main"], "callees": ["addFlow", "delFlow", "editFlow", "showItems"], "file": "Enter.cpp", "code": [84, 114], "id": "b9", "group": "f_enter", "view": "be", "layer": "be", "desc": "把冒号后面那行拆成名字和参数再分派", "chain": ["main", "runCommand"]}};
+const STATS   = {"files": 8, "lines": 715, "funcs": 31};
+const LAYER   = { db:'数据库', fe:'前端', be:'后端', mn:'main', tt:'操作' };
+function isStep(v){ const id = (typeof v === 'string') ? v : (v && v.id);
+                    return id === 'main' || id === 'tut'; }
+
+const VBY = {}; const BYID = {}; const NAME2ID = {};
+VIEWS.forEach(function(v){
+  VBY[v.id] = v;
+  (v.groups || []).forEach(function(g){
+    g.view = v.id; BYID[g.id] = g;
+    (g.items || []).forEach(function(it){
+      it.parent = g.id; it.view = v.id; it.file = g.file; BYID[it.id] = it;
+      if (!isStep(v)) NAME2ID[it.label] = it.id;
+      (function walk(list, pid){
+        (list || []).forEach(function(k){
+          k.parent = pid; k.view = v.id; k.file = g.file; BYID[k.id] = k;
+          walk(k.kids, k.id);
+        });
+      })(it.kids, it.id);
+    });
+  });
+});
+
+const S = { view:'main', openRoot:false, openGroup:null, selected:null, openKeys:{} };
+const REG = {};
+const HIST = [];
+const treeEl  = document.getElementById('tree');
+const mapEl   = document.getElementById('map');
+const codeBody= document.getElementById('codeBody');
+const rangeLabel = document.getElementById('rangeLabel');
+const fileNameEl = document.getElementById('fileName');
+const filePathEl = document.getElementById('filePath');
+const hintEl  = document.getElementById('hint');
+const chainEl = document.getElementById('chain');
+const crumbsEl= document.getElementById('crumbs');
+const backBtn = document.getElementById('back');
+const trailEl = document.getElementById('trail');
+const layEl   = document.getElementById('layout');
+const fitEl   = document.getElementById('fit');
+const playEl  = document.getElementById('play');
+const typeBoxEl = document.getElementById('typeBox');
+const pstateEl  = document.getElementById('pstate');
+
+let curFile = 'main.cpp';
+
+function h(tag, cls, html){
+  const e = document.createElement(tag);
+  if (cls) e.className = cls;
+  if (html != null) e.innerHTML = html;
+  return e;
+}
+
+/* ---------------- 顶部 ---------------- */
+function buildStat(){
+  document.getElementById('stat').innerHTML =
+    '<b>' + STATS.files + '</b> 个源文件 · <b>' + STATS.lines + '</b> 行 · <b>'
+    + STATS.funcs + '</b> 个函数';
+}
+
+function buildTabs(){
+  const box = document.getElementById('tabs');
+  box.innerHTML = '';
+  VIEWS.forEach(function(v){
+    const n = (v.id === 'main') ? v.groups.length + ' 段'
+            : (v.render === 'play' ? '点着玩' : v.groups.length + ' 文件');
+    const b = h('button', 'tab' + (v.id === S.view ? ' on' : ''), v.tab + '<small>' + n + '</small>');
+    b.onclick = function(){ switchView(v.id); };
+    box.appendChild(b);
+  });
+}
+
+function chainOf(id){
+  const out = []; let cur = id, guard = 0;
+  while (cur && guard++ < 14){
+    const d = BYID[cur];
+    if (!d) break;
+    out.unshift(d); cur = d.parent;
+  }
+  return out;
+}
+function descendantsOf(id){
+  const out = {};
+  (function walk(pid){
+    Object.keys(BYID).forEach(function(k){
+      if (BYID[k].parent === pid){ out[k] = 1; walk(k); }
+    });
+  })(id);
+  return out;
+}
+function labelOf(n){ return (n.num ? n.num + ' ' : '') + n.label; }
+
+function renderCrumbs(){
+  crumbsEl.innerHTML = '';
+  const v = VBY[S.view];
+  const sep = function(){ crumbsEl.appendChild(h('span','sep','\u203A')); };
+  const btn = function(label, act){
+    const b = h('button', null, label); b.onclick = act; crumbsEl.appendChild(b);
+  };
+  const cur = function(label){ crumbsEl.appendChild(h('span','cur', label)); };
+
+  const path = S.selected ? chainOf(S.selected) : (S.openGroup ? chainOf(S.openGroup) : []);
+  const home = (S.view === 'main') ? 'main 时间线' : v.tab;
+  if (!path.length){ cur(home); }
+  else {
+    btn(home, (S.view === 'main') ? jumpMain : resetView);
+    path.forEach(function(n, i){
+      sep();
+      if (i === path.length - 1) cur(labelOf(n));
+      else btn(labelOf(n), function(){ jumpToNode(n.id); });
+    });
+  }
+  const tb = HIST.length > 1 ? HIST[HIST.length - 2] : null;
+  backBtn.classList.toggle('ghost', !tb);
+  backBtn.title = tb ? ('回到 ' + tb.label) : '没有可返回的地方';
+  backBtn.innerHTML = tb
+    ? '\u2190 返回<span class="k">' + esc(shortLabel(tb.label)) + '</span>'
+    : '\u2190 没有上一步';
+  renderTrail();
+}
+
+function shortLabel(lab){
+  const parts = String(lab).split(/\s+[\u203A\u00B7]\s+/);
+  return parts[parts.length - 1];
+}
+
+function renderTrail(){
+  if (!trailEl) return;
+  trailEl.innerHTML = '';
+  if (!HIST.length){
+    trailEl.appendChild(h('span','tlab','这是第一步；点左边的节点，这里就会记下你走过的路'));
+    return;
+  }
+  trailEl.appendChild(h('span','tlab','走过'));
+  const from = Math.max(0, HIST.length - 6);
+  if (from > 0) trailEl.appendChild(h('span','tarrow','\u2026'));
+  HIST.forEach(function(st, i){
+    if (i < from) return;
+    const last = (i === HIST.length - 1);
+    if (last){
+      const cur = h('span','tchip tnow', shortLabel(st.label));
+      cur.title = st.label;
+      trailEl.appendChild(cur);
+      trailEl.appendChild(h('span','tlab','现在'));
+      return;
+    }
+    const c = h('button','tchip', shortLabel(st.label));
+    c.title = '回到 ' + st.label;
+    c.onclick = function(){ goToHist(i); };
+    trailEl.appendChild(c);
+    trailEl.appendChild(h('span','tarrow','\u203A'));
+  });
+}
+
+/* ---------------- 自适应缩放 ---------------- */
+function fitMap(){
+  if (VBY[S.view] && VBY[S.view].render === 'play') return;
+  if (!layEl || !fitEl) return;
+  if (typeof treeEl.offsetWidth !== 'number' || typeof layEl.clientWidth !== 'number') return;
+  fitEl.style.transform = 'none';
+  fitEl.style.width = 'auto';
+  fitEl.style.height = 'auto';
+  mapEl.style.width = '';
+  const w = treeEl.offsetWidth, h = treeEl.offsetHeight;
+  const layW = layEl.clientWidth, layH = layEl.clientHeight;
+  if (!w || !h || !layW || !layH) return;
+
+  const padX = 46, padY = 42, codeMin = 330, gap = 16;
+  const mapW = Math.min(w + padX, Math.max(300, layW - codeMin - gap));
+  mapEl.style.width = Math.floor(mapW) + 'px';
+
+  const availW = mapW - padX, availH = layH - padY;
+  let k = Math.min(1, availW / w, availH / h);
+  if (k < 0.52) k = 0.52;
+  k = Math.round(k * 100) / 100;
+  fitEl.style.transform = 'scale(' + k + ')';
+  fitEl.style.width  = Math.ceil(w * k) + 'px';
+  fitEl.style.height = Math.ceil(h * k) + 'px';
+}
+
+/* ---------------- 历史栈 ---------------- */
+function describeState(){
+  const v = VBY[S.view];
+  const last = S.selected || S.openGroup;
+  if (!last) return v.tab;
+  return v.tab + ' \u00b7 ' + chainOf(last).map(labelOf).join(' \u203A ');
+}
+/* 走在同一条枝上换兄弟节点（1 点 2 点 3 点 4）不算新的一步，原地替换；
+   从外面绕回来（点过的节点）就把后面全截掉。这样"走过"不会越点越长。 */
+function histBase(st){ return st.selected || st.openGroup || null; }
+function selfKey(st){
+  const b = histBase(st);
+  if (b) return 'n:' + b;
+  return 'v:' + st.view;                       /* 只是把 main 展开/收起，不算换了地方 */
+}
+function levelKey(st){
+  const b = histBase(st);
+  if (!b) return 'v:' + st.view;
+  return 'p:' + chainOf(b).slice(0, -1).map(function(x){ return x.id; }).join('>');
+}
+let PENDING = false;
+let FORCE = false;
+let LASTTAP = '';
+function snapshot(){
+  return { view:S.view, openRoot:S.openRoot, openGroup:S.openGroup,
+           selected:S.selected, file:curFile,
+           openKeys:JSON.parse(JSON.stringify(S.openKeys)),
+           label:describeState() };
+}
+/* 操作时只打个标记，等这一帧重画完再记：记的是"人到哪儿了"，不是"从哪儿走的" */
+function later(fn, ms){ if (typeof setTimeout === 'function') setTimeout(fn, ms); }
+
+function pushHist(force){ PENDING = true; if (force) FORCE = true; }
+function record(){
+  if (!PENDING) return;
+  PENDING = false;
+  const force = FORCE; FORCE = false;
+  const st = snapshot(), self = selfKey(st), lvl = levelKey(st);
+  const n = HIST.length;
+  if (n && selfKey(HIST[n - 1]) === self) return;                    // 没动
+  // 同一层里换兄弟：覆盖（但跨视图的"跳转"要单独占一格，不然返回回不去）
+  if (!force && n && levelKey(HIST[n - 1]) === lvl){ HIST[n - 1] = st; return; }
+  for (let i = n - 2; i >= 0; i--){                                  // 绕回走过的老地方：截断
+    if (selfKey(HIST[i]) === self){ HIST.length = i + 1; return; }
+  }
+  HIST.push(st);
+  if (HIST.length > 10) HIST.shift();                                // 最多记 10 步
+}
+function restoreSt(st){
+  PENDING = false;
+  S.view = st.view; S.openRoot = st.openRoot;
+  S.openGroup = st.openGroup; S.selected = st.selected;
+  S.openKeys = st.openKeys || {};
+  curFile = st.file;
+  renderAll();
+}
+function goBack(){
+  if (HIST.length < 2) return;
+  HIST.pop();
+  restoreSt(HIST[HIST.length - 1]);
+}
+function goToHist(i){
+  if (i < 0 || i >= HIST.length) return;
+  HIST.length = i + 1;
+  restoreSt(HIST[i]);
+}
+function renderAll(){
+  const v = VBY[S.view];
+  buildTabs();
+  if (v.render === 'play'){
+    mapEl.classList.add('play-on');
+    buildPlay();
+    renderSim();
+    buildStat();
+    renderCrumbs();
+    return;
+  }
+  mapEl.classList.remove('play-on');
+  buildTree();
+  if (S.openGroup && v.render === 'tree') expandGroup(BYID[S.openGroup]);
+  restoreKeyNodes();
+  if (S.view === 'tut') renderSim(); else buildCode(curFile);
+  renderChainForSelection();
+  paint();
+  renderCrumbs();
+}
+
+function renderChainForSelection(){
+  if (!S.selected){ renderChain(null); return; }
+  const it = BYID[S.selected];
+  if (!it){ renderChain(null); return; }
+  if (it.view === 'main') renderStepCalls(it);
+  else renderChain(CALLS[it.label] ? it.label : null);
+}
+
+/* ---------------- 左栏 ---------------- */
+function buildTree(){
+  const v = VBY[S.view];
+  treeEl.innerHTML = '';
+  Object.keys(REG).forEach(function(k){ delete REG[k]; });
+
+  const row = h('div','row');
+  const root = h('div','node root' + (!isStep(v) ? ' mod ' + v.id : '')
+                         + (S.openRoot ? ' expanded' : ' pulse'));
+  root.dataset.id = v.root.id;
+  root.innerHTML = '<span class="rt">' + v.root.label + '</span>'
+                 + '<span class="rs">' + v.root.sub + '</span>'
+                 + '<span class="chev">\u203A</span>';
+  root.onclick = function(ev){ ev.stopPropagation(); onRoot(); };
+  REG[v.root.id] = root;
+  row.appendChild(root);
+
+  const kids = h('div','kids' + (S.openRoot ? '' : ' hidden'));
+  kids.id = 'groupKids';
+  row.appendChild(kids);
+  v.groups.forEach(function(g, idx){ kids.appendChild(groupRow(v, g, idx)); });
+  treeEl.appendChild(row);
+  hintEl.style.opacity = S.openRoot ? '0' : '1';
+}
+
+function groupRow(v, g, idx){
+  const r = h('div','row');
+  const n = h('div','node anim ' + (isStep(v) ? 'phase' : 'file'));
+  n.dataset.id = g.id;
+  n.style.animationDelay = (idx * 55) + 'ms';
+  n.innerHTML = isStep(v)
+    ? '<span class="pnum">' + g.num + '</span>'
+      + '<span class="ptxt"><b>' + g.label + '</b><i>' + g.sub + '</i></span>'
+      + '<span class="chev">\u203A</span>'
+    : '<span class="ficon">\u25A4</span>'
+      + '<span class="ptxt"><b>' + g.label + '</b><i>' + g.sub + '</i></span>'
+      + '<span class="chev">\u203A</span>';
+  n.onclick = function(ev){ ev.stopPropagation(); onGroup(g.id); };
+  REG[g.id] = n;
+  r.appendChild(n);
+  const ck = h('div','kids hidden');
+  ck.dataset.for = g.id;
+  r.appendChild(ck);
+  return r;
+}
+
+function onRoot(){
+  pushHist();
+  S.openRoot = !S.openRoot;
+  const k = document.getElementById('groupKids');
+  if (k) k.classList.toggle('hidden', !S.openRoot);
+  const rn = REG[VBY[S.view].root.id];
+  if (rn){ rn.classList.toggle('expanded', S.openRoot); rn.classList.toggle('pulse', !S.openRoot); }
+  if (!S.openRoot){ collapseAllGroups(); S.openGroup = null; S.selected = null; }
+  hintEl.style.opacity = S.openRoot ? '0' : '1';
+  renderChainForSelection();
+  paint();
+  renderCrumbs();
+}
+
+function onGroup(id){
+  const g = BYID[id];
+  if (S.openGroup === id){
+    if (S.selected){ pushHist(); S.selected = null; }
+    else { pushHist(); collapseGroup(id); S.openGroup = null; }
+  } else {
+    pushHist();
+    collapseAllGroups();
+    S.openGroup = id; S.selected = null;
+    expandGroup(g);
+    if (!isStep(S.view)) setFile(g.file);
+  }
+  renderChainForSelection();
+  paint();
+  renderCrumbs();
+}
+
+function expandGroup(g){
+  const ck = document.querySelector('.kids[data-for="' + g.id + '"]');
+  if (!ck) return;
+  ck.innerHTML = '';
+  g.items.forEach(function(it, idx){
+    const r = h('div','row');
+    const n = h('div','node anim ' + (isStep(g.view) ? 'step ' + it.layer : 'fn ' + g.layer));
+    n.dataset.id = it.id;
+    n.style.animationDelay = (idx * 55) + 'ms';
+    if (isStep(g.view)){
+      n.innerHTML = '<div class="srow">'
+                  +   '<span class="snum ' + it.layer + '">' + it.num + '</span>'
+                  +   '<span class="stitle">' + it.label + '</span>'
+                  +   '<span class="chip ' + it.layer + '">' + LAYER[it.layer] + '</span>'
+                  +   (hasKids(it.id) ? '<span class="kchev">\u203A</span>' : '')
+                  + '</div>'
+                  + '<code class="sfn">' + it.fn + '</code>'
+                  + '<p class="sdesc">' + it.desc + '</p>';
+    } else {
+      const c = CALLS[it.label] || { callers:[] };
+      const up = c.callers.length ? c.callers.join('、') : '没别人调';
+      n.innerHTML = '<div class="frow">'
+                  +   '<code class="fname">' + it.label + '</code>'
+                  +   '<span class="fline">L' + it.code[0] + '\u2013' + it.code[1] + '</span>'
+                  + '</div>'
+                  + '<p class="fdesc">' + it.desc + '</p>'
+                  + '<div class="fcalls" title="被这些函数调用：' + up + '">\u2191 <b>'
+                  + up + '</b></div>';
+    }
+    if (hasKids(it.id)){
+      n.classList.add('has-kids');
+      if (S.openKeys[it.id]) n.classList.add('opened');
+    }
+    n.onclick = function(ev){ ev.stopPropagation(); onItem(it.id); };
+    REG[it.id] = n;
+    r.appendChild(n);
+    if (hasKids(it.id)){
+      const kc = h('div','kids' + (S.openKeys[it.id] ? '' : ' hidden'));
+      kc.dataset.for = it.id;
+      r.appendChild(kc);
+      if (S.openKeys[it.id]) expandItemKids(it);
+    }
+    ck.appendChild(r);
+  });
+  ck.classList.remove('hidden');
+}
+
+function collapseGroup(id){
+  const ck = document.querySelector('.kids[data-for="' + id + '"]');
+  if (ck){ ck.innerHTML = ''; ck.classList.add('hidden'); }
+}
+function collapseAllGroups(){
+  VBY[S.view].groups.forEach(function(g){ collapseGroup(g.id); });
+}
+
+function hasKids(id){
+  const d = BYID[id];
+  return !!(d && d.kids && d.kids.length);
+}
+
+function onItem(id){
+  const it = BYID[id];
+  if (!it) return;
+  pushHist();
+  if (S.selected === id && !hasKids(id)){
+    S.selected = null;
+  } else {
+    S.selected = id;
+    if (hasKids(id)){
+      S.openKeys[id] = !S.openKeys[id];
+      if (S.openKeys[id]) expandItemKids(it); else collapseKeys(id);
+    }
+    if (REG[id]) REG[id].classList.toggle('opened', !!S.openKeys[id]);
+    if (it.file && it.file !== curFile) setFile(it.file);
+  }
+  renderChainForSelection();
+  paint();
+  renderCrumbs();
+}
+
+function onKey(id){ onItem(id); }
+
+function expandItemKids(it){
+  const kc = document.querySelector('.kids[data-for="' + it.id + '"]');
+  if (!kc) return;
+  kc.innerHTML = '';
+  it.kids.forEach(function(k, idx){ kc.appendChild(keyRow(k, idx)); });
+  kc.classList.remove('hidden');
+}
+
+function collapseKeys(id){
+  const kc = document.querySelector('.kids[data-for="' + id + '"]');
+  if (kc){ kc.innerHTML = ''; kc.classList.add('hidden'); }
+  const it = BYID[id];
+  (it && it.kids ? it.kids : []).forEach(function(k){
+    S.openKeys[k.id] = false; collapseKeys(k.id);
+  });
+}
+
+function restoreKeyNodes(){
+  const v = VBY[S.view];
+  if (!v || !v.groups) return;
+  v.groups.forEach(function(g){
+    if (S.openGroup !== g.id) return;
+    (g.items || []).forEach(function(it){
+      if (S.openKeys[it.id]) expandItemKids(it);
+      (function walk(list){
+        (list || []).forEach(function(k){
+          if (S.openKeys[k.id]) expandItemKids(k);
+          walk(k.kids);
+        });
+      })(it.kids);
+    });
+  });
+}
+
+function keyRow(k, idx){
+  const r = h('div','row');
+  const n = h('div','node anim knode ' + (k.layer || 'mn') + (S.openKeys[k.id] ? ' opened' : ''));
+  n.dataset.id = k.id;
+  n.style.animationDelay = (idx * 45) + 'ms';
+  let chips = '';
+  if (k.chips && k.chips.length){
+    chips = '<div class="kchips">' + k.chips.map(function(c){
+      return '<span class="kchip" data-jump="' + c.jump + '">' + c.label + '</span>';
+    }).join('') + '</div>';
+  }
+  n.innerHTML = '<div class="khead"><b>' + k.label + '</b>'
+              + ((k.kids && k.kids.length) ? '<span class="kchev">\u203A</span>' : '')
+              + '</div>'
+              + (k.fn ? '<code class="kfn">' + k.fn + '</code>' : '')
+              + '<p class="kdesc">' + k.desc + '</p>' + chips;
+  n.onclick = function(ev){
+    ev.stopPropagation();
+    const t = ev.target;
+    if (t && t.dataset && t.dataset.jump){ jumpTo(t.dataset.jump); return; }
+    onKey(k.id);
+  };
+  REG[k.id] = n;
+  r.appendChild(n);
+  if (k.kids && k.kids.length){
+    const kc = h('div','kids' + (S.openKeys[k.id] ? '' : ' hidden'));
+    kc.dataset.for = k.id;
+    r.appendChild(kc);
+    if (S.openKeys[k.id]) expandItemKids(k);
+  }
+  return r;
+}
+
+/* ---------------- 跳转 ---------------- */
+function jumpTo(name){
+  const f = CALLS[name];
+  if (!f) return;
+  pushHist(true);
+  S.view = f.view; S.openRoot = true; S.openGroup = null; S.selected = null;
+  curFile = f.file;
+  buildTabs(); buildTree();
+  S.openGroup = f.group;
+  expandGroup(BYID[f.group]);
+  S.selected = f.id;
+  buildCode(f.file);
+  renderChainForSelection();
+  paint();
+  renderCrumbs();
+  const t = codeBody.querySelector('.ln.hot');
+  if (t) t.scrollIntoView && t.scrollIntoView();
+}
+
+function jumpToNode(id){
+  const d = BYID[id];
+  if (!d) return;
+  pushHist(true);
+  if (d.view && S.view !== d.view){ S.view = d.view; curFile = d.file || curFile; }
+  S.openRoot = true;
+  chainOf(id).forEach(function(n){
+    if (n.items) S.openGroup = n.id;
+    if (n.kids) S.openKeys[n.id] = true;
+  });
+  if (d.parent) S.openKeys[d.parent] = true;
+  S.selected = id;
+  if (d.file) curFile = d.file;
+  renderAll();
+}
+
+function resetView(){
+  S.selected = null; S.openGroup = null;
+  S.openRoot = !isStep(S.view);
+  renderAll();
+}
+
+function jumpMain(){
+  if (isStep(S.view) && !S.selected) return;
+  pushHist();
+  S.view = 'main'; S.openRoot = true; S.openGroup = null; S.selected = null;
+  curFile = 'main.cpp';
+  buildTabs(); buildTree();
+  buildCode('main.cpp');
+  renderChainForSelection();
+  paint();
+  renderCrumbs();
+}
+
+function switchView(id){
+  if (S.view === id) return;
+  pushHist();
+  S.view = id; S.openRoot = !isStep(id);
+  S.openGroup = null; S.selected = null;
+  curFile = VBY[id].file;
+  renderAll();
+}
+
+/* ---------------- 调用链 ---------------- */
+function layerOf(name){
+  return (CALLS[name] && CALLS[name].layer) ? CALLS[name].layer : '';
+}
+
+function renderChain(name){
+  chainEl.innerHTML = '';
+  if (!name) return;
+  const f = CALLS[name];
+  if (!f) return;
+  chainEl.appendChild(h('span','cw','调用链'));
+  const mk = function(n){
+    const b = h('button','cchip ' + layerOf(n) + (n === name ? ' on' : ''), n);
+    b.onclick = function(){ if (n === 'main') jumpMain(); else jumpTo(n); };
+    return b;
+  };
+  f.chain.forEach(function(n, i){
+    if (i) chainEl.appendChild(h('span','csep','\u203A'));
+    chainEl.appendChild(mk(n));
+  });
+  if (f.callees.length){
+    chainEl.appendChild(h('span','csep','|'));
+    chainEl.appendChild(h('span','cw','\u2193 调用了'));
+    f.callees.forEach(function(n, i){
+      if (i) chainEl.appendChild(h('span','csep','\u00b7'));
+      chainEl.appendChild(mk(n));
+    });
+  }
+}
+
+function stepFns(it){
+  const out = [];
+  const re = /([A-Za-z_][\w]*)\s*\(/g;
+  let m;
+  while ((m = re.exec(it.fn || '')) !== null){
+    if (CALLS[m[1]] && out.indexOf(m[1]) < 0) out.push(m[1]);
+  }
+  return out;
+}
+
+function renderStepCalls(it){
+  const names = stepFns(it);
+  chainEl.innerHTML = '';
+  if (!names.length) return;
+  chainEl.appendChild(h('span','cw','本步调用'));
+  names.forEach(function(n, i){
+    if (i) chainEl.appendChild(h('span','csep','\u203A'));
+    const b = h('button','cchip ' + layerOf(n), n);
+    b.onclick = function(){ jumpTo(n); };
+    chainEl.appendChild(b);
+  });
+}
+
+/* ---------------- 上色 ---------------- */
+function paint(){
+  const v = VBY[S.view];
+  const all = Object.keys(REG).map(function(k){ return REG[k]; })
+                    .filter(function(n){ return n && n.isConnected; });
+  all.forEach(function(n){ n.classList.remove('dim','sel','open','path'); });
+  if (v.render === 'play'){ renderSim(); return; }
+
+  if (S.selected && S.selected !== LASTTAP){
+    LASTTAP = S.selected;
+    const el = REG[S.selected];
+    if (el){
+      el.classList.add('tap');
+      later(function(){ el.classList.remove('tap'); }, 540);
+    }
+  }
+
+  let range = null;
+  let label = '全文 1\u2013' + SOURCES[curFile].lines.length + ' 行';
+
+  if (S.selected){
+    const d = BYID[S.selected];
+    if (REG[S.selected]) REG[S.selected].classList.add('sel');
+    const anc = {}, desc = descendantsOf(S.selected);
+    chainOf(S.selected).forEach(function(n){ if (n.id !== S.selected) anc[n.id] = 1; });
+    range = d.code;
+    label = d.label + ' \u00b7 第 ' + range[0] + '\u2013' + range[1] + ' 行';
+    if (REG[v.root.id]) REG[v.root.id].classList.add('path');
+    all.forEach(function(x){
+      const xid = x.dataset.id;
+      if (xid === S.selected) return;
+      if (anc[xid] || desc[xid] || xid === v.root.id){ x.classList.add('path'); return; }
+      x.classList.add('dim');
+    });
+  }
+  else if (S.openGroup){
+    const g = BYID[S.openGroup];
+    if (REG[g.id]) REG[g.id].classList.add('open');
+    range = g.code;
+    label = g.label + ' \u00b7 第 ' + range[0] + '\u2013' + range[1] + ' 行';
+    if (REG[v.root.id]) REG[v.root.id].classList.add('path');
+    const desc = descendantsOf(S.openGroup);
+    all.forEach(function(x){
+      const xid = x.dataset.id;
+      if (xid === S.openGroup || desc[xid] || xid === v.root.id) return;
+      x.classList.add('dim');
+    });
+  }
+  applyCode(range, label);
+  fitMap();
+  record();
+}
+
+
+/* ---------------- 模拟终端（使用教程） ---------------- */
+function mq(str, q){
+  str = String(str);
+  if (!q){ return esc(str); }
+  const i = str.toLowerCase().indexOf(String(q).toLowerCase());
+  if (i < 0){ return esc(str); }
+  return esc(str.slice(0, i)) + '<b class="hit">' + esc(str.slice(i, i + String(q).length))
+       + '</b>' + esc(str.slice(i + String(q).length));
+}
+
+function termHTML(t){
+  if (!t) return '<div class="term-empty">点左边的节点，这里给你看当时的屏幕</div>';
+  return '<div class="term">'
+       + '<div class="tbar"><i class="tdot r"></i><i class="tdot y"></i><i class="tdot g"></i>'
+       + '<span class="ttitle">' + (t.mode === 'bash' ? 'bash' : 'cmdbox --pick') + '</span>'
+       + ((t.keys && t.keys.length)
+          ? '<span class="tkeys">' + t.keys.map(function(k){ return '<kbd>' + k + '</kbd>'; }).join('') + '</span>'
+          : '')
+       + '</div>'
+       + (t.mode === 'bash' ? bashHTML(t)
+          : (t.mode === 'search' ? searchHTML(t) : tuiHTML(t)))
+       + '</div>';
+}
+
+function bashHTML(t){
+  let s = '<div class="tline"><span class="tuser">cjx@daily</span><span class="tpath">:~$</span> '
+        + '<span class="tin">' + esc(t.typed || '') + '</span><span class="tcur"></span></div>';
+  if (t.say) s += '<div class="tsay">' + t.say + '</div>';
+  return s;
+}
+
+function tuiHTML(t){
+  let s = '<div class="tline tdim">CmdBox \u2191\u2193 选择  Tab补全命令  Enter搜索  :help帮助  Ctrl+C退出</div>';
+  s += '<div class="tline tdim">数据文件:~/cmdbox/data.txt</div>';
+  s += '<div class="tgap"></div>';
+  s += '<div class="tline"><span class="tprompt">&gt; </span>'
+     + '<span class="tin">' + esc(t.typed || '') + '</span><span class="tcur"></span></div>';
+  const cand = t.cand || [];
+  const start = (t.sel >= 6) ? t.sel - 5 : 0;
+  cand.slice(start, start + 6).forEach(function(r, k){
+    const i = start + k, on = (i === t.sel);
+    s += '<div class="trow' + (on ? ' on' : '') + '">'
+       + '<span class="tsel">' + (on ? '&gt; ' : '\u00a0\u00a0') + '</span>'
+       + '<span class="tcmd">' + mq(r.cmd, t.q) + '</span>'
+       + '<span class="tnote">  # ' + esc(r.note) + '</span>'
+       + '<span class="ttag">  [' + esc(r.tag) + ']</span>'
+       + '<span class="tid"> id:' + r.id + '</span></div>';
+  });
+  if (t.msg) s += '<div class="tgap"></div><div class="tline tmsg">' + t.msg + '</div>';
+  (t.trace || []).forEach(function(l){
+    s += '<div class="tline tdone">' + esc(l) + '</div>';
+  });
+  if (t.ask) s += '<div class="tline task">' + esc(t.ask) + '<span class="tcur"></span></div>';
+  return s;
+}
+
+function searchHTML(t){
+  let s = '<div class="tline">搜索: <span class="tin">' + esc(t.typed || '全部') + '</span></div>';
+  s += '<div class="tgap"></div>';
+  (t.cand || []).forEach(function(r){
+    s += '<div class="tline tcmd">' + mq(r.cmd, t.q) + '</div>';
+    s += '<div class="tline tnote">\u00a0\u00a0# ' + mq(r.note, t.q) + '  [' + mq(r.tag, t.q) + ']</div>';
+  });
+  if (!(t.cand || []).length) s += '<div class="tline tdim">没有找到</div>';
+  s += '<div class="tgap"></div><div class="tline tdim">按任意键返回...</div>';
+  return s;
+}
+
+
+/* ---------------- 功能试用：CmdBox 模拟器 ---------------- */
+const SIM = { mode:'pick', input:'', sel:0, msg:'', ask:'', done:'',
+              askIdx:0, draft:{}, trace:[] };
+let LIVE = ROWS.slice();
+
+function simResetLIVE(){ LIVE = ROWS.slice(); }
+
+/* 真程序 addFlow 的顺序：命令 → 注释（可留空） → 标签（默认 misc） */
+const ASK_FIELDS = [
+  {key:'cmd',  prompt:'命令: ',            empty:null},
+  {key:'note', prompt:'注释（可留空）: ',  empty:''},
+  {key:'tag',  prompt:'标签（默认 misc）: ', empty:'misc'}
+];
+
+function simAskPrompt(){
+  const f = ASK_FIELDS[Math.min(SIM.askIdx, ASK_FIELDS.length - 1)];
+  return f ? f.prompt : '';
+}
+
+function simPick(q){
+  if (!q) return LIVE.slice();
+  return LIVE.filter(function(r){ return r.cmd.indexOf(q) === 0; });
+}
+function simFull(q){
+  if (!q) return LIVE.slice();
+  return LIVE.filter(function(r){
+    return (r.cmd + '\n' + r.note + '\n' + r.tag).indexOf(q) >= 0;
+  });
+}
+
+function simState(){
+  if (SIM.mode === 'exit'){
+    return {mode:'bash', typed: SIM.done,
+            say: SIM.done ? '（已退出 CmdBox，这条命令已经躺在命令行里，还没执行）'
+                          : '（已退出 CmdBox，命令行一个字都没动）'};
+  }
+  if (SIM.mode === 'search'){
+    return {mode:'search', typed: SIM.input, q: SIM.input, cand: simFull(SIM.input)};
+  }
+  if (SIM.mode === 'ask'){
+    return {mode:'tui', typed: SIM.input, q:'', sel:0, cand:[], msg:'',
+            trace: SIM.trace, ask: simAskPrompt() + SIM.ask};
+  }
+  return {mode:'tui', typed: SIM.input, q: SIM.input, sel: SIM.sel,
+          cand: simPick(SIM.input), msg: SIM.msg};
+}
+
+function simHint(){
+  if (SIM.mode === 'exit') return '已退出：随便点个键、或点「重置」从头再来';
+  if (SIM.mode === 'search') return '搜索界面：按任意键（或点任意键）回到列表';
+  if (SIM.mode === 'ask') return '第 ' + (SIM.askIdx + 1) + '/3 个字段：' + simAskPrompt();
+  if (!simPick(SIM.input).length) return '没有匹配的命令';
+  return '选第 ' + (SIM.sel + 1) + ' 条，共 ' + simPick(SIM.input).length + ' 条';
+}
+
+function simEnter(){
+  const s = SIM.input;
+  if (s.charAt(0) === ':'){
+    const body = s.slice(1);
+    const sp = body.indexOf(' ');
+    const name = sp < 0 ? body : body.slice(0, sp);
+    const rest = sp < 0 ? '' : body.slice(sp + 1);
+    if (name === 'quit'){ SIM.mode = 'exit'; SIM.done = ''; SIM.input = ''; return; }
+    if (name === 'add'){ SIM.mode = 'ask'; SIM.ask = ''; return; }
+    if (name === 'list'){ SIM.input = ''; SIM.mode = 'search'; return; }
+    SIM.input = ''; SIM.sel = 0; SIM.msg = '';   // 真程序：Enter 之后 input 清空
+    if (name === 'help'){ SIM.msg = ':list 列出全部 | :add 添加 | :edit 编号 修改 | :del 编号 删除 | :quit 退出'; return; }
+    if (name === 'del'){
+      const id = rest ? parseInt(rest, 10) : 0;
+      const at = LIVE.findIndex(function(r){ return r.id === id; });
+      if (at < 0){ SIM.msg = '无此编号 #' + id; return; }
+      LIVE.splice(at, 1);
+      SIM.msg = '已删除 #' + id + '（演示，不会真改 data.txt）';
+      return;
+    }
+    if (name === 'edit'){
+      const id = rest ? parseInt(rest, 10) : 0;
+      const has = LIVE.some(function(r){ return r.id === id; });
+      SIM.msg = has ? ('编号 #' + id + ' 在这儿（改的界面演示里略过）') : ('没有编号 #' + id);
+      return;
+    }
+    SIM.msg = '未知命令: ' + name;
+    return;
+  }
+  SIM.mode = 'search';
+}
+
+const KEYLABEL = {Up:'\u2191', Down:'\u2193', Tab:'Tab', Back:'Backspace',
+                  Enter:'Enter', CtrlC:'Ctrl+C', ' ':'\u7a7a\u683c', ':':':'};
+
+function flashKey(k){
+  const lab = Object.prototype.hasOwnProperty.call(KEYLABEL, k) ? KEYLABEL[k] : k;
+  const boxes = [document.getElementById('pkb'), document.getElementById('pspec')];
+  for (let b = 0; b < boxes.length; b++){
+    const box = boxes[b];
+    if (!box || !box.children) continue;
+    for (let i = 0; i < box.children.length; i++){
+      const row = box.children[i];
+      const list = (row.children && row.children.length) ? row.children : [row];
+      for (let j = 0; j < list.length; j++){
+        const el = list[j];
+        if (el && el.textContent === lab){
+          el.classList.add('flash');
+          (function(e){ later(function(){ e.classList.remove('flash'); }, 170); })(el);
+          return;
+        }
+      }
+    }
+  }
+}
+
+function simKey(k){
+  flashKey(k);
+  if (SIM.mode === 'search'){
+    SIM.mode = 'pick'; SIM.input = ''; SIM.sel = 0; SIM.msg = '';
+    simAfter(); return;
+  }
+  if (SIM.mode === 'exit'){ simReset(); return; }
+
+  if (SIM.mode === 'ask'){
+    if (k === 'Enter'){
+      const f = ASK_FIELDS[SIM.askIdx];
+      const v = SIM.ask;
+      if (f.key === 'cmd' && v === ''){          // 真程序：命令留空=取消
+        SIM.mode = 'pick'; SIM.msg = '已取消'; SIM.ask = ''; SIM.trace = [];
+        SIM.input = ''; SIM.sel = 0;
+        simAfter(); return;
+      }
+      SIM.draft[f.key] = (v === '' && f.empty !== null) ? f.empty : v;
+      SIM.trace.push(f.prompt + v);
+      SIM.ask = '';
+      SIM.askIdx++;
+      if (SIM.askIdx >= ASK_FIELDS.length){      // 三个字段都问完了
+        const bad = ['cmd','note','tag'].some(function(x){ return SIM.draft[x].indexOf('|') >= 0; });
+        if (bad){
+          SIM.msg = '字段不能有|';
+        } else {
+          const nid = LIVE.reduce(function(m, r){ return Math.max(m, r.id); }, 0) + 1;
+          LIVE.push({id:nid, cmd:SIM.draft.cmd, note:SIM.draft.note, tag:SIM.draft.tag});
+          SIM.msg = '已添加 #' + nid + '（演示，不会写进 data.txt）';
+        }
+        SIM.mode = 'pick'; SIM.askIdx = 0; SIM.draft = {}; SIM.trace = [];
+        SIM.input = ''; SIM.sel = 0;
+      }
+    } else if (k === 'Back'){
+      SIM.ask = SIM.ask.slice(0, -1);
+    } else if (k === 'CtrlC'){
+      SIM.mode = 'exit'; SIM.done = '';
+    } else if (k === 'Tab'){
+      /* askLine 里 Tab 不是补全，什么也不做 */
+    } else if (k.length === 1){
+      SIM.ask += k;
+    }
+    simAfter(); return;
+  }
+
+  const cand = simPick(SIM.input);
+  if (k === 'Up'){
+    if (SIM.sel > 0) SIM.sel--;
+  } else if (k === 'Down'){
+    if (SIM.sel + 1 < cand.length) SIM.sel++;
+  } else if (k === 'Tab'){
+    if (cand.length){                      // --pick：Tab = 选中并立刻退回 bash
+      SIM.done = cand[Math.min(SIM.sel, cand.length - 1)].cmd;
+      SIM.mode = 'exit'; SIM.msg = ''; SIM.input = ''; SIM.sel = 0;
+      simAfter(); return;
+    }
+  } else if (k === 'Back'){
+    SIM.input = SIM.input.slice(0, -1);
+    SIM.sel = 0; SIM.msg = '';
+  } else if (k === 'CtrlC'){
+    SIM.mode = 'exit'; SIM.done = '';
+  } else if (k === 'Enter'){
+    simEnter();
+  } else if (k.length === 1){
+    SIM.input += k; SIM.sel = 0; SIM.msg = '';
+  }
+  simAfter();
+}
+
+function simReset(){
+  SIM.mode = 'pick'; SIM.input = ''; SIM.sel = 0; SIM.msg = ''; SIM.ask = ''; SIM.done = '';
+  SIM.askIdx = 0; SIM.draft = {}; SIM.trace = [];
+  simResetLIVE();
+  simAfter();
+}
+
+function renderSim(){
+  const st = simState();
+  fileNameEl.textContent = '模拟终端';
+  filePathEl.textContent = (st.mode === 'bash') ? 'bash' : 'cmdbox --pick';
+  rangeLabel.textContent = simHint();
+  codeBody.innerHTML = termHTML(st);
+  codeBody.scrollTop = 0;
+  const rbar = document.getElementById('rbar');
+  if (rbar) rbar.style.display = 'none';
+  if (typeBoxEl){
+    const v = (SIM.mode === 'ask') ? SIM.ask : (SIM.mode === 'pick' ? SIM.input : '');
+    if (typeBoxEl.value !== v) typeBoxEl.value = v;
+  }
+  if (pstateEl) pstateEl.textContent = simHint();
+  renderChain(null);
+}
+
+function simAfter(){ renderSim(); record(); }
+
+function buildPlay(){
+  if (buildPlay.done) return;
+  buildPlay.done = true;
+
+  const q = document.getElementById('pquick');
+  QUICK.forEach(function(w){
+    const b = h('button', '', w);
+    b.onclick = function(){
+      if (SIM.mode === 'exit') simReset();
+      SIM.mode = 'pick'; SIM.input = w; SIM.sel = 0; SIM.msg = '';
+      SIM.ask = ''; SIM.askIdx = 0; SIM.draft = {}; SIM.trace = [];
+      simAfter();
+    };
+    q.appendChild(b);
+  });
+
+  const kb = document.getElementById('pkb');
+  ['1234567890', 'qwertyuiop', 'asdfghjkl', 'zxcvbnm'].forEach(function(line){
+    const r = h('div', 'krow');
+    Array.prototype.slice.call(line).forEach(function(ch){
+      const b = h('button', 'k', ch);
+      b.onclick = function(){ simKey(ch); };
+      r.appendChild(b);
+    });
+    kb.appendChild(r);
+  });
+
+  const sp = document.getElementById('pspec');
+  [['↑', 'Up'], ['↓', 'Down'], ['Tab', 'Tab'], ['Backspace', 'Back'],
+   ['Enter', 'Enter'], ['Ctrl+C', 'CtrlC'], [':', ':'], ['空格', ' '],
+   ['清空', 'Clear']].forEach(function(pair){
+    const b = h('button', 'k' + (pair[1] === 'CtrlC' ? ' warnk' : ''), pair[0]);
+    b.onclick = function(){
+      if (pair[1] === 'Clear'){
+        if (SIM.mode === 'ask'){ SIM.ask = ''; }
+        else { SIM.input = ''; SIM.sel = 0; SIM.msg = ''; }
+        simAfter();
+      }
+      else simKey(pair[1]);
+    };
+    sp.appendChild(b);
+  });
+
+  document.getElementById('pReset').onclick = simReset;
+  if (typeBoxEl){
+    typeBoxEl.addEventListener('keydown', function(ev){
+      const map = { Enter:'Enter', Tab:'Tab', ArrowUp:'Up', ArrowDown:'Down' };
+      if (map[ev.key]){
+        if (ev.preventDefault) ev.preventDefault();
+        simKey(map[ev.key]);
+        return;
+      }
+      if (ev.key === 'Backspace' || ev.key === 'Escape'){
+        /* Backspace 交给原生输入，事件里再同步；Esc 当退出 */
+        if (ev.key === 'Escape'){ if (ev.preventDefault) ev.preventDefault(); simKey('CtrlC'); }
+      }
+    });
+    typeBoxEl.addEventListener('input', function(){
+      let v = typeBoxEl.value;
+      const prev = (SIM.mode === 'ask') ? SIM.ask : SIM.input;
+      if (SIM.mode === 'search'){
+        SIM.mode = 'pick'; SIM.input = ''; SIM.sel = 0; SIM.msg = ''; SIM.ask = '';
+        simAfter(); return;
+      }
+      if (SIM.mode === 'exit'){ SIM.mode = 'pick'; SIM.input = ''; SIM.sel = 0; }
+      if (SIM.mode === 'ask'){ SIM.ask = v; SIM.done = ''; }
+      else { SIM.input = v; SIM.sel = 0; SIM.msg = ''; }
+      if (v.length === prev.length + 1) flashKey(v.charAt(v.length - 1));
+      simAfter();
+    });
+  }
+}
+
+
+/* ---------------- 右栏 ---------------- */
+const KW = new Set(('int char bool void if else while for return struct class using namespace '
+  + 'const auto new delete true false nullptr break continue string vector map pair ofstream '
+  + 'ifstream sort unsigned signed static enum switch case default size_t operator template '
+  + 'typename inline do public private').split(' '));
+
+function esc(s){
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function hl(line){
+  let out = '', i = 0;
+  while (i < line.length){
+    const c = line[i];
+    if (c === '/' && line[i+1] === '/'){
+      out += '<span class="cm">' + esc(line.slice(i)) + '</span>';
+      break;
+    }
+    if (c === '"' || c === "'"){
+      const q = c; let j = i + 1;
+      while (j < line.length){
+        if (line[j] === '\\'){ j += 2; continue; }
+        if (line[j] === q){ j++; break; }
+        j++;
+      }
+      out += '<span class="st">' + esc(line.slice(i, j)) + '</span>';
+      i = j; continue;
+    }
+    if (c === '#' && i === 0){ out += '<span class="pp">#</span>'; i++; continue; }
+    if (c >= '0' && c <= '9' && !/[A-Za-z_0-9]/.test(line[i-1] || '')){
+      let j = i; while (j < line.length && line[j] >= '0' && line[j] <= '9') j++;
+      out += '<span class="nu">' + line.slice(i, j) + '</span>';
+      i = j; continue;
+    }
+    if (/[A-Za-z_]/.test(c)){
+      let j = i; while (j < line.length && /[A-Za-z_0-9]/.test(line[j])) j++;
+      const w = line.slice(i, j);
+      const after = line.slice(j);
+      if (KW.has(w))             out += '<span class="kw">' + w + '</span>';
+      else if (after[0] === '(') out += '<span class="fi">' + w + '</span>';
+      else                       out += esc(w);
+      i = j; continue;
+    }
+    out += esc(c); i++;
+  }
+  return out;
+}
+
+const SECS = { 'main.cpp': [ { n:23, name:'初始化' }, { n:54, name:'循环' }, { n:132, name:'结束' } ] };
+
+function setFile(name){
+  if (name === curFile) return;
+  curFile = name;
+  buildCode(name);
+}
+
+function buildCode(name){
+  const src = SOURCES[name];
+  if (!src) return;
+  fileNameEl.textContent = name;
+  filePathEl.textContent = src.path;
+  codeBody.innerHTML = '';
+  const secs = SECS[name] || [];
+  src.lines.forEach(function(text, i){
+    const n = i + 1;
+    const sec = secs.filter(function(s){ return s.n === n; })[0];
+    if (sec){
+      const d = h('div','sec');
+      d.innerHTML = '<span>' + sec.name + '</span>';
+      codeBody.appendChild(d);
+    }
+    const ln = h('div','ln');
+    ln.dataset.n = n;
+    ln.innerHTML = '<span class="num">' + n + '</span>'
+                 + '<span class="txt">' + (hl(text) || ' ') + '</span>';
+    codeBody.appendChild(ln);
+  });
+  codeBody.scrollTop = 0;
+}
+
+function applyCode(range, label){
+  rangeLabel.textContent = label;
+  const rbar = document.getElementById('rbar');
+  if (rbar){
+    rbar.style.display = '';
+    const fill = rbar.children[0];
+    if (fill){
+      const total = (SOURCES[curFile] && SOURCES[curFile].lines) ? SOURCES[curFile].lines.length : 0;
+      if (range && total){
+        fill.style.left = ((range[0] - 1) / total * 100).toFixed(2) + '%';
+        fill.style.width = ((range[1] - range[0] + 1) / total * 100).toFixed(2) + '%';
+      } else {
+        fill.style.width = '0%';
+      }
+    }
+  }
+  const nodes = codeBody.querySelectorAll('.ln');
+  for (let k = 0; k < nodes.length; k++){
+    const L = nodes[k];
+    const n = +L.dataset.n;
+    const hot = range && n >= range[0] && n <= range[1];
+    L.classList.toggle('hot', !!hot);
+    L.classList.toggle('cold', !!range && !hot);
+  }
+  if (range){
+    const t = codeBody.querySelector('.ln[data-n="' + range[0] + '"]');
+    if (t){
+      const y = t.offsetTop - codeBody.clientHeight * 0.3;
+      codeBody.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+    }
+  }
+}
+
+document.getElementById('reset').onclick = function(){
+  pushHist();
+  S.selected = null; S.openGroup = null;
+  if (VBY[S.view].render === 'tree'){ collapseAllGroups(); buildTree(); }
+  buildCode(curFile);
+  renderChain(null);
+  paint();
+  renderCrumbs();
+};
+
+backBtn.onclick = goBack;
+
+if (typeof document.addEventListener === 'function'){
+  document.addEventListener('keydown', function(ev){
+    if (ev.key === 'Escape' || ev.key === 'Backspace'
+        || (ev.altKey && ev.key === 'ArrowLeft')){ goBack(); }
+  });
+}
+
+/* ---------------- 启动 ---------------- */
+try {
+  buildStat();
+  renderAll();
+  HIST.push(snapshot());
+} catch (err){
+  if (trailEl) trailEl.innerHTML = '<span class="tlab">页面出错了：' + (err && err.message) + '</span>';
+}
+if (typeof window !== 'undefined' && typeof window.addEventListener === 'function'){
+  window.addEventListener('resize', function(){ fitMap(); });
+}
+
+</script>
+</body>
+</html>

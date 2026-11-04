@@ -1,5 +1,13 @@
 cmdbox-flash-v1.0
 
+下载方式:
+First:
+Code->zip->解压->(根据自己意愿换路径)->换好路径后把路径复制下来
+Second:
+cd .....(复制的路径搞上去)
+make(MakeFile脚本 自动g++编译)
+source AI-script/cmdbox.bash
+
 把字典树砍了，以后不会因为ASCII码的大小排序导致 id小的命令 排在id大的命令后面 了.
 
 优化了一下id分配。

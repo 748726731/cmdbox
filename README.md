@@ -11,7 +11,7 @@ cd .....(复制的路径搞上去)
 
 make(MakeFile脚本 自动g++编译)
 
-source AI-script/cmdbox.bash
+source AIscript/cmdbox.bash
 
 更新内容:
 

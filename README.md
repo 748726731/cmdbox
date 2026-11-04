@@ -11,7 +11,7 @@ Code->zip->解压->(根据自己意愿换路径)->换好路径后把路径复制
 ```text
 cd .....(复制的路径搞上去)
 make(MakeFile脚本 自动g++编译)
-source AIscript/cmdbox.bash
+source AIscript/cmdbox.bash(绑定ctrl+G快捷键)
 ```
 
 ## 更新内容:

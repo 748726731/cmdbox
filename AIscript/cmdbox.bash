@@ -1,6 +1,6 @@
 # CmdBox Flash 的 bash 集成脚本
 # 在 ~/.bashrc 里写一行(路径指向本文件):
-#   [ -f ~/cmdbox-flash-v1.0/ai脚本/cmdbox.bash ] && source ~/cmdbox-flash-v1.0/ai脚本/cmdbox.bash
+#   [ -f ~/cmdbox-flash-v1.0/AIscript/cmdbox.bash ] && source ~/cmdbox-flash-v1.0/AIscript/cmdbox.bash
 # 作用:按 Ctrl+G 弹出候选界面,选中的命令直接填进当前命令行(不执行)。
 # 原理:cmdbox --pick 把界面画在 /dev/tty 上,stdout 只吐一行选中的命令。
 

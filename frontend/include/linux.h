@@ -1,6 +1,7 @@
 #pragma once
-#include<termios.h>
-#include<unistd.h>
+#include<termios.h>//linux终端设置
+#include<unistd.h>//linux读数据
+
 #include<bits/stdc++.h>
 enum KeyType{Char,Enter,Tab,Back,Up,Down,Quit,Other};
 termios oldT;

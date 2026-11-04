@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>CmdBox · 代码地图</title>
+<title>CmdBox Flash · 轻量版代码地图</title>
 <style>
 :root{
   --bg:#070b14; --line:rgba(148,163,184,.30);
@@ -81,13 +81,14 @@ h1 em{font-style:normal;font-family:var(--mono);color:#cbb6ff}
 .layout{flex:1;min-height:0;display:flex;align-items:flex-start;gap:16px;padding:0 18px 18px}
 .map{position:relative;flex:0 0 auto;align-self:stretch;
   display:flex;align-items:center;justify-content:center;min-width:250px;overflow:auto;border-radius:20px;
+  scrollbar-width:thin;scrollbar-color:rgba(56,189,248,.45) transparent;
   border:1px solid rgba(255,255,255,.1);
   background:
     radial-gradient(rgba(255,255,255,.055) 1px, transparent 1px) 0 0/22px 22px,
     linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.015));
   box-shadow:inset 0 1px 0 rgba(255,255,255,.07),0 26px 60px -46px #000;
   padding:22px 24px}
-.fit{transform-origin:top left;will-change:transform;transition:transform .22s ease}
+.fit{transform-origin:top left;will-change:transform;transition:transform .22s ease;margin:auto 0}
 .tree{}
 
 .row{display:flex;align-items:center;position:relative}
@@ -328,6 +329,51 @@ h1 em{font-style:normal;font-family:var(--mono);color:#cbb6ff}
 .term .tline.tcmd{color:#e8f2ff}
 .term .tline.tnote{color:#6f86a4}
 
+
+/* ---------- 轻量版总览 ---------- */
+.lite{font-size:10.5px;padding:2px 9px;border-radius:999px;color:#8ff0dd;
+  border:1px solid rgba(94,234,212,.4);background:rgba(94,234,212,.08);letter-spacing:.3px}
+.map.intro-on{flex:1 1 100%;width:100%;max-width:none;align-items:stretch;justify-content:flex-start;
+  padding:0;overflow:auto}
+.map.intro-on .fit,.map.intro-on .hint,.map.intro-on .play{display:none}
+.layout.intro-on .code{display:none}
+.intro{display:none;width:100%;box-sizing:border-box;padding:26px 30px 34px}
+.map.intro-on .intro{display:block}
+.intro-mode #crumbs,.intro-mode #trail{display:none}
+.ihero{padding:2px 0 18px;border-bottom:1px solid rgba(255,255,255,.09)}
+.ikicker{font-family:var(--mono);font-size:11px;color:#7dd3fc;letter-spacing:.8px}
+.ihero h2{margin:8px 0 10px;font-size:32px;letter-spacing:-.5px;color:#f2f7ff}
+.ihero h2 em{font-style:normal;background:linear-gradient(100deg,#5eead4,#7dd3fc 60%,#c4b5fd);
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+.ilede{max-width:74ch;margin:0;font-size:13.5px;line-height:1.8;color:#b9c9dd}
+.istats{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+.istats div{min-width:104px;padding:9px 15px;border-radius:12px;border:1px solid rgba(255,255,255,.11);
+  background:rgba(255,255,255,.04)}
+.istats b{display:block;font-family:var(--mono);font-size:20px;color:#9ff0e2;line-height:1.2}
+.istats span{font-size:11px;color:#7f93ad}
+.igrid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:16px}
+@media (max-width:820px){.igrid{grid-template-columns:1fr}}
+.icard{padding:16px 18px;border-radius:15px;border:1px solid rgba(255,255,255,.1);
+  background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.015))}
+.icard h3{margin:0 0 11px;font-size:14px;color:#e8f2ff;letter-spacing:.2px}
+.iminus{color:#fb7185;font-weight:800;margin-right:4px}
+.iplus{color:#5eead4;font-weight:800;margin-right:4px}
+.idiff{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:9px}
+.idiff li{font-size:12.3px;line-height:1.62;color:#a9bcd4}
+.idiff li b{display:block;color:#dbe9fb;font-size:12.8px;margin-bottom:1px}
+.idiff.plus li b{color:#bdf5ea}
+.icard code{font-family:var(--mono);font-size:11.5px;padding:1px 5px;border-radius:5px;
+  background:rgba(125,211,252,.1);color:#a5d0ff}
+.iplugin{margin-top:14px}
+.itwo{display:grid;grid-template-columns:1.1fr .9fr;gap:16px}
+@media (max-width:820px){.itwo{grid-template-columns:1fr}}
+.ilabel{margin:9px 0 4px;font-family:var(--mono);font-size:10.5px;color:#6f86a4;letter-spacing:.4px}
+.icard pre{margin:0;padding:10px 12px;border-radius:9px;background:#080e1a;border:1px solid #1a2740;
+  font-family:var(--mono);font-size:11.3px;line-height:1.65;color:#9fb3cd;overflow:auto}
+.icard pre b{color:#8ff0dd;font-weight:600}
+.iplugin p{margin:12px 0 0;font-size:12.2px;line-height:1.7;color:#93a8c2}
+.igobtn{cursor:pointer;margin-top:13px;padding:7px 16px;border-radius:9px;font:inherit;font-size:12.5px;
+  color:#06251f;background:linear-gradient(135deg,#5eead4,#7dd3fc);border:0;font-weight:650}
 /* ---------- 功能试用：键盘面板 ---------- */
 .map.play-on{flex:0 0 auto;width:404px;min-width:340px;max-width:48%}
 .map.play-on .fit{display:none}
@@ -346,6 +392,7 @@ h1 em{font-style:normal;font-family:var(--mono);color:#cbb6ff}
 .pquick button:hover{border-color:#3f7f6e;color:#c9f3e7}
 .pkb{display:flex;flex-direction:column;gap:5px}
 .pkb .krow{display:flex;gap:5px}
+.pkb .krow .k{flex:1 1 0;min-width:0;padding:0}
 .k{min-width:27px;height:28px;padding:0 3px;display:grid;place-items:center;font:inherit;font-size:12px;
    font-size:12px;border-radius:7px;border:1px solid #22334d;background:#0e1725;color:#c2d6ef;
    cursor:pointer;user-select:none}
@@ -408,16 +455,16 @@ h1 em{color:#9fe9dc;-webkit-text-fill-color:#9fe9dc;font-weight:600}
 #back{border-radius:10px}
 
 /* 标签页：分段的胶囊 */
-.tabs{align-self:flex-start;gap:3px;padding:4px;margin:11px 26px 7px;
-  border:1px solid var(--line);border-radius:13px;background:rgba(255,255,255,.028);
+.tabs{align-self:flex-start;gap:4px;padding:5px;margin:12px 26px 10px;
+  border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.028);
   box-shadow:inset 0 1px 0 rgba(255,255,255,.04)}
-.tab{border:0;background:transparent;border-radius:9px;padding:7px 15px;font-size:13px;
+.tab{border:0;background:transparent;border-radius:10px;padding:9px 19px;font-size:15px;
   color:#9db0c9;transition:.18s var(--ease)}
 .tab:hover{background:rgba(255,255,255,.06);color:#e6f0ff;transform:none}
 .tab.on{color:#eafffb;
   background:linear-gradient(180deg,rgba(94,234,212,.2),rgba(94,234,212,.07));
   box-shadow:inset 0 0 0 1px rgba(94,234,212,.42),0 6px 16px -12px rgba(94,234,212,.9)}
-.tab small{opacity:.5;font-size:10.5px;margin-left:6px}
+.tab small{opacity:.5;font-size:11.5px;margin-left:6px}
 
 /* 面包屑 / 走过 */
 .crumbs,.trail{padding-left:26px;padding-right:26px}
@@ -576,20 +623,18 @@ header{animation:fadeUp .5s var(--ease) both}
 <body>
 <div class="wrap">
   <header>
-    <div class="brand"><span class="dot"></span><h1>CmdBox · <em>代码地图</em></h1></div>
+    <div class="brand"><span class="dot"></span><h1>CmdBox Flash · <em>代码地图</em></h1><span class="lite">轻量版 · 插件向</span></div>
     <div class="stat" id="stat"></div>
     <div class="legend">
       <span class="chip db">数据库</span>
       <span class="chip fe">前端</span>
       <span class="chip be">后端</span>
-      <span class="chip mn">main 自己写的</span>
     </div>
     <button class="btn ghost" id="back">← 返回<span class="k">Esc</span></button>
   </header>
 
   <nav class="tabs" id="tabs"></nav>
   <div class="crumbs" id="crumbs"></div>
-  <div class="trail" id="trail"></div>
 
   <div class="layout" id="layout">
     <section class="map" id="map">
@@ -620,12 +665,12 @@ header{animation:fadeUp .5s var(--ease) both}
 </div>
 
 <script>
-const SOURCES = {"main.cpp": {"path": "main.cpp", "lines": ["#include \"list.h\"", "#include \"storage存放.h\"", "#include \"kmp_search.h\"", "#include \"trie.h\"", "#include \"linux.h\"", "#include \"Enter.h\"", "#include \"screen.h\"", "", "#include \"list.cpp\"", "#include \"storage存放.cpp\"", "#include \"kmp_search.cpp\"", "#include \"trie.cpp\"", "#include \"linux.cpp\"", "#include \"Enter.cpp\"", "#include \"screen.cpp\"", "", "int main(int argc,char*argv[])", "{", "bool pick=false;//pick是终端模式", "if(argc>1&&string(argv[1])==\"--pick\")pick=true;", "//ai生成-脚本所需内容", "", "    App app;//path,L,T;", "    app.path=dataPath();", "    initList(app.L);", "    app.T=new TrieNode();", "    //建立一棵树", "", "   loadItems(app.path,app.L);", "    //从本地文件下载命令，读instream in+in.open()+getline in", "    //下载=分割+id转类型+命令4部分合成为一命令+新建节点合并到链表里", "    //如果没有data.txt就新建txt，用源代码里的预制命令", "    commit(&app);", "    //commit重建树,根据链表的数据", "", "    rawOn();//改Linux原本设置", "", "", "streambuf *oldBuf=cout.rdbuf();", "ofstream tty;", "string chosen=\"\";", "if(pick)", "{     ", "    tty.open(\"/dev/tty\");     ", "    cout.rdbuf(tty.rdbuf());", "}//ai生成-脚本所需内容", "", "", "    string input,msg,text;", "    //input=用户子串,msg提示词,text=按下的键", "    int sel=0;", "    //sel=命令的下标", "", "    while(true)", "    {", "        vector<Node*> cand=trieComplete(app.T,input);", "        //拿用户输入的子串，找子串下的所有节点", "        //例如输入git，能拿到git add -A,git commit -m \"\"节点", "", "        draw(&app,input,cand,sel,msg);", "        //显示函数", "        msg=\"\";", "", "        KeyType k=readKey(text);", "        //等待按按键.例如输入了git后等待按enter", "        if(k==Quit)break;", "        if(k==Char)", "        {", "            input+=text;", "            sel=0;", "        }", "        else if(k==Back)", "        {", "        if(input.empty()==0)", "        {   ", "            int i=input.size()-1;//", "            while(i>0&&((unsigned char)input[i]&0xC0)==0x80)i--;", "            //位与&检查,因为要检查他的前两位是不是10，是10说明是2-4字节。", "            //s[i]与0xC0=1100 0000位于比较，由于末尾6位0xC0都是0，因此结果六位都是0", "            //剩下前缀2位，如果是10和11比，就是10 000000 =0x80", "            //就说明是尾字节，非头字节", "            //中文字符是2-4字节，若是3字节的中文字符，则是1110 xxxx,4字节则1111 xxxx", "            //2字节 1100 xxxx,如果是2-4字节的，他还会有除了头字节外的尾字节", "            //尾字节是10xx xxxx,所以这么位于比较。", "            //然后i--，直到找到头字节，", "            input.erase(i);", "            //erase的i指向头字节，就把头字节和尾字节删了。 ", "        }", "        sel=0;", "        }", "        //由于按了BackSpace后，需要重新检测input", "        //因此需要额外popChar，", "        //而非只是用户看不到那个字符了而已。", "        else if(k==Up)", "        {", "            if(sel>0)sel--;", "        }", "        else if(k==Down)", "        {", "            if(sel+1<(int)cand.size())sel++;", "        }", "        else if(k==Tab)", "        {", "            if(!cand.empty())input=cand[sel]->item.cmd;", "            //此刻出来了命令，按了上下键盘，指向命令了", "            //然后按tab补全你的命令;", "            sel=0;//补全后input变了，然后候选命令only自己了", "            if(pick)//脚本模式:补全完就把这一行交给bash", "            {", "                chosen=input;", "                break;", "            }", "        }", "        else if(k==Enter)", "        {     ", "            if(input.size()>0&&input[0]==':')", "            {", "                if(runCommand(&app,input.substr(1),msg)==0)break;", "                //substr(1)：从第一行开始取input,当string", "                //然后runConmand看他:后，空格前是啥。空格后是啥。", "                //这里干了两件事，一个是查看是否是quit(==0)", "                //一个是运行除了quit外的指令。", "            }", "            //检查是否是命令", "            else{showItems(&app,input);}//搜索命令", "            input=\"\";", "            sel=0;", "            //按回车后要初始化，不按回车不用。", "        }", "    }", "", "    rawOff();", "    cout.rdbuf(oldBuf);//换回真stdout", "    if(pick){if(chosen!=\"\")cout<<chosen<<\"\\n\";}", "    //终端模式,返回选中命令.", "    else{cout<<\"\\n已退出,数据保存在 \"<<app.path<<\"\\n\";}", "    trieFree(app.T);", "    destroyList(app.L);", "    return 0;", "}"]}, "list.cpp": {"path": "database/src/list.cpp", "lines": ["#include \"list.h\"", "void initList(CommandList *&L)", "{", "    L=new CommandList();", "    L->dummyH=new Node();", "    L->dummyT=new Node();", "    L->dummyH->next=L->dummyT;", "    L->dummyT->prev=L->dummyH;", "    L->size=0;L->nextId=1;", "}", "void destroyList(CommandList *&L)", "{", "    Node *p=L->dummyH,*q;", "    while(p!=nullptr)", "    {", "        q=p->next;", "        delete p;", "        p=q;", "    }", "    delete L;L=nullptr;", "    //首先，给dummyHT分配了内存，放HT的节点的，", "    //然后再新建节点输入数据，插入进去，", "    //于是接下来链表成了H->1->2->3->T,", "    //五个节点都是有内存的，", "    //此刻qp做遍历把五个内存全都释放。", "}", "Node *insertBefore(CommandList *L,Node *pos,Node *p)", "{", "    p->prev=pos->prev;", "    p->next=pos;", "    pos->prev->next=p;", "    pos->prev=p;", "    L->size++;", "    return p;", "}", "Node *addItem(CommandList *L,string cmd,string note,string tag)", "// :add git status,查看状态，git.没有提供id，因此自动丢给末尾。", "{", "    CommandItem x;", "    Node *p=new Node();", "    x.id=L->nextId;", "    L->nextId++;", "    x.cmd=cmd;", "    x.tag=tag;", "    x.note=note;", "    p->item=x;", "    return insertBefore(L,L->dummyT,p);", "}", "void removeNode(CommandList *L,Node *p)", "{", "    p->prev->next=p->next;", "    p->next->prev=p->prev;", "    L->size--;", "    delete p;", "}", "Node *findById(CommandList *L,int id)", "{", "    Node *p=L->dummyH;", "    for(int i=0;i<L->size;i++)", "    {", "        p=p->next;", "        if(p->item.id==id)return p;", "    }", "    return nullptr;", "}"]}, "trie.cpp": {"path": "database/src/trie.cpp", "lines": ["#include \"trie.h\"", "", "void collect(TrieNode *cur,vector<Node*>&res)", "{", "    for(Node *p:cur->items) res.push_back(p);", "    //例如子串git,txt里有git add -A，git commit -m \"fix\",cur指向t", "    //items里没有东西可以遍历的话，range-for不会执行", "    for(auto &e:cur->Map) collect(e.second,res);", "    //res是个袋子", "}//在子串末尾树节点处，往下探索继续找链表节点，找到了就丢到p里。", "", "void commit(App *app)", "{", "    trieFree(app->T);", "    app->T=new TrieNode();", "    for(Node *p=app->L->dummyH->next;p!=app->L->dummyT;p=p->next)", "    {", "        trieInsert(app->T,p->item.cmd,p);", "    }", "    saveItems(app->path,app->L);", "}", "//增删改了链表后，重建树，新链表放回data里", "void trieInsert(TrieNode *root,string cmd,Node *p)", "{", "    TrieNode *cur=root;", "    for(char c:cmd)", "    {", "            auto it=cur->Map.find(c);", "            //从根字典找书页", "            if(it==cur->Map.end())", "            {", "                TrieNode *child=new TrieNode();", "                cur->Map.insert(pair<char,TrieNode*>(c,child));", "                cur=child;", "            }//如果没有就新建书页", "            else{cur=it->second;}", "            //有的话就走到书页那里，找书页的书页", "    }", "    cur->items.push_back(p);", "    //把p搞到路径末尾，从而拿到更多信息", "}", "//字符串+链表信息节点插字典树上", "vector<Node*>trieComplete(TrieNode *root,string prefix)", "{", "    vector<Node*>res;//袋子", "    TrieNode *cur=root;", "    for(char c:prefix)", "    {", "        auto it=cur->Map.find(c);", "        if(it==cur->Map.end())", "        //在根节点的map上找书页c", "        {return {};}", "        else{cur=it->second;}", "    }//循环使得cur从第一个子传字符开始走，往后一直走到最后一个字符", "    collect(cur,res);//收集从最后一个字符走到的所有节点", "    return res;", "}", "//树上找子串，返回子串匹配到的所有命令的所有信息.", "void trieFree(TrieNode *&root)", "{", "    if(root==nullptr) return;", "    //root是在main调用的，不会消失", "    //只给child分配了内存。", "    for(auto &e:root->Map)trieFree(e.second);", "    delete root;", "    root=nullptr;", "}"]}, "storage存放.cpp": {"path": "database/src/storage存放.cpp", "lines": ["#include \"storage存放.h\"", "#include<unistd.h>", "//--------------------------Tool-------------------------------", "bool parseInt(const string &s,int &id)", "{", "    if(s.empty()) return false;", "    if(s.size()>9) return false;", "    //太长，防止溢出", "    int v=0;", "    for(char c:s)", "    {", "        if(c<'0'||c>'9') return false;  ", "        //混进非数字", "        v=v*10+(c-'0');", "    }", "    id=v;", "    return true;", "}", "//工具函数,用于loadItems:把string id变为int", "vector<string>splitLine(string line,char sep)", "//sep=separate：分割", "{", "    vector<string>parts;", "    string cur;", "    for(char c:line)", "    {", "        if(c==sep)", "        {parts.push_back(cur);cur.clear();}", "        else cur+=c;", "    }//在不遇到分隔符之前，一股脑丢到cur里", "    //遇到分隔符后，把装有东西的cur丢到part里，然后clear", "    parts.push_back(cur);", "    return parts;", "}", "//工具函数, 用于loadItems:分割一行的命令。", "void loadDefaults(CommandList *L)", "{", "    addItem(L,\"git add -A\",\"暂存所有改动\",\"git\");", "    addItem(L,\"git commit -m \\\"fix\\\"\",\"提交并写明本次修复内容\",\"git\");", "    addItem(L,\"git push\",\"把本地提交推送到远程仓库\",\"git\");", "    addItem(L,\"g++ -o main main.cpp\",\"最简编译：把 main.cpp 编译成 main\",\"build\");", "    addItem(L,\"make -j4\",\"并行编译整个项目\",\"build\");", "    addItem(L,\"ls -la\",\"列出所有文件（含隐藏文件）\",\"linux\");", "}", "//工具函数,用于loadItems:如果下载失败，制作模板txt", "", "//--------------------------Main----------------------------------", "string dataPath()", "{", "    string p(4096,'\\0');", "    readlink(\"/proc/self/exe\",&p[0],p.size()-1);", "    //readlink返回写了多少字节", "    //\"/proc/self/exe\"=文件g++后产生的exe位置(linux不产生exe，产生的文件没有后缀)", "    //readlink，先把\"/proc/self/exe\"改成本地地址，然后最多允许抄sizeof(buf)-1个字符到buf上。", "    //ssize_t是size_t的带符号版本,sizeof()很多返回的都是size_t", "    int n=p.rfind('/');", "    p=p.substr(0,n+1);//n是最后一个斜杠的下标，0-n有n+1个字符", "    return p+\"data.txt\";", "}", "//找路径", "bool loadItems(string path,CommandList *L)", "{", "    ifstream in;", "    //设一个装文件位置类型的变量in", "    in.open(path);//使得in对应着path这个文件", "    if(!in.is_open()){loadDefaults(L);return false;}", "    string line;", "    while(getline(in,line))//从文件里一行一行getline", "    {", "        if(line.empty()==0&&line.back()=='\\r')", "        {line.pop_back();}", "        //调整windows格式", "", "        vector<string>parts=splitLine(line,'|');", "        //给getline的那一行分割了，拿id,cmd,note,tag四部分", "        if(parts.size()!=4)continue;//检查命令是否错误", "        ", "        int id=0;", "        if(parseInt(parts[0],id)==0)continue;", "        //把字符数字改成整数数字，存id里", "", "        CommandItem x;", "        x.id=id;", "        x.cmd=parts[1];", "        x.note=parts[2];", "        x.tag=parts[3];", "        //搞个命令参数", "        Node *p=new Node();", "        p->item=x;", "", "        insertBefore(L,L->dummyT,p);", "        if(id>=L->nextId)L->nextId=id+1;", "    }", "    return true;", "}", "//把path路径里的东西搞到in里，然后一行一行看in的命令,把命令套链表上", "bool saveItems(string path,CommandList *L)", "{", "    string tmp=path+\".tmp\";//创建临时文件，", "    ofstream out;//整个装文件具体地址的变量", "    out.open(tmp);//给变量整上具体地址", "    if(out.is_open()==0)return false;", "    for(Node *p=L->dummyH->next;p!=L->dummyT;p=p->next)", "    {", "        out<<p->item.id<<'|'<<p->item.cmd<<'|'<<p->item.note<<'|'<<p->item.tag<<'\\n';", "        // out<< 为往文件里写什么什么东西。", "    }", "    out.close();//保存", "    int r=rename(&tmp[0],&path[0]);//改名,传俩文件路径的首地址过去", "    //c判断成功或者失败是0和非0，c++是1和0", "    if(r==0) return true;", "    return false;", "}"]}, "kmp_search.cpp": {"path": "backend/src/kmp_search.cpp", "lines": ["#include \"kmp_search.h\"", "", "vector<int>getnext(string p)", "{", "    vector<int>nxt(p.size(),0);", "    int index=0,best=0;", "    for(int i=1;i<(int)p.size();i++)", "    {", "        while(best>0&&p[i]!=p[index])", "        {", "            best=nxt[best-1];", "            index=best;", "        }", "        if(p[i]==p[index])", "        {", "            best++;                                                                       ", "            index=best;", "        }", "        nxt[i]=best;", "    }", "    return nxt;", "}", "//工具函数，获得next表kmpAll使用", "//a b a  c a b a,aba<->aba,", "//0 0 1  0 1 2 3", "//tail+'b',c!=b", "//aba(c)!=aba(b).3+1失效", "//看x+1的x是生效的，用nxt表", "//由于012=456,不可用，则查01是否=56", "//nxt[2]表是aba比对01,12,也就是01是否等于56", "//发现01!=12,也就是01!=56,", "//再缩水查0=2,也就是0=6.", "//a(b)==a(b)前缀1+1生效", "//再判断最后那个1是否生效", "//若生效,k++", "//b=b(if(p[i]==p[k])k++)", "//k=2", "//若失效k-- k=0;", "", "vector<int>kmpAll(string s,string p)", "{", "    vector<int>firstchar;", "    if(p.empty()||s.size()<p.size()) return firstchar;", "    vector<int>nxt=getnext(p);", "    int j=0;", "    for(int i=0;i<(int)s.size();i++){", "        while(j>0&&s[i]!=p[j])j=nxt[j-1];", "        if(s[i]==p[j])j++;", "        if(j==(int)p.size())", "        {", "            firstchar.push_back(i-j+1);", "            j=nxt[j-1];", "        }", "    }", "    return firstchar;", "}", "string highlight(string s,string p,string base)", "{", "    vector<bool>hit(s.size(),false);//hit是vector名,开文本串长度，全给false", "    for(int st:kmpAll(s,p))//st是首字符下标", "    {", "        for(int k=0;k<(int)p.size();k++)", "        {hit[st+k]=true;}//一号位是1,7,12", "        //p子串长度是2,则12 78 1213 false->true", "    }", "  string out;", "    for(int i=0;i<(int)s.size();i++)", "    {", "        unsigned char c=s[i];", "        bool isTail;", "        isTail=(c>=0x80&&c<=0xBF);//是尾字节，是10开头", "        if(isTail==0)", "        {", "            if(hit[i]==true) out+=RED;//底色+red=red", "            else{out+=RESET;//变成白颜色。", "            out+=base;}//如果是\"\"就是不变", "            //如果base=GRAY,就再染个灰色", "        }", "        //倘若遇到中文字符，有头字节尾巴字节", "        //此if判定是依旧循环走字节，如果走到尾字节就不加颜色码", "        out+=s[i];//染完色后把字符搞进去", "    }", "out+=RESET;//彻底搞完了变成空颜色", "return out;//返回染色串", "}", "//返回带颜色的串.|"]}, "Enter.cpp": {"path": "backend/src/Enter.cpp", "lines": ["#include \"Enter.h\"", "#include \"storage存放.h\"     //saveItems", "#include \"linux.h\"//rawOff,rawOn", "", "const string HELP=\":list 列出全部 | :add 添加 | :edit 编号 修改 | :del 编号 删除 | :quit 退出\";", "", "bool hasBar(string s)", "{", "    for(int i=0;i<(int)s.size();i++)", "    {", "        if(s[i]=='|')return true;", "    }", "    return false;", "}", "//用于addFLow,检查字段里有无切割符", "string askLine(string input)", "{", "    rawOff();//恢复平常状态", "    cout<<\"\\n\"<<input<<flush;//endl=\\0+flush，flush=把东西推到屏幕上", "    string s;", "    getline(cin,s);", "    rawOn();", "    return s;", "}", "//从用户那里拿子串。", "", "void addFlow(App *app,string &msg)", "{", "    string cmd=askLine(\"命令: \");", "    if(cmd==\"\"){msg=\"已取消\";return;}", "    string note=askLine(\"注释（可留空）: \");", "    string tag=askLine(\"标签（默认 misc）: \");", "    if(tag==\"\")tag=\"misc\";", "    if(hasBar(cmd)||hasBar(note)||hasBar(tag))", "    {", "        msg=\"字段不能有|\";", "        return;", "    }", "    Node *p=addItem(app->L,cmd,note,tag);", "    commit(app);", "    msg=\"已添加 #\"+to_string(p->item.id);", "}", "void delFlow(App *app,int id,string &msg)", "{", "    Node *p=findById(app->L,id);", "    if(p==nullptr)", "    {", "        msg=\"无此编号 #\"+to_string(id);", "        return;", "    }", "    removeNode(app->L,p);", "    commit(app);", "    msg=\"已删除 #\"+to_string(id);", "}", "void editFlow(App *app,int id,string &msg)", "{", "    Node *p=findById(app->L,id);", "    if(p==nullptr)", "    {", "        msg=\"没有编号 #\"+to_string(id);", "        return;", "    }", "", "    CommandItem old=p->item;", "    CommandItem nw=old;", "    string s=askLine(\"新命令（回车不改）: \");", "    if(s!=\"\") nw.cmd=s;", "    s=askLine(\"新注释（回车不改）: \");", "    if(s!=\"\") nw.note=s;", "    s=askLine(\"新标签（回车不改）: \");", "    if(s!=\"\") nw.tag=s;", "", "    if(hasBar(nw.cmd)||hasBar(nw.note)||hasBar(nw.tag))", "    {", "        msg=\"字段里不能有 |\";", "        return;", "    }", "", "    p->item=nw;", "    commit(app);", "    msg=\"已修改 #\"+to_string(id);", "}", "", "bool runCommand(App *app,string line,string &msg)", "{", "    int pos=line.find(' ');//find返回无符号下标", "    string name,rest=\"\";", "    if(pos<0)//下标不可能小于0，小于0说明没找到", "    {", "        name=line;", "    }", "    else// 空格前是命令名，空格后是剩下的", "    {", "        name=line.substr(0,pos);", "        rest=line.substr(pos+1);", "    }", "    if(name==\"quit\")return false;", "    else if(name==\"add\")addFlow(app,msg);", "    else if(name==\"list\")showItems(app,\"\");", "    else if(name==\"help\")msg=HELP;", "    else if(name==\"del\"||name==\"edit\")", "    {", "        int id=0;", "        for(int i=0;i<(int)rest.size();i++)", "        {", "            if(rest[i]>='0'&&rest[i]<='9')id=id*10+(rest[i]-'0');", "            ", "        }//字符转整形", "        if(name==\"del\")delFlow(app,id,msg);", "        else editFlow(app,id,msg);", "    }", "    else msg=\"未知命令: \"+name;", "    return true;", "} ", "//跑冒号指令."]}, "linux.cpp": {"path": "frontend/src/linux.cpp", "lines": ["#include \"linux.h\"", "void rawOn()", "{", "    tcgetattr(STDIN_FILENO,&oldT);", "    //get attr获得属性", "    //STDIN_FILENO是硬盘,oldT是存放设置参数的地方,", "    termios t=oldT;                       ", "    t.c_lflag&=~(ICANON|ECHO|ISIG);", "    //给这三个属性全关了    ", "    //ICANON必须等回车再把字交给程序", "    //ECHO敲什么键，就往屏幕上显示什么字(按上下键不会出现^[[A)", "    //ISIG,按ctrl+C杀死程序", "", "    t.c_cc[VMIN]=1;//至少要用户输入1个字节再开始读          ", "", "    t.c_cc[VTIME]=0;//计时器，拿到字节以后直接开找", "", "    tcsetattr(STDIN_FILENO,TCSAFLUSH,&t);//交付给状态t", "}//状态更新", "", "void rawOff()", "{", "    tcsetattr(STDIN_FILENO,TCSAFLUSH,&oldT);", "}//状态返回", "", "KeyType readKey(string &s)", "{", "    unsigned char c=0;", "    if(read(STDIN_FILENO,&c,1)!=1)return Quit;", "    //read是linux的，(从哪读，存到哪，读几个)", "", "    if(c==3)return Quit;//Ctrl+C=3", "", "    if(c=='\\n'||c=='\\r')return Enter;//enter", "", "    if(c=='\\t')return Tab;//tab", "", "    if(c==127||c==8)return Back;//Backspace删除", "", "    if(c==27)//^[[A or ^[[B", "    {", "        unsigned char d=0;", "        if(read(STDIN_FILENO,&d,1)==1)", "        {", "            while(read(STDIN_FILENO ,&d,1)==1)", "            {", "                if(d>=0x40&&d<=0x7E)break;", "                //0x是16进制，64-126字母结尾", "                //以ESC开头的功能键中间不允许出现字母", "            }", "            if(d=='A')return Up;", "            if(d=='B')return Down;", "        }", "        return Other;//例如如果是D，就是左键，当成无用按键。", "    }", "", "    if(c<32)return Other;//32是空格，0-31是控制键例如ctrl+A", "", "    //中文=UTF-8=2~4字节的字符", "    int len=1;", "    if(c>=0xF0)len=4;", "    //看看一个字符有多少个字节", "    //1字节 0xxx xxxx,2字节开头110x 3字节开头111x 4字节开头1111;", "    //多字节的尾巴，例如3字节的另两个字节都是10xx xxxx,", "    else if(c>=0xE0)len=3;", "    else if(c>=0xC0)len=2;", "", "    s=\"\";", "    s=(char)c;//把第一个字节搞进去", "    for(int k=1;k<len;k++)//把剩下的字节搞进去,例如3字节的中文汉字", "    //就拼成了一个完整的字.", "    {", "        unsigned char d=0;", "        if(read(STDIN_FILENO,&d,1)!=1)break;", "        s+=(char)d;", "    }", "    return Char;", "}", "//读按键"]}, "screen.cpp": {"path": "frontend/src/screen.cpp", "lines": ["#include \"screen.h\"", "#include<bits/stdc++.h>", "using namespace std;", "", "void draw(App* app,string input,vector<Node*>&cand,int sel,string msg)", "{", "    cout<<\"\\033[2J\\033[H\";//清屏;", "    cout<<\"CmdBox ↑↓ 选择  Tab补全命令  Enter搜索  :help帮助  Ctrl+C退出\\n\";", "    cout<<\"数据文件:\"<<app->path<<\"\\n\\n\";", "    cout<<\"> \"<<input<<\"\\n\";", "    int start;", "    start=(sel>=6)?sel-5:0;", "    //如果下标在1-6共6条命令就不滚动。", "    //如果在7条及以上就开始滚动", "    for(int i=start;i<(int)cand.size()&&i<start+6;i++)", "    //从i开始往下走，只画6行。", "    //例如i=3,画123456,i=7，画234567", "    {", "        cout<<(i==sel?\"> \":\"  \")<<highlight(cand[i]->item.cmd,input,\"\")<<\"  \"<<\"# \"<<highlight(cand[i]->item.note,input,GRAY)<<\"  [\"<<highlight(cand[i]->item.tag,input,GRAY)<<\"]\"<<\" id:\"<<cand[i]->item.id<<RESET<<\"\\n\"; ", "    }", "    if(msg!=\"\")cout<<\"\\n\"<<msg<<\"\\n\";", "    cout<<flush;", "}", "//实时界面", "void showItems(App *app,string input)", "{", "    cout<<\"\\033[2J\\033[H\";", "    cout<<\"搜索: \"<<(input==\"\"?string(\"全部\"):input)<<\"\\n\\n\";", "    int found=0;", "    for(Node *p=app->L->dummyH->next;p!=app->L->dummyT;p=p->next)", "    {", "        CommandItem &x=p->item;", "        if(input!=\"\") ", "        {", "            string s=x.cmd+\"\\n\"+x.note+\"\\n\"+x.tag;", "            vector<int>firstchar=kmpAll(s,input);", "            if(firstchar.empty())continue;", "        }", "        found++;", "        cout<<highlight(x.cmd,input,\"\")<<\"\\n\";", "        //输出红白串", "        cout<<\"  \"<<highlight(\"# \"+x.note+\"  [\"+x.tag+\"]\",input,GRAY)<<\"\\n\";", "        //输出红灰串,灰色是note,红色是tag", "    }//按下回车以后", "    if(found==0) cout<<\"没有找到\\n\";", "    cout<<\"\\n按任意键返回...\"<<flush;", "    string tmp;", "    readKey(tmp);//等待按按键", "}", "//Enter界面"]}};
-const ROWS    = [{"id": 1, "cmd": "git add -A", "note": "暂存所有改动", "tag": "git"}, {"id": 2, "cmd": "git commit -m \"fix\"", "note": "提交并写明本次修复内容", "tag": "git"}, {"id": 3, "cmd": "git push", "note": "把本地提交推送到远程仓库", "tag": "git"}, {"id": 4, "cmd": "g++ -o main main.cpp", "note": "最简编译：把 main.cpp 编译成 main", "tag": "build"}, {"id": 5, "cmd": "make -j4", "note": "并行编译整个项目", "tag": "build"}, {"id": 6, "cmd": "ls -la", "note": "列出所有文件（含隐藏文件）", "tag": "linux"}];
-const QUICK   = ["git", "ls", "g++", "make", ":add", ":quit", ":help", ":del 1"];
-const VIEWS   = [{"id": "main", "tab": "main 时间线", "render": "tree", "file": "main.cpp", "root": {"id": "mainroot", "label": "main", "sub": "程序入口 · main.cpp"}, "groups": [{"id": "init", "num": "①", "label": "初始化", "sub": "准备数据 + 终端", "file": "main.cpp", "code": [23, 36], "items": [{"id": "i1", "num": "1", "label": "取路径 + 分配内存", "layer": "db", "code": [23, 26], "fn": "dataPath() · initList() · new TrieNode()", "desc": "用 /proc/self/exe 反查二进制目录拼出 data.txt；建带头尾哨兵的空链表；new 一个空树根"}, {"id": "i2", "num": "2", "label": "下载文件 → 链表", "layer": "db", "code": [29, 32], "fn": "loadItems()", "desc": "读 data.txt，每行按 | 拆成 id/命令/注释/标签塞进链表；文件不存在就装 6 条预制命令"}, {"id": "i3", "num": "3", "label": "重建树", "layer": "db", "code": [33, 34], "fn": "commit()", "desc": "拿链表里每条命令插成字典树，再写回磁盘（先写 .tmp 再 rename，断电不写坏）"}, {"id": "i4", "num": "4", "label": "改 Linux 设置", "layer": "fe", "code": [36, 36], "fn": "rawOn()", "desc": "关掉 ICANON/ECHO/ISIG：终端才能一个键一个键读，Ctrl+C 也不再直接杀进程"}]}, {"id": "loop", "num": "②", "label": "循环", "sub": "查树 · 画屏 · 等键", "file": "main.cpp", "code": [54, 130], "items": [{"id": "l1", "num": "1", "label": "算候选", "layer": "db", "code": [56, 58], "fn": "trieComplete()", "desc": "拿输入的前缀在树上走一遍，收上整棵子树的命令；输入为空就是全部命令"}, {"id": "l2", "num": "2", "label": "画界面", "layer": "fe", "code": [60, 61], "fn": "draw()", "desc": "清屏整帧重画：输入行 + 最多 6 条候选，命中的那几个字标红"}, {"id": "l3", "num": "3", "label": "等一个键", "layer": "fe", "code": [64, 65], "fn": "readKey()", "desc": "阻塞在 read() 上直到你敲键。它只把读到的字节翻译成按键类型（字符/退格/上下/Tab/回车/Ctrl+C），自己不决定干什么——点它看每个键拐去哪", "kids": [{"id": "l3a", "label": "Ctrl+C", "layer": "mn", "code": [66, 66], "desc": "readKey 返回 Quit，main 里一句 break 直接跳出循环，接着回收终端、释放内存"}, {"id": "l3b", "label": "普通字符", "layer": "mn", "code": [67, 71], "desc": "把字符接到输入末尾，选中位置归零（候选列表变长了，光标要回到第一条）"}, {"id": "l3c", "label": "退格", "layer": "mn", "code": [72, 93], "desc": "删掉一个字。一个汉字在 UTF-8 里占 3 个字节，所以不能只删 1 个字节，要一直往回找到头字节再整字删，否则屏幕上会剩半边乱码"}, {"id": "l3d", "label": "↑ ↓", "layer": "mn", "code": [94, 101], "desc": "在候选列表里上下挪，sel 做了上下界检查，挪到头也不会越界"}, {"id": "l3e", "label": "Tab", "layer": "mn", "code": [102, 113], "desc": "把当前选中的候选整条填进输入框。--pick 模式（bash 里按 Ctrl+G）下填完就 break，把这一行交回命令行"}, {"id": "l3f", "label": "Enter", "layer": "mn", "code": [114, 129], "desc": "回车要看你输入的是什么：带冒号当内部命令，不带就是全文搜索。点开继续分", "kids": [{"id": "l3f1", "label": "指令串（: 开头）", "layer": "be", "code": [116, 123], "fn": "runCommand()", "desc": "去掉开头那个冒号交给 runCommand 解析；它返回 0 说明是 :quit，要退出", "chips": [{"label": ":add", "jump": "addFlow"}, {"label": ":del", "jump": "delFlow"}, {"label": ":edit", "jump": "editFlow"}]}, {"id": "l3f2", "label": "搜索串", "layer": "fe", "code": [125, 125], "fn": "showItems()", "desc": "整屏列出全部命令，用 KMP 搜 命令+注释+标签，命中标红，按任意键回主界面"}]}]}]}, {"id": "end", "num": "③", "label": "结束", "sub": "还原终端 · 释放内存", "file": "main.cpp", "code": [132, 140], "items": [{"id": "e1", "num": "1", "label": "还原终端", "layer": "fe", "code": [132, 132], "fn": "rawOff()", "desc": "把 tcgetattr 存下的老设置写回去，不然退出后命令行不回显、不换行"}, {"id": "e2", "num": "2", "label": "交还输出", "layer": "mn", "code": [133, 136], "fn": "cout.rdbuf(oldBuf)", "desc": "输出从 /dev/tty 换回真 stdout；--pick 只吐一行给 bash，普通模式打印保存路径"}, {"id": "e3", "num": "3", "label": "释放字典树", "layer": "db", "code": [137, 137], "fn": "trieFree()", "desc": "递归 delete 树节点；items 里只是指向链表的指针，这里不能删，否则 double free"}, {"id": "e4", "num": "4", "label": "释放链表", "layer": "db", "code": [138, 138], "fn": "destroyList()", "desc": "从哨兵开始一个个 delete 真正的命令节点，最后 return 0 收工"}]}]}, {"id": "tut", "tab": "功能试用", "render": "play", "root": {"id": "tutroot", "label": "功能试用", "sub": ""}, "groups": []}, {"id": "db", "tab": "数据库", "render": "tree", "layer": "db", "file": "list.cpp", "root": {"id": "dbroot", "label": "数据库", "sub": "database/ · 存命令的地方"}, "groups": [{"id": "f_list", "label": "list.cpp", "sub": "双向链表", "file": "list.cpp", "code": [1, 65], "items": [{"id": "d1", "label": "initList", "desc": "给链表和头尾两个哨兵开内存，编号从 1 开始", "code": [2, 10]}, {"id": "d2", "label": "destroyList", "desc": "顺着 next 把所有节点连哨兵一起释放", "code": [11, 26]}, {"id": "d3", "label": "insertBefore", "desc": "改四条指针，把节点插到指定位置前面", "code": [27, 35]}, {"id": "d4", "label": "addItem", "desc": "拿 nextId 当编号，把一条新命令挂到表尾", "code": [36, 48]}, {"id": "d5", "label": "removeNode", "desc": "把节点从链上摘下来，顺手释放它", "code": [49, 55]}, {"id": "d6", "label": "findById", "desc": "按编号找节点，找不到返回空", "code": [56, 65]}]}, {"id": "f_trie", "label": "trie.cpp", "sub": "字典树 · 按前缀查命令", "file": "trie.cpp", "code": [1, 67], "items": [{"id": "d7", "label": "collect", "desc": "把这里的命令全收进袋子，再递归钻每张子页", "code": [3, 10]}, {"id": "d8", "label": "commit", "desc": "链表改完之后重建整棵树，并写回磁盘", "code": [12, 21]}, {"id": "d9", "label": "trieInsert", "desc": "把一条命令按字符插进树，走到末尾挂上节点", "code": [23, 41]}, {"id": "d10", "label": "trieComplete", "desc": "按前缀走到那一页，返回底下所有命令", "code": [43, 57]}, {"id": "d11", "label": "trieFree", "desc": "递归释放整棵树", "code": [59, 67]}]}, {"id": "f_sto", "label": "storage存放.cpp", "sub": "读写 data.txt", "file": "storage存放.cpp", "code": [1, 113], "items": [{"id": "d12", "label": "parseInt", "desc": "字符串转整数，太长或混进字母都算失败", "code": [4, 18]}, {"id": "d13", "label": "splitLine", "desc": "按分隔符把一行切成若干段", "code": [20, 34]}, {"id": "d14", "label": "loadDefaults", "desc": "文件读不到时，用内置的 6 条命令开张", "code": [36, 44]}, {"id": "d15", "label": "dataPath", "desc": "用 /proc/self/exe 找到自己，拼出同目录的 data.txt", "code": [48, 59]}, {"id": "d16", "label": "loadItems", "desc": "逐行读文件，切成四段校验后装进链表", "code": [61, 95]}, {"id": "d17", "label": "saveItems", "desc": "先写临时文件再改名，写一半断电也不会坏", "code": [97, 113]}]}]}, {"id": "fe", "tab": "前端", "render": "tree", "layer": "fe", "file": "linux.cpp", "root": {"id": "feroot", "label": "前端", "sub": "frontend/ · 看和按键"}, "groups": [{"id": "f_linux", "label": "linux.cpp", "sub": "终端控制", "file": "linux.cpp", "code": [1, 79], "items": [{"id": "f1", "label": "rawOn", "desc": "存下老设置，关掉回车等待、回显和 Ctrl+C 信号", "code": [2, 19]}, {"id": "f2", "label": "rawOff", "desc": "把存下的老设置写回去，终端复位", "code": [21, 24]}, {"id": "f3", "label": "readKey", "desc": "读一个字节翻译成按键类型，中文补齐整个字", "code": [26, 78]}]}, {"id": "f_screen", "label": "screen.cpp", "sub": "画界面", "file": "screen.cpp", "code": [1, 50], "items": [{"id": "f4", "label": "draw", "desc": "清屏重画主界面：输入行 + 最多 6 条候选", "code": [5, 23]}, {"id": "f5", "label": "showItems", "desc": "整屏列出命令，用 KMP 过滤并标红，等一键返回", "code": [25, 49]}]}]}, {"id": "be", "tab": "后端", "render": "tree", "layer": "be", "file": "kmp_search.cpp", "root": {"id": "beroot", "label": "后端", "sub": "backend/ · 搜索和冒号命令"}, "groups": [{"id": "f_kmp", "label": "kmp_search.cpp", "sub": "字符串匹配", "file": "kmp_search.cpp", "code": [1, 86], "items": [{"id": "b1", "label": "getnext", "desc": "预处理子串，算出每个位置失配该退到哪", "code": [3, 22]}, {"id": "b2", "label": "kmpAll", "desc": "在线性时间里找出子串所有出现的位置", "code": [40, 56]}, {"id": "b3", "label": "highlight", "desc": "把命中的字涂红，跳着尾字节染色中文才不会花", "code": [57, 85]}]}, {"id": "f_enter", "label": "Enter.cpp", "sub": "冒号命令", "file": "Enter.cpp", "code": [1, 115], "items": [{"id": "b4", "label": "hasBar", "desc": "检查字段里有没有竖线，有就存坏了", "code": [7, 14]}, {"id": "b5", "label": "askLine", "desc": "临时把终端切回正常模式，等用户输入一行", "code": [16, 24]}, {"id": "b6", "label": "addFlow", "desc": "依次问命令、注释、标签，加进链表并保存", "code": [27, 42]}, {"id": "b7", "label": "delFlow", "desc": "按编号找到并删除一条命令", "code": [43, 54]}, {"id": "b8", "label": "editFlow", "desc": "按编号找，三个字段回车不改，改完整条替换", "code": [55, 82]}, {"id": "b9", "label": "runCommand", "desc": "把冒号后面那行拆成名字和参数再分派", "code": [84, 114]}]}]}];
-const CALLS   = {"initList": {"callers": ["main"], "callees": [], "file": "list.cpp", "code": [2, 10], "id": "d1", "group": "f_list", "view": "db", "layer": "db", "desc": "给链表和头尾两个哨兵开内存，编号从 1 开始", "chain": ["main", "initList"]}, "destroyList": {"callers": ["main"], "callees": [], "file": "list.cpp", "code": [11, 26], "id": "d2", "group": "f_list", "view": "db", "layer": "db", "desc": "顺着 next 把所有节点连哨兵一起释放", "chain": ["main", "destroyList"]}, "insertBefore": {"callers": ["addItem", "loadItems"], "callees": [], "file": "list.cpp", "code": [27, 35], "id": "d3", "group": "f_list", "view": "db", "layer": "db", "desc": "改四条指针，把节点插到指定位置前面", "chain": ["main", "loadItems", "insertBefore"]}, "addItem": {"callers": ["addFlow", "loadDefaults"], "callees": ["insertBefore"], "file": "list.cpp", "code": [36, 48], "id": "d4", "group": "f_list", "view": "db", "layer": "db", "desc": "拿 nextId 当编号，把一条新命令挂到表尾", "chain": ["main", "loadItems", "loadDefaults", "addItem"]}, "removeNode": {"callers": ["delFlow"], "callees": [], "file": "list.cpp", "code": [49, 55], "id": "d5", "group": "f_list", "view": "db", "layer": "db", "desc": "把节点从链上摘下来，顺手释放它", "chain": ["main", "runCommand", "delFlow", "removeNode"]}, "findById": {"callers": ["delFlow", "editFlow"], "callees": [], "file": "list.cpp", "code": [56, 65], "id": "d6", "group": "f_list", "view": "db", "layer": "db", "desc": "按编号找节点，找不到返回空", "chain": ["main", "runCommand", "delFlow", "findById"]}, "collect": {"callers": ["trieComplete"], "callees": [], "file": "trie.cpp", "code": [3, 10], "id": "d7", "group": "f_trie", "view": "db", "layer": "db", "desc": "把这里的命令全收进袋子，再递归钻每张子页", "chain": ["main", "trieComplete", "collect"]}, "commit": {"callers": ["addFlow", "delFlow", "editFlow", "main"], "callees": ["saveItems", "trieFree", "trieInsert"], "file": "trie.cpp", "code": [12, 21], "id": "d8", "group": "f_trie", "view": "db", "layer": "db", "desc": "链表改完之后重建整棵树，并写回磁盘", "chain": ["main", "commit"]}, "trieInsert": {"callers": ["commit"], "callees": [], "file": "trie.cpp", "code": [23, 41], "id": "d9", "group": "f_trie", "view": "db", "layer": "db", "desc": "把一条命令按字符插进树，走到末尾挂上节点", "chain": ["main", "commit", "trieInsert"]}, "trieComplete": {"callers": ["main"], "callees": ["collect"], "file": "trie.cpp", "code": [43, 57], "id": "d10", "group": "f_trie", "view": "db", "layer": "db", "desc": "按前缀走到那一页，返回底下所有命令", "chain": ["main", "trieComplete"]}, "trieFree": {"callers": ["commit", "main"], "callees": [], "file": "trie.cpp", "code": [59, 67], "id": "d11", "group": "f_trie", "view": "db", "layer": "db", "desc": "递归释放整棵树", "chain": ["main", "trieFree"]}, "parseInt": {"callers": ["loadItems"], "callees": [], "file": "storage存放.cpp", "code": [4, 18], "id": "d12", "group": "f_sto", "view": "db", "layer": "db", "desc": "字符串转整数，太长或混进字母都算失败", "chain": ["main", "loadItems", "parseInt"]}, "splitLine": {"callers": ["loadItems"], "callees": [], "file": "storage存放.cpp", "code": [20, 34], "id": "d13", "group": "f_sto", "view": "db", "layer": "db", "desc": "按分隔符把一行切成若干段", "chain": ["main", "loadItems", "splitLine"]}, "loadDefaults": {"callers": ["loadItems"], "callees": ["addItem"], "file": "storage存放.cpp", "code": [36, 44], "id": "d14", "group": "f_sto", "view": "db", "layer": "db", "desc": "文件读不到时，用内置的 6 条命令开张", "chain": ["main", "loadItems", "loadDefaults"]}, "dataPath": {"callers": ["main"], "callees": [], "file": "storage存放.cpp", "code": [48, 59], "id": "d15", "group": "f_sto", "view": "db", "layer": "db", "desc": "用 /proc/self/exe 找到自己，拼出同目录的 data.txt", "chain": ["main", "dataPath"]}, "loadItems": {"callers": ["main"], "callees": ["insertBefore", "loadDefaults", "parseInt", "splitLine"], "file": "storage存放.cpp", "code": [61, 95], "id": "d16", "group": "f_sto", "view": "db", "layer": "db", "desc": "逐行读文件，切成四段校验后装进链表", "chain": ["main", "loadItems"]}, "saveItems": {"callers": ["commit"], "callees": [], "file": "storage存放.cpp", "code": [97, 113], "id": "d17", "group": "f_sto", "view": "db", "layer": "db", "desc": "先写临时文件再改名，写一半断电也不会坏", "chain": ["main", "commit", "saveItems"]}, "rawOn": {"callers": ["askLine", "main"], "callees": [], "file": "linux.cpp", "code": [2, 19], "id": "f1", "group": "f_linux", "view": "fe", "layer": "fe", "desc": "存下老设置，关掉回车等待、回显和 Ctrl+C 信号", "chain": ["main", "rawOn"]}, "rawOff": {"callers": ["askLine", "main"], "callees": [], "file": "linux.cpp", "code": [21, 24], "id": "f2", "group": "f_linux", "view": "fe", "layer": "fe", "desc": "把存下的老设置写回去，终端复位", "chain": ["main", "rawOff"]}, "readKey": {"callers": ["main", "showItems"], "callees": [], "file": "linux.cpp", "code": [26, 78], "id": "f3", "group": "f_linux", "view": "fe", "layer": "fe", "desc": "读一个字节翻译成按键类型，中文补齐整个字", "chain": ["main", "readKey"]}, "draw": {"callers": ["main"], "callees": ["highlight"], "file": "screen.cpp", "code": [5, 23], "id": "f4", "group": "f_screen", "view": "fe", "layer": "fe", "desc": "清屏重画主界面：输入行 + 最多 6 条候选", "chain": ["main", "draw"]}, "showItems": {"callers": ["main", "runCommand"], "callees": ["highlight", "kmpAll", "readKey"], "file": "screen.cpp", "code": [25, 49], "id": "f5", "group": "f_screen", "view": "fe", "layer": "fe", "desc": "整屏列出命令，用 KMP 过滤并标红，等一键返回", "chain": ["main", "showItems"]}, "getnext": {"callers": ["kmpAll"], "callees": [], "file": "kmp_search.cpp", "code": [3, 22], "id": "b1", "group": "f_kmp", "view": "be", "layer": "be", "desc": "预处理子串，算出每个位置失配该退到哪", "chain": ["main", "showItems", "kmpAll", "getnext"]}, "kmpAll": {"callers": ["highlight", "showItems"], "callees": ["getnext"], "file": "kmp_search.cpp", "code": [40, 56], "id": "b2", "group": "f_kmp", "view": "be", "layer": "be", "desc": "在线性时间里找出子串所有出现的位置", "chain": ["main", "showItems", "kmpAll"]}, "highlight": {"callers": ["draw", "showItems"], "callees": ["kmpAll"], "file": "kmp_search.cpp", "code": [57, 85], "id": "b3", "group": "f_kmp", "view": "be", "layer": "be", "desc": "把命中的字涂红，跳着尾字节染色中文才不会花", "chain": ["main", "draw", "highlight"]}, "hasBar": {"callers": ["addFlow", "editFlow"], "callees": [], "file": "Enter.cpp", "code": [7, 14], "id": "b4", "group": "f_enter", "view": "be", "layer": "be", "desc": "检查字段里有没有竖线，有就存坏了", "chain": ["main", "runCommand", "addFlow", "hasBar"]}, "askLine": {"callers": ["addFlow", "editFlow"], "callees": ["rawOff", "rawOn"], "file": "Enter.cpp", "code": [16, 24], "id": "b5", "group": "f_enter", "view": "be", "layer": "be", "desc": "临时把终端切回正常模式，等用户输入一行", "chain": ["main", "runCommand", "addFlow", "askLine"]}, "addFlow": {"callers": ["runCommand"], "callees": ["addItem", "askLine", "commit", "hasBar"], "file": "Enter.cpp", "code": [27, 42], "id": "b6", "group": "f_enter", "view": "be", "layer": "be", "desc": "依次问命令、注释、标签，加进链表并保存", "chain": ["main", "runCommand", "addFlow"]}, "delFlow": {"callers": ["runCommand"], "callees": ["commit", "findById", "removeNode"], "file": "Enter.cpp", "code": [43, 54], "id": "b7", "group": "f_enter", "view": "be", "layer": "be", "desc": "按编号找到并删除一条命令", "chain": ["main", "runCommand", "delFlow"]}, "editFlow": {"callers": ["runCommand"], "callees": ["askLine", "commit", "findById", "hasBar"], "file": "Enter.cpp", "code": [55, 82], "id": "b8", "group": "f_enter", "view": "be", "layer": "be", "desc": "按编号找，三个字段回车不改，改完整条替换", "chain": ["main", "runCommand", "editFlow"]}, "runCommand": {"callers": ["main"], "callees": ["addFlow", "delFlow", "editFlow", "showItems"], "file": "Enter.cpp", "code": [84, 114], "id": "b9", "group": "f_enter", "view": "be", "layer": "be", "desc": "把冒号后面那行拆成名字和参数再分派", "chain": ["main", "runCommand"]}};
-const STATS   = {"files": 8, "lines": 715, "funcs": 31};
+const SOURCES = {"main.cpp": {"path": "main.cpp", "lines": ["#include \"list.h\"", "#include \"storage存放.h\"", "#include \"kmp_search.h\"", "#include \"linux.h\"", "#include \"Enter.h\"", "#include \"screen.h\"", "", "#include \"list.cpp\"", "#include \"storage存放.cpp\"", "#include \"kmp_search.cpp\"", "#include \"linux.cpp\"", "#include \"Enter.cpp\"", "#include \"screen.cpp\"", "", "int main(int argc,char*argv[])", "{", "bool pick=false;//pick是终端模式", "if(argc>1&&string(argv[1])==\"--pick\")pick=true;", "//ai生成-脚本所需内容", "", "    App app;//path,L,T;", "    app.path=dataPath();", "    initList(app.L);", "", "   loadItems(app.path,app.L);", "    //从本地文件下载命令，读instream in+in.open()+getline in", "    //下载=分割+id转类型+命令4部分合成为一命令+新建节点合并到链表里", "    //如果没有data.txt就新建txt，用源代码里的预制命令", "    saveItems(app.path,app.L);", "    //如果文件是空的，把空预制命令插到链表上后用这个saveItems把预制的命令搞到文件里", "", "    rawOn();//改Linux原本设置", "", "", "streambuf *oldBuf=cout.rdbuf();", "ofstream tty;", "string chosen=\"\";", "if(pick)", "{     ", "    tty.open(\"/dev/tty\");     ", "    cout.rdbuf(tty.rdbuf());", "}//ai生成-脚本所需内容", "", "", "    string input,msg,text;", "    //input=用户子串,msg提示词,text=按下的键", "    int sel=0,top=0;", "    //sel=选中命令的下标,命令最上面那一条的下标.", "", "    while(true)", "    {", "        vector<Node*> cand;", "        for(Node *p=app.L->dummyH->next;p!=app.L->dummyT;p=p->next)", "        {", "            string s=p->item.cmd+\"\\n\"+p->item.note+\"\\n\"+p->item.tag+\"\\n\"+to_string(p->item.id);", "            if(input==\"\"||kmpAll(s,input).empty()==0)", "            //若无子串(意思就是空的话全部都显示上去)or匹配上了", "            {", "                cand.push_back(p);", "            }", "        }", "", "        draw(&app,input,cand,sel,msg,top);", "        //cand是节点,有id tag note cmd，cmd用input对应。", "        //sel,top上去是为了滚动算法，看什么时候需要显示1-6变成显示2-7.", "        //显示函数", "        msg=\"\";", "", "        KeyType k=readKey(text);", "        //等待按按键.例如输入了git后等待按enter", "        if(k==Quit)break;", "        if(k==Char)", "        {", "            input+=text;", "            sel=0;", "        }", "        else if(k==Back)", "        {", "        if(input.empty()==0)", "        {   ", "            int i=input.size()-1;//", "            while(((unsigned char)input[i]&0xC0)==0x80)i--;", "            //位与&检查,因为要检查他的前两位是不是10，是10说明是2-4字节。", "            //s[i]与0xC0=1100 0000位于比较，由于末尾6位0xC0都是0，因此结果六位都是0", "            //剩下前缀2位，如果是10和11比，就是10 000000 =0x80", "            //就说明是尾字节，非头字节", "            //中文字符是2-4字节，若是3字节的中文字符，则是1110 xxxx,4字节则1111 xxxx", "            //2字节 1100 xxxx,如果是2-4字节的，他还会有除了头字节外的尾字节", "            //尾字节是10xx xxxx,所以这么位于比较。", "            //然后i--，直到找到头字节，", "            input.erase(i);", "            //erase的i指向头字节，就把头字节和尾字节删了。 ", "        }", "        sel=0;", "        }", "        //由于按了BackSpace后，需要重新检测input", "        //因此需要额外popChar，", "        //而非只是用户看不到那个字符了而已。", "        else if(k==Up)", "        {", "            if(sel>0)sel--;", "        }", "        else if(k==Down)", "        {", "            if(sel+1<(int)cand.size())sel++;", "        }", "        else if(k==Tab)", "        {", "            if(cand.empty()==0)input=cand[sel]->item.cmd;", "            //此刻出来了命令，按了上下键盘，指向命令了", "            //然后按tab补全你的命令;", "            sel=0;//补全后input变了，然后候选命令only自己了", "            if(pick)//脚本模式:补全完就把这一行交给bash", "            {", "                chosen=input;", "                break;", "            }", "        }", "        else if(k==Enter)", "        {     ", "            if(input.size()>0&&input[0]==':')", "            {", "                runCommand(&app,input.substr(1),msg);", "                //substr(1)：从第一行开始取input,当string", "                //然后runConmand看他:后，空格前是啥。空格后是啥。", "            }", "            input=\"\";", "            sel=0;", "            //按回车后要初始化，不按回车不用。", "        }", "    }", "", "    rawOff();", "", "    cout.rdbuf(oldBuf);//换回真stdout(ai)", "    if(pick){if(chosen!=\"\")cout<<chosen<<\"\\n\";}", "    //终端模式,返回选中命令.", "", "    else{cout<<\"\\n已退出,数据保存在 \"<<app.path<<\"\\n\";}", "    destroyList(app.L);", "    return 0;", "}"]}, "list.cpp": {"path": "database/src/list.cpp", "lines": ["#include \"list.h\"", "void initList(CommandList *&L)", "{", "    L=new CommandList();", "    L->dummyH=new Node();", "    L->dummyT=new Node();", "    L->dummyH->next=L->dummyT;", "    L->dummyT->prev=L->dummyH;", "    L->size=0;", "}", "void destroyList(CommandList *&L)", "{", "    Node *p=L->dummyH,*q;", "    while(p!=nullptr)", "    {", "        q=p->next;", "        delete p;", "        p=q;", "    }", "    delete L;L=nullptr;", "    //首先，给dummyHT分配了内存，放HT的节点的，", "    //然后再新建节点输入数据，插入进去，", "    //于是接下来链表成了H->1->2->3->T,", "    //五个节点都是有内存的，", "    //此刻qp做遍历把五个内存全都释放。", "}", "int nextFreeId(CommandList *L)//最小空号:1,2,3,...", "{", "    int id=1;", "    for(Node *q=L->dummyH->next;q!=L->dummyT;q=q->next)", "    {", "        if(q->item.id>id)break;//中间有空号", "        if(q->item.id==id)id++;//这个号被占了,看下一个", "    }", "    return id;", "}", "//发id的.", "void insertBefore(CommandList *L,Node *tail,Node *p)", "{", "    p->prev=tail->prev;", "    p->next=tail;", "    tail->prev->next=p;", "    tail->prev=p;", "    L->size++;", "    return ;", "}", "void addItem(CommandList *L,string cmd,string note,string tag,int fid)", "// :add git status,查看状态，git.没有提供id，因此自动丢给末尾。", "{", "    CommandItem x;", "    x.id=(fid==-1)?nextFreeId(L):fid;", "    //id有两个来源，第一个是文档里的id，第二个是派发的id", "    x.cmd=cmd;", "    x.tag=tag;", "    x.note=note;", "", "    Node *p=new Node();", "    p->item=x;", "", "    Node *pos=L->dummyT;//按id升序插入,否则新号会跑到链表末尾", "    for(Node *q=L->dummyH->next;q!=L->dummyT;q=q->next)", "    {", "        if(q->item.id>x.id){pos=q;break;}", "        //找链表里 最开始是哪个节点的id比p的大的", "    }", "    insertBefore(L,pos,p);", "    //找到了后就把id对应节点插入到 pos节点的前面。", "}", "void removeNode(CommandList *L,Node *p)", "{", "    p->prev->next=p->next;", "    p->next->prev=p->prev;", "    L->size--;", "    delete p;", "}", "Node *findById(CommandList *L,int id)", "{", "    Node *p=L->dummyH;", "    for(int i=0;i<L->size;i++)", "    {", "        p=p->next;", "        if(p->item.id==id)return p;", "    }", "    return nullptr;", "}", "//从L里找id，返回对应的节点，用于:del :edit"]}, "storage存放.cpp": {"path": "database/src/storage存放.cpp", "lines": ["#include \"storage存放.h\"", "#include<unistd.h>", "//--------------------------Tool-------------------------------", "void parseInt(const string &s,int &id)", "{", "    if(s.empty()) return ;", "    if(s.size()>9) return ;", "    //太长，防止溢出", "    int v=0;", "    for(char c:s)", "    {", "        if(c<'0'||c>'9') return ;  ", "        //混进非数字", "        v=v*10+(c-'0');", "    }", "    id=v;", "    return ;", "}", "//工具函数,用于loadItems:把string id变为int", "vector<string>splitLine(string line,char sep)", "//sep=separate：分割", "{", "    vector<string>parts;", "    string cur;", "    for(char c:line)", "    {", "        if(c==sep)", "        {parts.push_back(cur);cur.clear();}", "        else cur+=c;", "    }//在不遇到分隔符之前，一股脑丢到cur里", "    //遇到分隔符后，把装有东西的cur丢到part里，然后clear", "    parts.push_back(cur);", "    return parts;", "}", "//工具函数, 用于loadItems:分割一行的命令。", "void loadDefaults(CommandList *L)", "{", "    addItem(L,\"git add -A\",\"暂存所有改动\",\"git\",-1);", "    addItem(L,\"git commit -m \\\"fix\\\"\",\"提交并写明本次修复内容\",\"git\",-1);", "    addItem(L,\"git push\",\"把本地提交推送到远程仓库\",\"git\",-1);", "    addItem(L,\"g++ -o main main.cpp\",\"最简编译：把 main.cpp 编译成 main\",\"build\",-1);", "    addItem(L,\"make -j4\",\"并行编译整个项目\",\"build\",-1);", "    addItem(L,\"ls -la\",\"列出所有文件（含隐藏文件）\",\"linux\",-1);", "}", "//工具函数,用于loadItems:如果下载失败，制作模板txt", "", "//--------------------------Main----------------------------------", "string dataPath()", "{", "    string p(4096,'\\0');", "    readlink(\"/proc/self/exe\",&p[0],p.size()-1);", "    //readlink返回写了多少字节", "    //\"/proc/self/exe\"=文件g++后产生的exe位置(linux不产生exe，产生的文件没有后缀)", "    //readlink，先把\"/proc/self/exe\"改成本地地址，然后最多允许抄sizeof(buf)-1个字符到buf上。", "    //ssize_t是size_t的带符号版本,sizeof()很多返回的都是size_t", "    int n=p.rfind('/');", "    p=p.substr(0,n+1);//n是最后一个斜杠的下标，0-n有n+1个字符", "    return p+\"data.txt\";", "}", "//找路径", "void loadItems(string path,CommandList *L)", "{", "    ifstream in;", "    //设一个装文件位置类型的变量in(读)", "    in.open(path);//使得in对应着path这个文件", "    if(!in.is_open()){loadDefaults(L);return ;}", "    string line;", "    while(getline(in,line))", "    //从文件里一行一行getline，getline不要\\n", "    {", "        if(line.empty()==0&&line.back()=='\\r')", "        {line.pop_back();}", "        //调整windows格式", "", "        vector<string>parts=splitLine(line,'|');", "        //给getline的那一行分割了，拿id,cmd,note,tag四部分", "        ", "        int fid=0;", "        parseInt(parts[0],fid);", "        //把字符数字改成整数数字，存id里", "", "        addItem(L,parts[1],parts[2],parts[3],fid);", "    }", "    return ;", "}", "//把path路径里的东西搞到in里，然后一行一行看in的命令,把命令套链表上", "void saveItems(string path,CommandList *L)", "{", "    ofstream out;//ifstream是读,ofstream是写", "    out.open(path);//给变量整上具体地址,如果没有，就创建。", "    for(Node *p=L->dummyH->next;p!=L->dummyT;p=p->next)", "    {", "        out<<p->item.id<<'|'<<p->item.cmd<<'|'<<p->item.note<<'|'<<p->item.tag<<'\\n';", "        // out<< 为往文件里写什么什么东西。", "    }", "    return ;", "}"]}, "kmp_search.cpp": {"path": "backend/src/kmp_search.cpp", "lines": ["#include \"kmp_search.h\"", "", "vector<int>getnext(string p)", "{", "    vector<int>nxt(p.size(),0);", "    int index=0;", "    for(int i=1;i<(int)p.size();i++)", "    {", "        while(index>0&&p[i]!=p[index])", "        {", "            index=nxt[index-1];", "        }", "        if(p[i]==p[index])", "        {", "            index++;                                                                       ", "        }", "        nxt[i]=index;", "    }", "    return nxt;", "}", "//工具函数，获得next表kmpAll使用", "//a b a  c a b a,aba<->aba,", "//0 0 1  0 1 2 3", "//tail+'b',c!=b", "//aba(c)!=aba(b).3+1失效", "//看x+1的x是生效的，用nxt表", "//由于012=456,不可用，则查01是否=56", "//nxt[2]表是aba比对01,12,也就是01是否等于56", "//发现01!=12,也就是01!=56,", "//再缩水查0=2,也就是0=6.", "//a(b)==a(b)前缀1+1生效", "//再判断最后那个1是否生效", "//若生效,k++", "//b=b(if(p[i]==p[k])k++)", "//k=2", "//若失效k-- k=0;", "", "vector<int>kmpAll(string s,string p)", "{", "    vector<int>firstchar;", "    if(p.empty()==1) return firstchar;", "    vector<int>nxt=getnext(p);", "    int j=0;", "    for(int i=0;i<(int)s.size();i++){", "        while(j>0&&s[i]!=p[j])j=nxt[j-1];", "        if(s[i]==p[j])j++;", "        if(j==(int)p.size())", "        {", "            firstchar.push_back(i-j+1);", "            j=nxt[j-1];", "        }", "    }", "    return firstchar;", "}", "string highlight(string s,string p,string base)", "{", "    vector<bool>hit(s.size(),false);//hit是vector名,开文本串长度，全给false", "    for(int st:kmpAll(s,p))//st是首字符下标", "    {", "        for(int k=0;k<(int)p.size();k++)", "        {hit[st+k]=true;}//一号位是1,7,12", "        //p子串长度是2,则12 78 1213 false->true", "    }", "  string out;int last=-5;//一个永远不会遇见的数", "    for(int i=0;i<(int)s.size();i++)", "    {", "        unsigned char c=s[i];", "        if((c<0x80||c>0xBF)&&hit[i]!=last)", "        {", "            if(hit[i]==true) out+=RED;//底色+red=red", "            else{out+=RESET;//变成白颜色。", "            out+=base;}//如果是\"\"就是不变", "            //如果base=GRAY,就再染个灰色", "            last=hit[i];", "        }", "        //倘若遇到中文字符，有头字节尾巴字节", "        //此if判定是依旧循环走字节，如果走到尾字节就不加颜色码", "        out+=s[i];//染完色后把字符搞进去", "    }", "out+=RESET;//彻底搞完了变成空颜色", "return out;//返回染色串", "}", "//返回带颜色的串.|"]}, "Enter.cpp": {"path": "backend/src/Enter.cpp", "lines": ["#include \"Enter.h\"", "#include \"storage存放.h\"     //saveItems", "#include \"linux.h\"//rawOff,rawOn", "", "bool hasBar(string s)", "{", "    for(int i=0;i<(int)s.size();i++)", "    {", "        if(s[i]=='|')return true;", "    }", "    return false;", "}", "//用于addFLow,检查字段里有无切割符", "bool askLine(string input,string &out)", "{", "    out=\"\";//用户子串", "    string s;", "    cout<<\"\\n\\n\";", "    while(true)", "    {", "        cout<<\"\\r\\033[K\"<<input<<out<<flush;", "        // \\r=光标回到本行开头", "        KeyType k=readKey(s);", "        if(k==Quit)return false;", "        if(k==Enter)return true;", "        if(k==Char)out+=s;", "        else if(k==Back&&out.empty()==0)", "        {", "            int i=out.size()-1;", "            while(((unsigned char)out[i]&0xC0)==0x80)i--;", "            //如果是尾字节就下标-1", "            out.erase(i);", "        }", "    }", "}", "//从用户那里拿子串。", "", "void addFlow(App *app,string &msg)", "{", "    string cmd,note,tag;", "    if(askLine(\"命令: \",cmd)==0||cmd==\"\"){msg=\"已取消\";return;}", "    if(askLine(\"注释(可留空): \",note)==0){msg=\"已取消\";return;}", "    if(askLine(\"标签(默认 misc): \",tag)==0){msg=\"已取消\";return;}", "    if(tag==\"\")tag=\"misc\";", "    if(hasBar(cmd)||hasBar(note)||hasBar(tag))", "    {", "        msg=\"字段不能有|\";", "        return;", "    }", "    addItem(app->L,cmd,note,tag,-1);", "    saveItems(app->path,app->L);", "    msg=\"已添加\";", "}", "void delFlow(App *app,int id,string &msg)", "{", "    Node *p=findById(app->L,id);", "    if(p==nullptr)", "    {", "        msg=\"无此编号 #\"+to_string(id);", "        return;", "    }", "    removeNode(app->L,p);", "    saveItems(app->path,app->L);", "    msg=\"已删除 #\"+to_string(id);", "}", "void editFlow(App *app,int id,string &msg)", "{", "    Node *p=findById(app->L,id);", "    if(p==nullptr)", "    {", "        msg=\"没有编号 #\"+to_string(id);", "        return;", "    }", "", "    CommandItem nw=p->item;", "    string s;", "    if(askLine(\"新命令（回车不改）: \",s)==0){msg=\"已取消\";return;}", "    if(s!=\"\") nw.cmd=s;", "    if(askLine(\"新注释（回车不改）: \",s)==0){msg=\"已取消\";return;}", "    if(s!=\"\") nw.note=s;", "    if(askLine(\"新标签（回车不改）: \",s)==0){msg=\"已取消\";return;}", "    if(s!=\"\") nw.tag=s;", "", "    if(hasBar(nw.cmd)||hasBar(nw.note)||hasBar(nw.tag))", "    {", "        msg=\"字段里不能有 |\";", "        return;", "    }", "", "    p->item=nw;", "    saveItems(app->path,app->L);", "    msg=\"已修改 #\"+to_string(id);", "}", "", "void runCommand(App *app,string line,string &msg)", "{", "    int pos=line.find(' ');//find返回无符号下标", "    string name,rest=\"\";", "    if(pos==-1)//:add,找不到' '返回值是-1", "    {", "        name=line;", "    }", "    else// 空格前是命令名，空格后是剩下的", "    {", "        name=line.substr(0,pos);", "        rest=line.substr(pos+1);", "    }", "", "    if(name==\"add\")addFlow(app,msg);", "    else if(name==\"del\"||name==\"edit\")", "    {", "        int id=0;", "        parseInt(rest,id);", "        ", "        if(name==\"del\")delFlow(app,id,msg);", "        else editFlow(app,id,msg);", "    }", "    else msg=\"未知命令: \"+name;", "} ", "//跑冒号指令."]}, "linux.cpp": {"path": "frontend/src/linux.cpp", "lines": ["#include \"linux.h\"", "void rawOn()", "{", "    tcgetattr(STDIN_FILENO,&oldT);", "    //get attr获得属性", "    //STDIN_FILENO是管道,可以装,oldT是存放设置参数的地方,", "    termios t=oldT;                       ", "    t.c_lflag&=~(ICANON|ECHO|ISIG);", "    //给这三个属性全关了    ", "    //ICANON必须等回车再把字交给程序", "    //ECHO敲什么键，就往屏幕上显示什么字(按上下键不会出现^[[A)", "    //ISIG,按ctrl+C杀死程序", "", "    t.c_cc[VMIN]=1;//至少要用户输入1个字节再开始读      ", "", "    t.c_cc[VTIME]=0;//计时器，拿到字节以后直接开找", "", "    tcsetattr(STDIN_FILENO,TCSAFLUSH,&t);", "    //这是set,上面是get", "    //把VIM VTIME和那三个交付给状态t,状态t给到了零号管。", "    //TCSAFLUSH-立即生效+清空管道，TCSANOW立即生效", "}//状态更新", "", "void rawOff()", "{", "    tcsetattr(STDIN_FILENO,TCSAFLUSH,&oldT);", "}//状态返回", "", "KeyType readKey(string &s)", "{", "    unsigned char c=0;", "    if(read(STDIN_FILENO,&c,1)!=1)return Quit;", "    //read是linux的，(从哪读，存到哪，读几个)", "", "    if(c==3)return Quit;//Ctrl+C=3", "", "    if(c=='\\n'||c=='\\r')return Enter;//enter", "", "    if(c=='\\t')return Tab;//tab", "", "    if(c==127||c==8)return Back;//Backspace删除", "", "    if(c==27)//^[[A or ^[[B", "    {", "        fd_set s={0b0001};//勾选STDIN_FILENO管", "        timeval tv={0,0};//0s,0us", "        if(select(1,&s,0,0,&tv)==0)return Other;", "        //查1个管子，从s里拿管子,时间是tv，如果查到里面没东西了就是otherESC", "        //&必须要的原因是死规定", "        string a(2,0);//开两个位置放0", "        read(STDIN_FILENO,&a[0],2);", "        if(a==\"[A\")return Up;", "        if(a==\"[B\")return Down;", "        return Other;", "    }", "", "    if(c<32)return Other;//32是空格，0-31是控制键例如ctrl+A", "", "    //中文=UTF-8=2~4字节的字符", "    int len=1;", "    if(c>=0xF0)len=4;", "    //看看一个字符有多少个字节", "    //1字节 0xxx xxxx,2字节开头110x 3字节开头111x 4字节开头1111;", "    //多字节的尾巴，例如3字节的另两个字节都是10xx xxxx,", "    else if(c>=0xE0)len=3;", "    else if(c>=0xC0)len=2;", "", "    s=(char)c;//把第一个字节搞进去", "    for(int k=1;k<len;k++)//把剩下的字节搞进去,例如3字节的中文汉字", "    //就拼成了一个完整的字.", "    {", "        unsigned char d=0;", "        if(read(STDIN_FILENO,&d,1)!=1)break;", "        s+=(char)d;", "    }", "    return Char;", "}", "//读按键"]}, "screen.cpp": {"path": "frontend/src/screen.cpp", "lines": ["#include \"screen.h\"", "#include<bits/stdc++.h>", "using namespace std;", "", "void draw(App* app,string input,vector<Node*>&cand,int sel,string msg,int &top)", "{", "    cout<<\"\\033[H\";//清屏;", "    cout<<\"CmdBox ↑↓ 选择  Tab补全命令  Ctrl+C退出\\033[K\\n\";", "    cout<<\"数据文件:\"<<app->path<<\"\\033[K\\n\\033[K\\n\";", "    cout<<\"> \"<<input<<\"\\033[K\\n\";", "   ", "    if(sel<top)top=sel;", "    if(sel>=top+6)top=sel-5;", "", "    for(int i=top;i<(int)cand.size()&&i<top+6;i++)", "    //从top开始往下走，只画6行以内。", "    {", "        cout<<(i==sel?\"> \":\"  \")<<highlight(cand[i]->item.cmd,input,\"\")<<\"\\033[K\\n\"<<\"# \"<<highlight(cand[i]->item.note,input,GRAY)<<\"  [\"<<highlight(cand[i]->item.tag,input,\"\")<<\"]\"<<\" id:\"<<highlight(to_string(cand[i]->item.id),input,\"\")<<\"\\033[K\\n\"; ", "    }", "    if(msg!=\"\")cout<<\"\\033[K\\n\"<<msg<<\"\\033[K\\n\";", "    cout<<\"\\033[J\"<<flush;", "}", "//实时界面"]}};
+const ROWS = [{"id": 1, "cmd": "git add -A", "note": "暂存所有改动", "tag": "git"}, {"id": 2, "cmd": "git commit -m \"fix\"", "note": "提交并写明本次修复内容", "tag": "git"}, {"id": 3, "cmd": "git push", "note": "把本地提交推送到远程仓库", "tag": "git"}, {"id": 4, "cmd": "g++ -o main main.cpp", "note": "最简编译：把 main.cpp 编译成 main", "tag": "build"}, {"id": 5, "cmd": "make -j4", "note": "并行编译整个项目", "tag": "build"}, {"id": 6, "cmd": "ls -la", "note": "列出所有文件（含隐藏文件）", "tag": "linux"}, {"id": 7, "cmd": "Hello", "note": "", "tag": "tag"}];
+const QUICK = ["git", "暂存", "ls", ":add", ":edit 7", ":del 7"];
+const VIEWS = [{"id": "flash", "tab": "轻量版", "render": "intro", "file": "main.cpp", "root": {"id": "flashroot", "label": "CmdBox Flash", "sub": "轻量版 · 插件向"}, "groups": []}, {"id": "main", "tab": "main 时间线", "render": "tree", "file": "main.cpp", "root": {"id": "mainroot", "label": "main", "sub": "程序入口 · main.cpp"}, "groups": [{"id": "init", "num": "①", "label": "初始化", "sub": "找路径 · 读文件 · 开终端", "file": "main.cpp", "code": [21, 32], "items": [{"id": "i1", "num": "1", "label": "取路径 + 建空链表", "layer": "db", "code": [21, 23], "fn": "dataPath() · initList()", "desc": "用 /proc/self/exe 反查二进制目录，拼出同目录的 data.txt；initList 只建头尾两个哨兵。Flash 的 App 里没有 TrieNode，只有链表。"}, {"id": "i2", "num": "2", "label": "读文件 → 链表", "layer": "db", "code": [25, 27], "fn": "loadItems()", "desc": "逐行按 | 拆成 id/命令/注释/标签，id 转 int，再按 id 升序插进链表。文件不存在就装 6 条预制命令。"}, {"id": "i3", "num": "3", "label": "启动即写回", "layer": "db", "code": [29, 30], "fn": "saveItems()", "desc": "v1.0 的 commit 会「重建树 + 原子写」，Flash 直接 saveItems 覆盖写。好处是 data.txt 缺失时立刻生成；代价是写一半断电会留半截文件。"}, {"id": "i4", "num": "4", "label": "改 Linux 设置", "layer": "fe", "code": [32, 32], "fn": "rawOn()", "desc": "关掉 ICANON/ECHO/ISIG：终端才能一个键一个键读，Ctrl+C 也不再由内核直接杀进程。"}]}, {"id": "loop", "num": "②", "label": "循环", "sub": "扫链表 · 画屏 · 等键", "file": "main.cpp", "code": [50, 130], "items": [{"id": "l1", "num": "1", "label": "扫链表算候选", "layer": "db", "code": [52, 61], "fn": "kmpAll()", "desc": "每帧重建 vector<Node*>：把 cmd + \"\\n\" + note + \"\\n\" + tag + \"\\n\" + id 拼成一个串，用 KMP 找 input 第一次出现的位置。输入为空就全收。注意这是子串匹配，不是前缀——输 add 也能命中 git add -A。"}, {"id": "l2", "num": "2", "label": "画界面", "layer": "fe", "code": [63, 63], "fn": "draw()", "desc": "光标回左上角、逐行吃到行尾（\\033[H / \\033[K / \\033[J），最多画 6 条；top 让窗口跟着 sel 滚，选中项不会跑出屏幕。"}, {"id": "l3", "num": "3", "label": "等一个键", "layer": "fe", "code": [69, 69], "fn": "readKey()", "desc": "阻塞在 read() 上直到你敲键，只把字节翻译成按键类型，不决定干什么。点开看每个键拐去哪。", "kids": [{"id": "l3a", "label": "Ctrl+C", "layer": "mn", "code": [71, 71], "desc": "readKey 返回 Quit，main 一句 break 跳出循环，接着还原终端、释放链表。"}, {"id": "l3b", "label": "普通字符", "layer": "mn", "code": [72, 76], "desc": "接到 input 末尾，sel 归零。候选列表变了，光标回到第一条。"}, {"id": "l3c", "label": "退格", "layer": "mn", "code": [77, 95], "desc": "删掉一个完整字符。一个汉字在 UTF-8 里占 3 字节，要一直往回找到头字节再 erase。Flash 的循环去掉了 i>0 的判断——input 非空时最多退到 0，而首字节不可能是 10xxxxxx 尾字节。"}, {"id": "l3d", "label": "↑ ↓", "layer": "mn", "code": [99, 106], "desc": "在候选里上下挪，sel 有上下界检查。"}, {"id": "l3e", "label": "Tab", "layer": "mn", "code": [107, 118], "desc": "把选中的候选整条填进输入框。--pick 模式下补完就 break，把这一行交回 bash 的 bind -x。"}, {"id": "l3f", "label": "Enter", "layer": "mn", "code": [119, 130], "desc": "回车只看第一个字符是不是冒号；是就跑内部指令，不是就什么都不做。Flash 删掉了 v1.0 的整屏搜索。", "kids": [{"id": "l3f1", "label": "指令串（: 开头）", "layer": "be", "code": [121, 126], "fn": "runCommand()", "desc": "去掉冒号，按第一个空格拆成 name / rest；只认 add、del、edit。:quit、:list、:help 都会落到「未知命令」。", "chips": [{"label": ":add", "jump": "addFlow"}, {"label": ":del", "jump": "delFlow"}, {"label": ":edit", "jump": "editFlow"}]}, {"id": "l3f2", "label": "普通输入回车", "layer": "mn", "code": [127, 128], "desc": "不搜索、不执行，input 清空、sel 归零，回到列表。"}]}]}]}, {"id": "end", "num": "③", "label": "结束", "sub": "还原终端 · 释放链表", "file": "main.cpp", "code": [133, 141], "items": [{"id": "e1", "num": "1", "label": "还原终端", "layer": "fe", "code": [133, 133], "fn": "rawOff()", "desc": "把 tcgetattr 存下的老设置写回去，不然退出后命令行不回显、不换行。"}, {"id": "e2", "num": "2", "label": "交还输出", "layer": "mn", "code": [135, 136], "fn": "cout.rdbuf(oldBuf)", "desc": "输出从 /dev/tty 换回真 stdout；--pick 只吐选中那一行，普通模式打印保存路径。"}, {"id": "e3", "num": "3", "label": "释放链表", "layer": "db", "code": [140, 140], "fn": "destroyList()", "desc": "从 dummyH 开始顺着 next 全删，最后删掉表头。Flash 没有 trieFree——树本来就不存在。"}, {"id": "e4", "num": "4", "label": "收工", "layer": "mn", "code": [141, 141], "desc": "return 0，整个程序 142 行。"}]}]}, {"id": "tut", "tab": "功能试用", "render": "play", "root": {"id": "tutroot", "label": "功能试用", "sub": ""}, "groups": []}, {"id": "db", "tab": "数据库", "render": "tree", "layer": "db", "file": "list.cpp", "root": {"id": "dbroot", "label": "数据库", "sub": "database/ · 只有链表和文件"}, "groups": [{"id": "f_list", "label": "list.cpp", "sub": "双向链表 · 按 id 有序", "file": "list.cpp", "code": [1, 86], "items": [{"id": "d1", "label": "initList", "desc": "建头尾两个哨兵，size=0。Flash 的 CommandList 没有 nextId——编号由 nextFreeId 现算。", "code": [2, 10]}, {"id": "d2", "label": "destroyList", "desc": "顺着 next 把所有节点连哨兵一起释放。", "code": [11, 26]}, {"id": "d3", "label": "nextFreeId", "desc": "从 1 往上数：号被占了就 +1，遇到空号立刻返回。删掉的号会被下一次 :add 复用。", "code": [27, 36]}, {"id": "d4", "label": "insertBefore", "desc": "改四条指针，把节点插到指定位置前面；第二个参数叫 tail，但实际传的是插入位置。", "code": [38, 46]}, {"id": "d5", "label": "addItem", "desc": "fid==-1 时取 nextFreeId，否则用文件里的 id；再按 id 升序插到第一个更大的节点前。所以从 data.txt 读进来的顺序也会被排好。", "code": [47, 68]}, {"id": "d6", "label": "removeNode", "desc": "把节点从链上摘下来，顺手释放。", "code": [69, 75]}, {"id": "d7", "label": "findById", "desc": "从头顺着数，按编号找节点，找不到返回空。", "code": [76, 85]}]}, {"id": "f_sto", "label": "storage存放.cpp", "sub": "读写 data.txt", "file": "storage存放.cpp", "code": [1, 97], "items": [{"id": "d8", "label": "parseInt", "desc": "void 版本：空串、超过 9 位、混进字母都直接 return，id 保持原值（0）。v1.0 返回 bool 让调用方决定跳不跳过。", "code": [4, 18]}, {"id": "d9", "label": "splitLine", "desc": "按 | 把一行切成若干段，末尾补最后一段。", "code": [20, 34]}, {"id": "d10", "label": "loadDefaults", "desc": "文件读不到时的 6 条预制命令，全部 fid=-1，让 addItem 自己发号。", "code": [36, 44]}, {"id": "d11", "label": "dataPath", "desc": "用 /proc/self/exe 找到自己，拼出同目录的 data.txt。", "code": [48, 59]}, {"id": "d12", "label": "loadItems", "desc": "读不到文件就 loadDefaults；否则每行 split，parseInt(parts[0]) 后直接取 parts[1..3]。没有列数校验——v1.0 的 if(parts.size()!=4)continue 在这一版被删了。", "code": [61, 85]}, {"id": "d13", "label": "saveItems", "desc": "直接 ofstream 覆盖写，没有 .tmp + rename。", "code": [87, 97]}]}]}, {"id": "fe", "tab": "前端", "render": "tree", "layer": "fe", "file": "linux.cpp", "root": {"id": "feroot", "label": "前端", "sub": "frontend/ · 看和按键"}, "groups": [{"id": "f_linux", "label": "linux.cpp", "sub": "终端控制 · 读键", "file": "linux.cpp", "code": [1, 78], "items": [{"id": "f1", "label": "rawOn", "desc": "存下老设置，关掉回车等待、回显和 Ctrl+C 信号；VMIN=1、VTIME=0，来一个字节就开始读。", "code": [2, 22]}, {"id": "f2", "label": "rawOff", "desc": "把存下的老设置写回去，终端复位。", "code": [24, 27]}, {"id": "f3", "label": "readKey", "desc": "读一个字节翻译成按键类型：\\n 回车、\\t Tab、127/8 退格、3 Ctrl+C。ESC 分支先用 select 零超时探一下——没有后续字节就当 Other 返回，这是「ESC 假死」的修法。普通字符补齐整个 UTF-8 字。", "code": [29, 77]}]}, {"id": "f_screen", "label": "screen.cpp", "sub": "画界面", "file": "screen.cpp", "code": [1, 23], "items": [{"id": "f4", "label": "draw", "desc": "\\033[H 回左上角，逐行 \\033[K 吃到行尾，最后 \\033[J 清掉下面；最多 6 行，top 负责滚动。表头只有「↑↓ 选择 / Tab补全命令 / Ctrl+C退出」。", "code": [5, 22]}]}]}, {"id": "be", "tab": "后端", "render": "tree", "layer": "be", "file": "kmp_search.cpp", "root": {"id": "beroot", "label": "后端", "sub": "backend/ · 搜索和冒号命令"}, "groups": [{"id": "f_kmp", "label": "kmp_search.cpp", "sub": "字符串匹配 · 染色", "file": "kmp_search.cpp", "code": [1, 83], "items": [{"id": "b1", "label": "getnext", "desc": "预处理子串，算出每个位置失配该退到哪。", "code": [3, 20]}, {"id": "b2", "label": "kmpAll", "desc": "线性时间找出子串所有出现位置；空串或文本比模式短就直接返回。候选筛选和标红都靠它。", "code": [38, 54]}, {"id": "b3", "label": "highlight", "desc": "把命中的字涂红。中文按字节走，遇到 10xxxxxx 尾字节不再插颜色码，否则整行会花。", "code": [55, 82]}]}, {"id": "f_enter", "label": "Enter.cpp", "sub": "冒号指令 · 行内编辑", "file": "Enter.cpp", "code": [1, 120], "items": [{"id": "b4", "label": "hasBar", "desc": "检查字段里有没有 |，有的话存回 data.txt 会把一行拆坏。", "code": [5, 12]}, {"id": "b5", "label": "askLine", "desc": "行内编辑器：反复 \\r\\033[K 重画「提示 + 已输入」，用 readKey 逐键读。Quit 返回 false（这次 :add/:edit 取消），Enter 返回 true，Back 删整个 UTF-8 字。", "code": [14, 35]}, {"id": "b6", "label": "addFlow", "desc": "依次问命令、注释、标签；命令为空或 Ctrl+C 都算取消；任何字段有 | 就报错；addItem(...,-1) 发号后 saveItems。", "code": [38, 53]}, {"id": "b7", "label": "delFlow", "desc": "按编号找到并摘掉节点，然后保存；找不到就报「无此编号」。", "code": [54, 65]}, {"id": "b8", "label": "editFlow", "desc": "按编号找，三问都「回车保留旧值」；Ctrl+C 取消；有 | 报错；整条替换后保存。", "code": [66, 93]}, {"id": "b9", "label": "runCommand", "desc": "把冒号后面那行按第一个空格拆成 name / rest，只分派 add、del、edit，返回 void。没有 quit/list/help——想退出就 Ctrl+C。", "code": [95, 119]}]}]}];
+const CALLS = {"initList": {"callers": ["main"], "callees": [], "file": "list.cpp", "code": [2, 10], "id": "d1", "group": "f_list", "view": "db", "layer": "db", "desc": "给链表和头尾哨兵开内存，编号不再存在表头里", "chain": ["main", "initList"]}, "destroyList": {"callers": ["main"], "callees": [], "file": "list.cpp", "code": [11, 26], "id": "d2", "group": "f_list", "view": "db", "layer": "db", "desc": "顺着 next 把所有节点连哨兵一起释放", "chain": ["main", "destroyList"]}, "nextFreeId": {"callers": ["addItem"], "callees": [], "file": "list.cpp", "code": [27, 36], "id": "d3", "group": "f_list", "view": "db", "layer": "db", "desc": "找最小的没被占用的编号", "chain": ["main", "runCommand", "addFlow", "addItem", "nextFreeId"]}, "insertBefore": {"callers": ["addItem"], "callees": [], "file": "list.cpp", "code": [38, 46], "id": "d4", "group": "f_list", "view": "db", "layer": "db", "desc": "改四条指针，把节点插到指定位置前面", "chain": ["main", "loadItems", "addItem", "insertBefore"]}, "addItem": {"callers": ["addFlow", "loadDefaults"], "callees": ["insertBefore", "nextFreeId"], "file": "list.cpp", "code": [47, 68], "id": "d5", "group": "f_list", "view": "db", "layer": "db", "desc": "发号（或沿用文件里的 id），再按 id 升序插入", "chain": ["main", "loadItems", "loadDefaults", "addItem"]}, "removeNode": {"callers": ["delFlow"], "callees": [], "file": "list.cpp", "code": [69, 75], "id": "d6", "group": "f_list", "view": "db", "layer": "db", "desc": "把节点从链上摘下来，顺手释放它", "chain": ["main", "runCommand", "delFlow", "removeNode"]}, "findById": {"callers": ["delFlow", "editFlow"], "callees": [], "file": "list.cpp", "code": [76, 85], "id": "d7", "group": "f_list", "view": "db", "layer": "db", "desc": "按编号找节点，找不到返回空", "chain": ["main", "runCommand", "delFlow", "findById"]}, "parseInt": {"callers": ["loadItems"], "callees": [], "file": "storage存放.cpp", "code": [4, 18], "id": "d8", "group": "f_sto", "view": "db", "layer": "db", "desc": "void 版本：不合法就沉默返回，id 留原值", "chain": ["main", "loadItems", "parseInt"]}, "splitLine": {"callers": ["loadItems"], "callees": [], "file": "storage存放.cpp", "code": [20, 34], "id": "d9", "group": "f_sto", "view": "db", "layer": "db", "desc": "按 | 把一行切成若干段", "chain": ["main", "loadItems", "splitLine"]}, "loadDefaults": {"callers": ["loadItems"], "callees": ["addItem"], "file": "storage存放.cpp", "code": [36, 44], "id": "d10", "group": "f_sto", "view": "db", "layer": "db", "desc": "文件读不到时用 6 条预制命令开张", "chain": ["main", "loadItems", "loadDefaults"]}, "dataPath": {"callers": ["main"], "callees": [], "file": "storage存放.cpp", "code": [48, 59], "id": "d11", "group": "f_sto", "view": "db", "layer": "db", "desc": "用 /proc/self/exe 拼出同目录的 data.txt", "chain": ["main", "dataPath"]}, "loadItems": {"callers": ["main"], "callees": ["splitLine", "parseInt", "addItem", "loadDefaults"], "file": "storage存放.cpp", "code": [61, 85], "id": "d12", "group": "f_sto", "view": "db", "layer": "db", "desc": "逐行读文件，切段后按 id 装进链表", "chain": ["main", "loadItems"]}, "saveItems": {"callers": ["main", "addFlow", "delFlow", "editFlow"], "callees": [], "file": "storage存放.cpp", "code": [87, 96], "id": "d13", "group": "f_sto", "view": "db", "layer": "db", "desc": "直接覆盖写 data.txt，没有 tmp+rename", "chain": ["main", "saveItems"]}, "rawOn": {"callers": ["main"], "callees": [], "file": "linux.cpp", "code": [2, 22], "id": "f1", "group": "f_linux", "view": "fe", "layer": "fe", "desc": "存老设置，关掉行缓冲、回显和 Ctrl+C 信号", "chain": ["main", "rawOn"]}, "rawOff": {"callers": ["main"], "callees": [], "file": "linux.cpp", "code": [24, 27], "id": "f2", "group": "f_linux", "view": "fe", "layer": "fe", "desc": "把存下的老设置写回去", "chain": ["main", "rawOff"]}, "readKey": {"callers": ["main", "askLine"], "callees": [], "file": "linux.cpp", "code": [29, 77], "id": "f3", "group": "f_linux", "view": "fe", "layer": "fe", "desc": "读一个字节翻译成按键；ESC 用 select 探后续字节，中文补齐整个字", "chain": ["main", "readKey"]}, "draw": {"callers": ["main"], "callees": ["highlight"], "file": "screen.cpp", "code": [5, 22], "id": "f4", "group": "f_screen", "view": "fe", "layer": "fe", "desc": "回左上角逐行重画，最多 6 条，top 控制滚动", "chain": ["main", "draw"]}, "getnext": {"callers": ["kmpAll"], "callees": [], "file": "kmp_search.cpp", "code": [3, 20], "id": "b1", "group": "f_kmp", "view": "be", "layer": "be", "desc": "预处理子串，算出失配该退到哪", "chain": ["main", "kmpAll", "getnext"]}, "kmpAll": {"callers": ["main", "highlight"], "callees": ["getnext"], "file": "kmp_search.cpp", "code": [38, 54], "id": "b2", "group": "f_kmp", "view": "be", "layer": "be", "desc": "线性时间找出子串所有出现的位置", "chain": ["main", "kmpAll"]}, "highlight": {"callers": ["draw"], "callees": ["kmpAll"], "file": "kmp_search.cpp", "code": [55, 82], "id": "b3", "group": "f_kmp", "view": "be", "layer": "be", "desc": "把命中的字涂红，跳过 UTF-8 尾字节", "chain": ["main", "draw", "highlight"]}, "hasBar": {"callers": ["addFlow", "editFlow"], "callees": [], "file": "Enter.cpp", "code": [5, 12], "id": "b4", "group": "f_enter", "view": "be", "layer": "be", "desc": "检查字段里有没有 |", "chain": ["main", "runCommand", "addFlow", "hasBar"]}, "askLine": {"callers": ["addFlow", "editFlow"], "callees": ["readKey"], "file": "Enter.cpp", "code": [14, 35], "id": "b5", "group": "f_enter", "view": "be", "layer": "be", "desc": "行内编辑器：逐键读，Ctrl+C 取消，Enter 确认", "chain": ["main", "runCommand", "addFlow", "askLine"]}, "addFlow": {"callers": ["runCommand"], "callees": ["askLine", "hasBar", "addItem", "saveItems"], "file": "Enter.cpp", "code": [38, 53], "id": "b6", "group": "f_enter", "view": "be", "layer": "be", "desc": "三问之后发号、插链表、落盘", "chain": ["main", "runCommand", "addFlow"]}, "delFlow": {"callers": ["runCommand"], "callees": ["findById", "removeNode", "saveItems"], "file": "Enter.cpp", "code": [54, 65], "id": "b7", "group": "f_enter", "view": "be", "layer": "be", "desc": "按编号删一条并保存", "chain": ["main", "runCommand", "delFlow"]}, "editFlow": {"callers": ["runCommand"], "callees": ["askLine", "findById", "hasBar", "saveItems"], "file": "Enter.cpp", "code": [66, 93], "id": "b8", "group": "f_enter", "view": "be", "layer": "be", "desc": "三问改字段，回车保留旧值", "chain": ["main", "runCommand", "editFlow"]}, "runCommand": {"callers": ["main"], "callees": ["addFlow", "delFlow", "editFlow"], "file": "Enter.cpp", "code": [95, 119], "id": "b9", "group": "f_enter", "view": "be", "layer": "be", "desc": "只分派 add / del / edit，没有 quit / list / help", "chain": ["main", "runCommand"]}};
+const STATS = {"files": 7, "lines": 629, "funcs": 27};
 const LAYER   = { db:'数据库', fe:'前端', be:'后端', mn:'main', tt:'操作' };
 function isStep(v){ const id = (typeof v === 'string') ? v : (v && v.id);
                     return id === 'main' || id === 'tut'; }
@@ -648,7 +693,7 @@ VIEWS.forEach(function(v){
   });
 });
 
-const S = { view:'main', openRoot:false, openGroup:null, selected:null, openKeys:{} };
+const S = { view:'flash', openRoot:false, openGroup:null, selected:null, openKeys:{} };
 const REG = {};
 const HIST = [];
 const treeEl  = document.getElementById('tree');
@@ -688,8 +733,9 @@ function buildTabs(){
   const box = document.getElementById('tabs');
   box.innerHTML = '';
   VIEWS.forEach(function(v){
-    const n = (v.id === 'main') ? v.groups.length + ' 段'
-            : (v.render === 'play' ? '点着玩' : v.groups.length + ' 文件');
+    const n = (v.render === 'intro') ? '先看这里'
+            : (v.id === 'main' ? v.groups.length + ' 段'
+            : (v.render === 'play' ? '点着玩' : v.groups.length + ' 文件'));
     const b = h('button', 'tab' + (v.id === S.view ? ' on' : ''), v.tab + '<small>' + n + '</small>');
     b.onclick = function(){ switchView(v.id); };
     box.appendChild(b);
@@ -792,13 +838,14 @@ function fitMap(){
   if (!w || !h || !layW || !layH) return;
 
   const padX = 46, padY = 42, codeMin = 330, gap = 16;
-  const mapW = Math.min(w + padX, Math.max(300, layW - codeMin - gap));
+  const maxW = Math.max(300, layW - codeMin - gap);
+  const availH = layH - padY;
+  let k = Math.min(1, (maxW - padX) / w, availH / h);
+  if (k < 0.9) k = 0.9;                 // 不再把字缩到看不清；放不下就在面板里滚
+  k = Math.round(k * 100) / 100;
+  const mapW = Math.min(maxW, Math.ceil(w * k) + padX);
   mapEl.style.width = Math.floor(mapW) + 'px';
 
-  const availW = mapW - padX, availH = layH - padY;
-  let k = Math.min(1, availW / w, availH / h);
-  if (k < 0.52) k = 0.52;
-  k = Math.round(k * 100) / 100;
   fitEl.style.transform = 'scale(' + k + ')';
   fitEl.style.width  = Math.ceil(w * k) + 'px';
   fitEl.style.height = Math.ceil(h * k) + 'px';
@@ -872,7 +919,19 @@ function goToHist(i){
 }
 function renderAll(){
   const v = VBY[S.view];
+  document.body.classList.toggle('intro-mode', v.render === 'intro');
   buildTabs();
+  if (v.render === 'intro'){
+    mapEl.classList.remove('play-on');
+    mapEl.classList.add('intro-on');
+    layEl.classList.add('intro-on');
+    buildIntro();
+    buildStat();
+    renderCrumbs();
+    return;
+  }
+  mapEl.classList.remove('intro-on');
+  layEl.classList.remove('intro-on');
   if (v.render === 'play'){
     mapEl.classList.add('play-on');
     buildPlay();
@@ -1183,7 +1242,7 @@ function switchView(id){
   pushHist();
   S.view = id; S.openRoot = !isStep(id);
   S.openGroup = null; S.selected = null;
-  curFile = VBY[id].file;
+  curFile = VBY[id].file || curFile;
   renderAll();
 }
 
@@ -1243,6 +1302,7 @@ function renderStepCalls(it){
 /* ---------------- 上色 ---------------- */
 function paint(){
   const v = VBY[S.view];
+  if (v.render === 'intro') return;
   const all = Object.keys(REG).map(function(k){ return REG[k]; })
                     .filter(function(n){ return n && n.isConnected; });
   all.forEach(function(n){ n.classList.remove('dim','sel','open','path'); });
@@ -1290,6 +1350,9 @@ function paint(){
   }
   applyCode(range, label);
   fitMap();
+  if (S.selected && REG[S.selected] && REG[S.selected].scrollIntoView){
+    REG[S.selected].scrollIntoView({block:'nearest', inline:'nearest'});
+  }
   record();
 }
 
@@ -1326,8 +1389,8 @@ function bashHTML(t){
 }
 
 function tuiHTML(t){
-  let s = '<div class="tline tdim">CmdBox \u2191\u2193 选择  Tab补全命令  Enter搜索  :help帮助  Ctrl+C退出</div>';
-  s += '<div class="tline tdim">数据文件:~/cmdbox/data.txt</div>';
+  let s = '<div class="tline tdim">CmdBox \u2191\u2193 选择  Tab补全命令  Ctrl+C退出</div>';
+  s += '<div class="tline tdim">数据文件:~/cmdbox-flash-v1.0/data.txt</div>';
   s += '<div class="tgap"></div>';
   s += '<div class="tline"><span class="tprompt">&gt; </span>'
      + '<span class="tin">' + esc(t.typed || '') + '</span><span class="tcur"></span></div>';
@@ -1340,7 +1403,7 @@ function tuiHTML(t){
        + '<span class="tcmd">' + mq(r.cmd, t.q) + '</span>'
        + '<span class="tnote">  # ' + esc(r.note) + '</span>'
        + '<span class="ttag">  [' + esc(r.tag) + ']</span>'
-       + '<span class="tid"> id:' + r.id + '</span></div>';
+       + '<span class="tid"> id:' + mq(String(r.id), t.q) + '</span></div>';
   });
   if (t.msg) s += '<div class="tgap"></div><div class="tline tmsg">' + t.msg + '</div>';
   (t.trace || []).forEach(function(l){
@@ -1363,7 +1426,52 @@ function searchHTML(t){
 }
 
 
-/* ---------------- 功能试用：CmdBox 模拟器 ---------------- */
+
+/* ---------------- 轻量版总览 ---------------- */
+function buildIntro(){
+  if (buildIntro.done) return;
+  buildIntro.done = true;
+  const box = h('div', 'intro');
+  box.innerHTML =
+    '<div class="ihero">'
+  + '<div class="ikicker">cmdbox-v1.0 · 轻量分支</div>'
+  + '<h2>CmdBox <em>Flash</em></h2>'
+  + '<p class="ilede">同一套命令收藏夹，砍到 7 个源文件、629 行。没有字典树，没有整屏搜索，'
+  + '只留下「输入即筛、Tab 补全、Ctrl+G 填命令行」——小到可以跟着任何终端走。</p>'
+  + '<div class="istats">'
+  + '<div><b>7</b><span>源文件</span></div>'
+  + '<div><b>629</b><span>行 C++</span></div>'
+  + '<div><b>27</b><span>个函数</span></div>'
+  + '<div><b>67 KB</b><span>单文件二进制</span></div>'
+  + '</div></div>'
+  + '<div class="igrid">'
+  + '<section class="icard"><h3><span class="iminus">−</span> 从 v1.0 砍掉的</h3><ul class="idiff">'
+  + '<li><b>字典树 trie.cpp</b><span>5 个函数、67 行整棵删掉。候选改成每帧扫链表 + KMP；少了按前缀下钻，多了 O(n) 的全表扫描。</span></li>'
+  + '<li><b>Enter 全文搜索</b><span>v1.0 回车进整屏搜索页；Flash 的回车只跑 <code>:</code> 指令，其它输入直接清空。</span></li>'
+  + '<li><b>:list / :help / :quit</b><span>指令只剩 <code>:add</code> <code>:del</code> <code>:edit</code>；退出统一 Ctrl+C。</span></li>'
+  + '<li><b>临时文件 + rename</b><span>保存改成直接覆盖写，少一次系统调用。</span></li>'
+  + '</ul></section>'
+  + '<section class="icard"><h3><span class="iplus">+</span> 顺手补上的</h3><ul class="idiff plus">'
+  + '<li><b>ESC 不再假死</b><span>等 ESC 后续字节时用 select 零超时，单按 ESC 直接当 Other 返回。</span></li>'
+  + '<li><b>命令界面 Ctrl+C 不杀进程</b><span>askLine 自己 readKey；Quit 只取消当前这次 :add / :edit，退回列表。</span></li>'
+  + '<li><b>编号始终有序</b><span>nextFreeId 找最小空号，addItem 按 id 升序插入；删掉的号下次会被复用。</span></li>'
+  + '<li><b>候选会滚动</b><span>draw 多了 top：选中项跑出前 6 行时窗口跟着走。</span></li>'
+  + '<li><b>保存不再经过 trie</b><span>启动的 commit 换成一行 saveItems；data.txt 不存在时照样写出 6 条预制命令。</span></li>'
+  + '</ul></section></div>'
+  + '<section class="icard iplugin"><h3>当插件：Ctrl+G 把命令填进当前命令行</h3><div class="itwo">'
+  + '<div><div class="ilabel">1 · 编译</div>'
+  + '<pre>make\n./cmdbox</pre>'
+  + '<div class="ilabel">2 · source 脚本</div>'
+  + '<pre>[ -f ~/cmdbox-flash-v1.0/ai脚本/cmdbox.bash ] \\\n  &amp;&amp; source ~/cmdbox-flash-v1.0/ai脚本/cmdbox.bash</pre></div>'
+  + '<div><div class="ilabel">3 · 在 bash 里按 Ctrl+G</div>'
+  + '<pre>cjx@daily:~$ <b>git</b>│\n                └─ Ctrl+G 弹出候选\ncjx@daily:~$ git add -A│   ← 选中后整行填入，不执行</pre></div>'
+  + '</div><p>--pick 模式把界面画在 /dev/tty，stdout 只留选中那一行；bash 的 bind -x 拿到后替换 READLINE_LINE。</p>'
+  + '<button class="igobtn" onclick="switchView(\'main\')">看 main 的时间线 →</button>'
+  + '</section>';
+  mapEl.appendChild(box);
+}
+
+/* ---------------- 功能试用：CmdBox Flash 模拟器 ---------------- */
 const SIM = { mode:'pick', input:'', sel:0, msg:'', ask:'', done:'',
               askIdx:0, draft:{}, trace:[] };
 let LIVE = ROWS.slice();
@@ -1373,8 +1481,8 @@ function simResetLIVE(){ LIVE = ROWS.slice(); }
 /* 真程序 addFlow 的顺序：命令 → 注释（可留空） → 标签（默认 misc） */
 const ASK_FIELDS = [
   {key:'cmd',  prompt:'命令: ',            empty:null},
-  {key:'note', prompt:'注释（可留空）: ',  empty:''},
-  {key:'tag',  prompt:'标签（默认 misc）: ', empty:'misc'}
+  {key:'note', prompt:'注释(可留空): ',    empty:''},
+  {key:'tag',  prompt:'标签(默认 misc): ', empty:'misc'}
 ];
 
 function simAskPrompt(){
@@ -1382,28 +1490,33 @@ function simAskPrompt(){
   return f ? f.prompt : '';
 }
 
+/* 真程序：cmd + "\n" + note + "\n" + tag + "\n" + id，KMP 找子串（不是前缀） */
 function simPick(q){
   if (!q) return LIVE.slice();
-  return LIVE.filter(function(r){ return r.cmd.indexOf(q) === 0; });
-}
-function simFull(q){
-  if (!q) return LIVE.slice();
   return LIVE.filter(function(r){
-    return (r.cmd + '\n' + r.note + '\n' + r.tag).indexOf(q) >= 0;
+    return (r.cmd + '\n' + r.note + '\n' + r.tag + '\n' + r.id).indexOf(q) >= 0;
   });
+}
+
+/* 真程序 nextFreeId：从 1 往上找最小的空号 */
+function simNextId(){
+  let id = 1;
+  const ids = LIVE.map(function(r){ return r.id; }).sort(function(a, b){ return a - b; });
+  for (let i = 0; i < ids.length; i++){
+    if (ids[i] === id) id++;
+    else if (ids[i] > id) break;
+  }
+  return id;
 }
 
 function simState(){
   if (SIM.mode === 'exit'){
     return {mode:'bash', typed: SIM.done,
-            say: SIM.done ? '（已退出 CmdBox，这条命令已经躺在命令行里，还没执行）'
+            say: SIM.done ? '（已退出 CmdBox，选中的命令躺在命令行里，还没执行）'
                           : '（已退出 CmdBox，命令行一个字都没动）'};
   }
-  if (SIM.mode === 'search'){
-    return {mode:'search', typed: SIM.input, q: SIM.input, cand: simFull(SIM.input)};
-  }
   if (SIM.mode === 'ask'){
-    return {mode:'tui', typed: SIM.input, q:'', sel:0, cand:[], msg:'',
+    return {mode:'tui', typed:'', q:'', sel:0, cand:[], msg:'',
             trace: SIM.trace, ask: simAskPrompt() + SIM.ask};
   }
   return {mode:'tui', typed: SIM.input, q: SIM.input, sel: SIM.sel,
@@ -1411,11 +1524,11 @@ function simState(){
 }
 
 function simHint(){
-  if (SIM.mode === 'exit') return '已退出：随便点个键、或点「重置」从头再来';
-  if (SIM.mode === 'search') return '搜索界面：按任意键（或点任意键）回到列表';
-  if (SIM.mode === 'ask') return '第 ' + (SIM.askIdx + 1) + '/3 个字段：' + simAskPrompt();
-  if (!simPick(SIM.input).length) return '没有匹配的命令';
-  return '选第 ' + (SIM.sel + 1) + ' 条，共 ' + simPick(SIM.input).length + ' 条';
+  if (SIM.mode === 'exit') return '已退出：点任意键、或「重置」从头再来';
+  if (SIM.mode === 'ask') return '第 ' + (SIM.askIdx + 1) + '/3 个字段 · Ctrl+C 取消这次输入';
+  const n = simPick(SIM.input).length;
+  if (!n) return '没有匹配的命令';
+  return '选第 ' + (SIM.sel + 1) + ' 条，共 ' + n + ' 条（匹配 cmd / note / tag / id）';
 }
 
 function simEnter(){
@@ -1425,29 +1538,30 @@ function simEnter(){
     const sp = body.indexOf(' ');
     const name = sp < 0 ? body : body.slice(0, sp);
     const rest = sp < 0 ? '' : body.slice(sp + 1);
-    if (name === 'quit'){ SIM.mode = 'exit'; SIM.done = ''; SIM.input = ''; return; }
-    if (name === 'add'){ SIM.mode = 'ask'; SIM.ask = ''; return; }
-    if (name === 'list'){ SIM.input = ''; SIM.mode = 'search'; return; }
-    SIM.input = ''; SIM.sel = 0; SIM.msg = '';   // 真程序：Enter 之后 input 清空
-    if (name === 'help'){ SIM.msg = ':list 列出全部 | :add 添加 | :edit 编号 修改 | :del 编号 删除 | :quit 退出'; return; }
-    if (name === 'del'){
-      const id = rest ? parseInt(rest, 10) : 0;
-      const at = LIVE.findIndex(function(r){ return r.id === id; });
-      if (at < 0){ SIM.msg = '无此编号 #' + id; return; }
-      LIVE.splice(at, 1);
-      SIM.msg = '已删除 #' + id + '（演示，不会真改 data.txt）';
+    SIM.input = ''; SIM.sel = 0;
+    if (name === 'add'){
+      SIM.mode = 'ask'; SIM.ask = ''; SIM.askIdx = 0; SIM.draft = {}; SIM.trace = [];
       return;
     }
-    if (name === 'edit'){
+    if (name === 'del' || name === 'edit'){
       const id = rest ? parseInt(rest, 10) : 0;
-      const has = LIVE.some(function(r){ return r.id === id; });
-      SIM.msg = has ? ('编号 #' + id + ' 在这儿（改的界面演示里略过）') : ('没有编号 #' + id);
+      const at = LIVE.findIndex(function(r){ return r.id === id; });
+      if (name === 'del'){
+        if (at < 0){ SIM.msg = '无此编号 #' + id; return; }
+        LIVE.splice(at, 1);
+        SIM.msg = '已删除 #' + id + '（演示，不写回 data.txt）';
+      } else {
+        SIM.msg = (at >= 0)
+          ? ('编号 #' + id + ' 在这儿；改字段和 :add 一样三问，模拟里略过')
+          : ('没有编号 #' + id);
+      }
       return;
     }
     SIM.msg = '未知命令: ' + name;
     return;
   }
-  SIM.mode = 'search';
+  /* Flash：非冒号回车不搜索也不执行，只清空输入 */
+  SIM.input = ''; SIM.sel = 0; SIM.msg = '';
 }
 
 const KEYLABEL = {Up:'\u2191', Down:'\u2193', Tab:'Tab', Back:'Backspace',
@@ -1476,10 +1590,6 @@ function flashKey(k){
 
 function simKey(k){
   flashKey(k);
-  if (SIM.mode === 'search'){
-    SIM.mode = 'pick'; SIM.input = ''; SIM.sel = 0; SIM.msg = '';
-    simAfter(); return;
-  }
   if (SIM.mode === 'exit'){ simReset(); return; }
 
   if (SIM.mode === 'ask'){
@@ -1488,7 +1598,7 @@ function simKey(k){
       const v = SIM.ask;
       if (f.key === 'cmd' && v === ''){          // 真程序：命令留空=取消
         SIM.mode = 'pick'; SIM.msg = '已取消'; SIM.ask = ''; SIM.trace = [];
-        SIM.input = ''; SIM.sel = 0;
+        SIM.input = ''; SIM.sel = 0; SIM.askIdx = 0; SIM.draft = {};
         simAfter(); return;
       }
       SIM.draft[f.key] = (v === '' && f.empty !== null) ? f.empty : v;
@@ -1500,17 +1610,20 @@ function simKey(k){
         if (bad){
           SIM.msg = '字段不能有|';
         } else {
-          const nid = LIVE.reduce(function(m, r){ return Math.max(m, r.id); }, 0) + 1;
+          const nid = simNextId();
           LIVE.push({id:nid, cmd:SIM.draft.cmd, note:SIM.draft.note, tag:SIM.draft.tag});
-          SIM.msg = '已添加 #' + nid + '（演示，不会写进 data.txt）';
+          LIVE.sort(function(a, b){ return a.id - b.id; });   // 真程序也按 id 升序插入
+          SIM.msg = '已添加 #' + nid + '（演示，不写进 data.txt）';
         }
         SIM.mode = 'pick'; SIM.askIdx = 0; SIM.draft = {}; SIM.trace = [];
         SIM.input = ''; SIM.sel = 0;
       }
     } else if (k === 'Back'){
-      SIM.ask = SIM.ask.slice(0, -1);
+      const a = Array.from(SIM.ask); a.pop(); SIM.ask = a.join('');
     } else if (k === 'CtrlC'){
-      SIM.mode = 'exit'; SIM.done = '';
+      /* Flash：askLine 返回 false，只取消当前这次 :add / :edit */
+      SIM.mode = 'pick'; SIM.msg = '已取消'; SIM.ask = ''; SIM.trace = [];
+      SIM.input = ''; SIM.sel = 0; SIM.askIdx = 0; SIM.draft = {};
     } else if (k === 'Tab'){
       /* askLine 里 Tab 不是补全，什么也不做 */
     } else if (k.length === 1){
@@ -1531,7 +1644,7 @@ function simKey(k){
       simAfter(); return;
     }
   } else if (k === 'Back'){
-    SIM.input = SIM.input.slice(0, -1);
+    const a = Array.from(SIM.input); a.pop(); SIM.input = a.join('');
     SIM.sel = 0; SIM.msg = '';
   } else if (k === 'CtrlC'){
     SIM.mode = 'exit'; SIM.done = '';
@@ -1621,18 +1734,14 @@ function buildPlay(){
         simKey(map[ev.key]);
         return;
       }
-      if (ev.key === 'Backspace' || ev.key === 'Escape'){
-        /* Backspace 交给原生输入，事件里再同步；Esc 当退出 */
-        if (ev.key === 'Escape'){ if (ev.preventDefault) ev.preventDefault(); simKey('CtrlC'); }
+      if (ev.key === 'Escape'){
+        if (ev.preventDefault) ev.preventDefault();
+        simKey('CtrlC');
       }
     });
     typeBoxEl.addEventListener('input', function(){
       let v = typeBoxEl.value;
       const prev = (SIM.mode === 'ask') ? SIM.ask : SIM.input;
-      if (SIM.mode === 'search'){
-        SIM.mode = 'pick'; SIM.input = ''; SIM.sel = 0; SIM.msg = ''; SIM.ask = '';
-        simAfter(); return;
-      }
       if (SIM.mode === 'exit'){ SIM.mode = 'pick'; SIM.input = ''; SIM.sel = 0; }
       if (SIM.mode === 'ask'){ SIM.ask = v; SIM.done = ''; }
       else { SIM.input = v; SIM.sel = 0; SIM.msg = ''; }
@@ -1691,7 +1800,7 @@ function hl(line){
   return out;
 }
 
-const SECS = { 'main.cpp': [ { n:23, name:'初始化' }, { n:54, name:'循环' }, { n:132, name:'结束' } ] };
+const SECS = {"main.cpp": [{"n": 21, "name": "初始化"}, {"n": 50, "name": "循环"}, {"n": 133, "name": "结束"}]};
 
 function setFile(name){
   if (name === curFile) return;
@@ -1757,6 +1866,7 @@ function applyCode(range, label){
 }
 
 document.getElementById('reset').onclick = function(){
+  if (VBY[S.view].render === 'intro'){ switchView('main'); return; }
   pushHist();
   S.selected = null; S.openGroup = null;
   if (VBY[S.view].render === 'tree'){ collapseAllGroups(); buildTree(); }

@@ -3,20 +3,18 @@
 vector<int>getnext(string p)
 {
     vector<int>nxt(p.size(),0);
-    int index=0,best=0;
+    int index=0;
     for(int i=1;i<(int)p.size();i++)
     {
-        while(best>0&&p[i]!=p[index])
+        while(index>0&&p[i]!=p[index])
         {
-            best=nxt[best-1];
-            index=best;
+            index=nxt[index-1];
         }
         if(p[i]==p[index])
         {
-            best++;                                                                       
-            index=best;
+            index++;                                                                       
         }
-        nxt[i]=best;
+        nxt[i]=index;
     }
     return nxt;
 }
@@ -40,7 +38,7 @@ vector<int>getnext(string p)
 vector<int>kmpAll(string s,string p)
 {
     vector<int>firstchar;
-    if(p.empty()||s.size()<p.size()) return firstchar;
+    if(p.empty()==1) return firstchar;
     vector<int>nxt=getnext(p);
     int j=0;
     for(int i=0;i<(int)s.size();i++){
@@ -63,18 +61,17 @@ string highlight(string s,string p,string base)
         {hit[st+k]=true;}//一号位是1,7,12
         //p子串长度是2,则12 78 1213 false->true
     }
-  string out;
+  string out;int last=-5;//一个永远不会遇见的数
     for(int i=0;i<(int)s.size();i++)
     {
         unsigned char c=s[i];
-        bool isTail;
-        isTail=(c>=0x80&&c<=0xBF);//是尾字节，是10开头
-        if(isTail==0)
+        if((c<0x80||c>0xBF)&&hit[i]!=last)
         {
             if(hit[i]==true) out+=RED;//底色+red=red
             else{out+=RESET;//变成白颜色。
             out+=base;}//如果是""就是不变
             //如果base=GRAY,就再染个灰色
+            last=hit[i];
         }
         //倘若遇到中文字符，有头字节尾巴字节
         //此if判定是依旧循环走字节，如果走到尾字节就不加颜色码

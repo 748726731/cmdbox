@@ -4,3 +4,4 @@
 4|g++ -o main main.cpp|最简编译：把 main.cpp 编译成 main|build
 5|make -j4|并行编译整个项目|build
 6|ls -la|列出所有文件（含隐藏文件）|linux
+7|Hello||tag

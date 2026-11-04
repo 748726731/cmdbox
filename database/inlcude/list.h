@@ -15,17 +15,20 @@ struct Node{
 };
 struct CommandList{
     Node *dummyH,*dummyT;
-    int size,nextId;//size是有几行命令
-    //nextid=下一个编号，例如要插进来一个node
-    //node就会拿走这个nextid，然后nextid++;
+    int size;//size是有几行命令
+};
+struct App
+{
+    string path;
+    CommandList *L;
 };
 
 void initList(CommandList *&L);//给表和节点分配内存以至于存活。
 void destroyList(CommandList *&L);//释放内存
-Node *insertBefore(CommandList *L,Node *pos,Node *p);//节点插入
+void insertBefore(CommandList *L,Node *pos,Node *p);//节点插入
 //把x装入一个新节点，插入pos前后;L只是为了L->size++.
 //不直接丢一个Node进去的原原因是？
-Node *addItem(CommandList *L,string cmd,string note,string tag);//节点插入
+void addItem(CommandList *L,string cmd,string note,string tag,int fid);//节点插入
 //新增一条命令到链表末尾。
 void removeNode(CommandList *L,Node *p);//节点删除
 Node *findById(CommandList *L,int id);

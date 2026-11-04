@@ -1,7 +1,6 @@
 #include "list.h"
 #include "storage存放.h"
 #include "kmp_search.h"
-#include "trie.h"
 #include "linux.h"
 #include "Enter.h"
 #include "screen.h"
@@ -9,7 +8,6 @@
 #include "list.cpp"
 #include "storage存放.cpp"
 #include "kmp_search.cpp"
-#include "trie.cpp"
 #include "linux.cpp"
 #include "Enter.cpp"
 #include "screen.cpp"
@@ -23,15 +21,13 @@ if(argc>1&&string(argv[1])=="--pick")pick=true;
     App app;//path,L,T;
     app.path=dataPath();
     initList(app.L);
-    app.T=new TrieNode();
-    //建立一棵树
 
    loadItems(app.path,app.L);
     //从本地文件下载命令，读instream in+in.open()+getline in
     //下载=分割+id转类型+命令4部分合成为一命令+新建节点合并到链表里
     //如果没有data.txt就新建txt，用源代码里的预制命令
-    commit(&app);
-    //commit重建树,根据链表的数据
+    saveItems(app.path,app.L);
+    //如果文件是空的，把空预制命令插到链表上后用这个saveItems把预制的命令搞到文件里
 
     rawOn();//改Linux原本设置
 
@@ -48,16 +44,25 @@ if(pick)
 
     string input,msg,text;
     //input=用户子串,msg提示词,text=按下的键
-    int sel=0;
-    //sel=命令的下标
+    int sel=0,top=0;
+    //sel=选中命令的下标,命令最上面那一条的下标.
 
     while(true)
     {
-        vector<Node*> cand=trieComplete(app.T,input);
-        //拿用户输入的子串，找子串下的所有节点
-        //例如输入git，能拿到git add -A,git commit -m ""节点
+        vector<Node*> cand;
+        for(Node *p=app.L->dummyH->next;p!=app.L->dummyT;p=p->next)
+        {
+            string s=p->item.cmd+"\n"+p->item.note+"\n"+p->item.tag+"\n"+to_string(p->item.id);
+            if(input==""||kmpAll(s,input).empty()==0)
+            //若无子串(意思就是空的话全部都显示上去)or匹配上了
+            {
+                cand.push_back(p);
+            }
+        }
 
-        draw(&app,input,cand,sel,msg);
+        draw(&app,input,cand,sel,msg,top);
+        //cand是节点,有id tag note cmd，cmd用input对应。
+        //sel,top上去是为了滚动算法，看什么时候需要显示1-6变成显示2-7.
         //显示函数
         msg="";
 
@@ -74,7 +79,7 @@ if(pick)
         if(input.empty()==0)
         {   
             int i=input.size()-1;//
-            while(i>0&&((unsigned char)input[i]&0xC0)==0x80)i--;
+            while(((unsigned char)input[i]&0xC0)==0x80)i--;
             //位与&检查,因为要检查他的前两位是不是10，是10说明是2-4字节。
             //s[i]与0xC0=1100 0000位于比较，由于末尾6位0xC0都是0，因此结果六位都是0
             //剩下前缀2位，如果是10和11比，就是10 000000 =0x80
@@ -101,7 +106,7 @@ if(pick)
         }
         else if(k==Tab)
         {
-            if(!cand.empty())input=cand[sel]->item.cmd;
+            if(cand.empty()==0)input=cand[sel]->item.cmd;
             //此刻出来了命令，按了上下键盘，指向命令了
             //然后按tab补全你的命令;
             sel=0;//补全后input变了，然后候选命令only自己了
@@ -115,14 +120,10 @@ if(pick)
         {     
             if(input.size()>0&&input[0]==':')
             {
-                if(runCommand(&app,input.substr(1),msg)==0)break;
+                runCommand(&app,input.substr(1),msg);
                 //substr(1)：从第一行开始取input,当string
                 //然后runConmand看他:后，空格前是啥。空格后是啥。
-                //这里干了两件事，一个是查看是否是quit(==0)
-                //一个是运行除了quit外的指令。
             }
-            //检查是否是命令
-            else{showItems(&app,input);}//搜索命令
             input="";
             sel=0;
             //按回车后要初始化，不按回车不用。
@@ -130,11 +131,12 @@ if(pick)
     }
 
     rawOff();
-    cout.rdbuf(oldBuf);//换回真stdout
+
+    cout.rdbuf(oldBuf);//换回真stdout(ai)
     if(pick){if(chosen!="")cout<<chosen<<"\n";}
     //终端模式,返回选中命令.
+
     else{cout<<"\n已退出,数据保存在 "<<app.path<<"\n";}
-    trieFree(app.T);
     destroyList(app.L);
     return 0;
 }

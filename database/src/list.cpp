@@ -6,7 +6,7 @@ void initList(CommandList *&L)
     L->dummyT=new Node();
     L->dummyH->next=L->dummyT;
     L->dummyT->prev=L->dummyH;
-    L->size=0;L->nextId=1;
+    L->size=0;
 }
 void destroyList(CommandList *&L)
 {
@@ -24,27 +24,47 @@ void destroyList(CommandList *&L)
     //五个节点都是有内存的，
     //此刻qp做遍历把五个内存全都释放。
 }
-Node *insertBefore(CommandList *L,Node *pos,Node *p)
+int nextFreeId(CommandList *L)//最小空号:1,2,3,...
 {
-    p->prev=pos->prev;
-    p->next=pos;
-    pos->prev->next=p;
-    pos->prev=p;
-    L->size++;
-    return p;
+    int id=1;
+    for(Node *q=L->dummyH->next;q!=L->dummyT;q=q->next)
+    {
+        if(q->item.id>id)break;//中间有空号
+        if(q->item.id==id)id++;//这个号被占了,看下一个
+    }
+    return id;
 }
-Node *addItem(CommandList *L,string cmd,string note,string tag)
+//发id的.
+void insertBefore(CommandList *L,Node *tail,Node *p)
+{
+    p->prev=tail->prev;
+    p->next=tail;
+    tail->prev->next=p;
+    tail->prev=p;
+    L->size++;
+    return ;
+}
+void addItem(CommandList *L,string cmd,string note,string tag,int fid)
 // :add git status,查看状态，git.没有提供id，因此自动丢给末尾。
 {
     CommandItem x;
-    Node *p=new Node();
-    x.id=L->nextId;
-    L->nextId++;
+    x.id=(fid==-1)?nextFreeId(L):fid;
+    //id有两个来源，第一个是文档里的id，第二个是派发的id
     x.cmd=cmd;
     x.tag=tag;
     x.note=note;
+
+    Node *p=new Node();
     p->item=x;
-    return insertBefore(L,L->dummyT,p);
+
+    Node *pos=L->dummyT;//按id升序插入,否则新号会跑到链表末尾
+    for(Node *q=L->dummyH->next;q!=L->dummyT;q=q->next)
+    {
+        if(q->item.id>x.id){pos=q;break;}
+        //找链表里 最开始是哪个节点的id比p的大的
+    }
+    insertBefore(L,pos,p);
+    //找到了后就把id对应节点插入到 pos节点的前面。
 }
 void removeNode(CommandList *L,Node *p)
 {
@@ -63,3 +83,4 @@ Node *findById(CommandList *L,int id)
     }
     return nullptr;
 }
+//从L里找id，返回对应的节点，用于:del :edit

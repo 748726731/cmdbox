@@ -1,20 +1,20 @@
 #include "storage存放.h"
 #include<unistd.h>
 //--------------------------Tool-------------------------------
-bool parseInt(const string &s,int &id)
+void parseInt(const string &s,int &id)
 {
-    if(s.empty()) return false;
-    if(s.size()>9) return false;
+    if(s.empty()) return ;
+    if(s.size()>9) return ;
     //太长，防止溢出
     int v=0;
     for(char c:s)
     {
-        if(c<'0'||c>'9') return false;  
+        if(c<'0'||c>'9') return ;  
         //混进非数字
         v=v*10+(c-'0');
     }
     id=v;
-    return true;
+    return ;
 }
 //工具函数,用于loadItems:把string id变为int
 vector<string>splitLine(string line,char sep)
@@ -35,12 +35,12 @@ vector<string>splitLine(string line,char sep)
 //工具函数, 用于loadItems:分割一行的命令。
 void loadDefaults(CommandList *L)
 {
-    addItem(L,"git add -A","暂存所有改动","git");
-    addItem(L,"git commit -m \"fix\"","提交并写明本次修复内容","git");
-    addItem(L,"git push","把本地提交推送到远程仓库","git");
-    addItem(L,"g++ -o main main.cpp","最简编译：把 main.cpp 编译成 main","build");
-    addItem(L,"make -j4","并行编译整个项目","build");
-    addItem(L,"ls -la","列出所有文件（含隐藏文件）","linux");
+    addItem(L,"git add -A","暂存所有改动","git",-1);
+    addItem(L,"git commit -m \"fix\"","提交并写明本次修复内容","git",-1);
+    addItem(L,"git push","把本地提交推送到远程仓库","git",-1);
+    addItem(L,"g++ -o main main.cpp","最简编译：把 main.cpp 编译成 main","build",-1);
+    addItem(L,"make -j4","并行编译整个项目","build",-1);
+    addItem(L,"ls -la","列出所有文件（含隐藏文件）","linux",-1);
 }
 //工具函数,用于loadItems:如果下载失败，制作模板txt
 
@@ -58,14 +58,15 @@ string dataPath()
     return p+"data.txt";
 }
 //找路径
-bool loadItems(string path,CommandList *L)
+void loadItems(string path,CommandList *L)
 {
     ifstream in;
-    //设一个装文件位置类型的变量in
+    //设一个装文件位置类型的变量in(读)
     in.open(path);//使得in对应着path这个文件
-    if(!in.is_open()){loadDefaults(L);return false;}
+    if(!in.is_open()){loadDefaults(L);return ;}
     string line;
-    while(getline(in,line))//从文件里一行一行getline
+    while(getline(in,line))
+    //从文件里一行一行getline，getline不要\n
     {
         if(line.empty()==0&&line.back()=='\r')
         {line.pop_back();}
@@ -73,41 +74,24 @@ bool loadItems(string path,CommandList *L)
 
         vector<string>parts=splitLine(line,'|');
         //给getline的那一行分割了，拿id,cmd,note,tag四部分
-        if(parts.size()!=4)continue;//检查命令是否错误
         
-        int id=0;
-        if(parseInt(parts[0],id)==0)continue;
+        int fid=0;
+        parseInt(parts[0],fid);
         //把字符数字改成整数数字，存id里
 
-        CommandItem x;
-        x.id=id;
-        x.cmd=parts[1];
-        x.note=parts[2];
-        x.tag=parts[3];
-        //搞个命令参数
-        Node *p=new Node();
-        p->item=x;
-
-        insertBefore(L,L->dummyT,p);
-        if(id>=L->nextId)L->nextId=id+1;
+        addItem(L,parts[1],parts[2],parts[3],fid);
     }
-    return true;
+    return ;
 }
 //把path路径里的东西搞到in里，然后一行一行看in的命令,把命令套链表上
-bool saveItems(string path,CommandList *L)
+void saveItems(string path,CommandList *L)
 {
-    string tmp=path+".tmp";//创建临时文件，
-    ofstream out;//整个装文件具体地址的变量
-    out.open(tmp);//给变量整上具体地址
-    if(out.is_open()==0)return false;
+    ofstream out;//ifstream是读,ofstream是写
+    out.open(path);//给变量整上具体地址,如果没有，就创建。
     for(Node *p=L->dummyH->next;p!=L->dummyT;p=p->next)
     {
         out<<p->item.id<<'|'<<p->item.cmd<<'|'<<p->item.note<<'|'<<p->item.tag<<'\n';
         // out<< 为往文件里写什么什么东西。
     }
-    out.close();//保存
-    int r=rename(&tmp[0],&path[0]);//改名,传俩文件路径的首地址过去
-    //c判断成功或者失败是0和非0，c++是1和0
-    if(r==0) return true;
-    return false;
+    return ;
 }
